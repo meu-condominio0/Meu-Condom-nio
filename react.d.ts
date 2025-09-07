@@ -1,4 +1,5 @@
 declare namespace React {
+
   interface CSSProperties {
     [key: string]: string | number;
   }
@@ -43,6 +44,7 @@ declare namespace React {
   function useCallback<T extends (...args: any[]) => any>(callback: T, deps: any[]): T;
   function useId(): string;
   function forwardRef<T, P = {}>(render: (props: P, ref: any) => ReactNode): any;
+
   const StrictMode: any;
   const Fragment: any;
 }
