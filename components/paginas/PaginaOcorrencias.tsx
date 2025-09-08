@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Search, Plus, MessageSquare, Clock, CheckCircle, AlertTriangle, User, Calendar } from 'lucide-react';
+import { useState, ChangeEvent } from 'react';
+import { Search, Plus, MessageSquare, Clock, CheckCircle, AlertTriangle, User, Calendar, Download, Star } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -15,13 +15,16 @@ interface Ocorrencia {
   id: string;
   titulo: string;
   descricao: string;
-  categoria: 'barulho' | 'manutencao' | 'limpeza' | 'seguranca' | 'elevador' | 'outros';
+  tipo: 'reclamacao' | 'sugestao' | 'manutencao';
   status: 'aberta' | 'em_andamento' | 'resolvida' | 'cancelada';
   prioridade: 'baixa' | 'media' | 'alta';
   dataAbertura: string;
   dataResolucao?: string;
   morador: string;
   apartamento: string;
+  responsavel: 'gestor' | 'admin' | 'zelador';
+  anexos: string[];
+  avaliacao?: number;
   respostas: {
     id: string;
     autor: string;
@@ -34,14 +37,16 @@ interface Ocorrencia {
 const ocorrenciasMock: Ocorrencia[] = [
   {
     id: '1',
-    titulo: 'Barulho excessivo no apartamento 401',
+    titulo: 'Reclamação sobre barulho no 401',
     descricao: 'Vizinhos fazendo barulho após 22h, prejudicando o descanso dos demais moradores.',
-    categoria: 'barulho',
+    tipo: 'reclamacao',
     status: 'em_andamento',
     prioridade: 'media',
     dataAbertura: '20/05/2024',
     morador: 'João Silva',
     apartamento: '302',
+    responsavel: 'zelador',
+    anexos: [],
     respostas: [
       {
         id: '1',
@@ -54,15 +59,18 @@ const ocorrenciasMock: Ocorrencia[] = [
   },
   {
     id: '2',
-    titulo: 'Vazamento na área da piscina',
+    titulo: 'Solicitação de manutenção na piscina',
     descricao: 'Há um vazamento visível próximo ao filtro da piscina, causando desperdício de água.',
-    categoria: 'manutencao',
+    tipo: 'manutencao',
     status: 'resolvida',
     prioridade: 'alta',
     dataAbertura: '18/05/2024',
     dataResolucao: '19/05/2024',
     morador: 'João Silva',
     apartamento: '302',
+    responsavel: 'gestor',
+    anexos: ['https://via.placeholder.com/150'],
+    avaliacao: 4,
     respostas: [
       {
         id: '1',
@@ -82,14 +90,16 @@ const ocorrenciasMock: Ocorrencia[] = [
   },
   {
     id: '3',
-    titulo: 'Elevador social com ruído estranho',
-    descricao: 'O elevador social está fazendo um ruído diferente durante o funcionamento.',
-    categoria: 'elevador',
+    titulo: 'Sugestão de espelho no elevador social',
+    descricao: 'Sugiro instalar um espelho no elevador social para maior conforto dos moradores.',
+    tipo: 'sugestao',
     status: 'aberta',
-    prioridade: 'alta',
+    prioridade: 'baixa',
     dataAbertura: '22/05/2024',
     morador: 'João Silva',
     apartamento: '302',
+    responsavel: 'admin',
+    anexos: [],
     respostas: []
   }
 ];
@@ -99,22 +109,27 @@ export function PaginaOcorrencias() {
   const [ocorrencias, setOcorrencias] = useState(ocorrenciasMock);
   const [termoBusca, setTermoBusca] = useState('');
   const [statusFiltro, setStatusFiltro] = useState('todas');
+  const [responsavelFiltro, setResponsavelFiltro] = useState('todos');
   const [modalNovaOcorrencia, setModalNovaOcorrencia] = useState(false);
-  const [modalDetalhes, setModalDetalhes] = useState<string | null>(null);
   const [novaResposta, setNovaResposta] = useState('');
+  const [avaliacaoTemp, setAvaliacaoTemp] = useState(0);
   const [novaOcorrencia, setNovaOcorrencia] = useState({
     titulo: '',
     descricao: '',
-    categoria: '',
-    prioridade: 'media'
+    tipo: '',
+    prioridade: 'media',
+    responsavel: 'zelador',
+    anexos: [] as string[]
   });
 
   const ocorrenciasFiltradas = ocorrencias.filter(ocorrencia => {
-    const correspondeTermo = ocorrencia.titulo.toLowerCase().includes(termoBusca.toLowerCase()) ||
-                           ocorrencia.descricao.toLowerCase().includes(termoBusca.toLowerCase());
+    const correspondeTermo =
+      ocorrencia.titulo.toLowerCase().includes(termoBusca.toLowerCase()) ||
+      ocorrencia.descricao.toLowerCase().includes(termoBusca.toLowerCase());
     const correspondeStatus = statusFiltro === 'todas' || ocorrencia.status === statusFiltro;
-    
-    return correspondeTermo && correspondeStatus;
+    const correspondeResponsavel = responsavelFiltro === 'todos' || ocorrencia.responsavel === responsavelFiltro;
+
+    return correspondeTermo && correspondeStatus && correspondeResponsavel;
   });
 
   const getStatusBadge = (status: string) => {
@@ -136,57 +151,93 @@ export function PaginaOcorrencias() {
     return badges[prioridade as keyof typeof badges];
   };
 
-  const getCategoriaNome = (categoria: string) => {
+  const getTipoNome = (tipo: string) => {
     const nomes = {
-      barulho: 'Barulho',
-      manutencao: 'Manutenção',
-      limpeza: 'Limpeza',
-      seguranca: 'Segurança',
-      elevador: 'Elevador',
-      outros: 'Outros'
+      reclamacao: 'Reclamação',
+      sugestao: 'Sugestão',
+      manutencao: 'Manutenção'
     };
-    return nomes[categoria as keyof typeof nomes];
+    return nomes[tipo as keyof typeof nomes];
+  };
+
+  const getResponsavelNome = (resp: string) => {
+    const nomes = {
+      gestor: 'Gestor',
+      admin: 'Admin',
+      zelador: 'Zelador'
+    };
+    return nomes[resp as keyof typeof nomes];
+  };
+
+  const handleAnexos = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files ? Array.from<File>(e.target.files) : [];
+    Promise.all(
+      files.map(
+        file =>
+          new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.readAsDataURL(file);
+          })
+      )
+    ).then(anexos => setNovaOcorrencia(prev => ({ ...prev, anexos })));
   };
 
   const handleNovaOcorrencia = () => {
-    if (novaOcorrencia.titulo && novaOcorrencia.descricao && novaOcorrencia.categoria) {
+    if (novaOcorrencia.titulo && novaOcorrencia.descricao && novaOcorrencia.tipo) {
       const ocorrencia: Ocorrencia = {
         id: (ocorrencias.length + 1).toString(),
         titulo: novaOcorrencia.titulo,
         descricao: novaOcorrencia.descricao,
-        categoria: novaOcorrencia.categoria as any,
+        tipo: novaOcorrencia.tipo as any,
         status: 'aberta',
         prioridade: novaOcorrencia.prioridade as any,
         dataAbertura: new Date().toLocaleDateString('pt-BR'),
         morador: usuarioLogado?.nome || 'Morador',
         apartamento: usuarioLogado?.apartamento || 'N/A',
+        responsavel: novaOcorrencia.responsavel as any,
+        anexos: novaOcorrencia.anexos,
         respostas: []
       };
 
       setOcorrencias([ocorrencia, ...ocorrencias]);
       setModalNovaOcorrencia(false);
-      setNovaOcorrencia({ titulo: '', descricao: '', categoria: '', prioridade: 'media' });
+      setNovaOcorrencia({ titulo: '', descricao: '', tipo: '', prioridade: 'media', responsavel: 'zelador', anexos: [] });
     }
   };
 
   const handleNovaResposta = (ocorrenciaId: string) => {
     if (novaResposta.trim()) {
-      setOcorrencias(prev => prev.map(ocorrencia => {
-        if (ocorrencia.id === ocorrenciaId) {
-          return {
-            ...ocorrencia,
-            respostas: [...ocorrencia.respostas, {
-              id: (ocorrencia.respostas.length + 1).toString(),
-              autor: usuarioLogado?.nome || 'Morador',
-              cargo: `Morador - Apt ${usuarioLogado?.apartamento}`,
-              mensagem: novaResposta,
-              data: new Date().toLocaleString('pt-BR')
-            }]
-          };
-        }
-        return ocorrencia;
-      }));
+      setOcorrencias(prev =>
+        prev.map(ocorrencia => {
+          if (ocorrencia.id === ocorrenciaId) {
+            return {
+              ...ocorrencia,
+              respostas: [
+                ...ocorrencia.respostas,
+                {
+                  id: (ocorrencia.respostas.length + 1).toString(),
+                  autor: usuarioLogado?.nome || 'Morador',
+                  cargo: `Morador - Apt ${usuarioLogado?.apartamento}`,
+                  mensagem: novaResposta,
+                  data: new Date().toLocaleString('pt-BR')
+                }
+              ]
+            };
+          }
+          return ocorrencia;
+        })
+      );
       setNovaResposta('');
+    }
+  };
+
+  const handleAvaliar = (ocorrenciaId: string) => {
+    if (avaliacaoTemp > 0) {
+      setOcorrencias(prev =>
+        prev.map(o => (o.id === ocorrenciaId ? { ...o, avaliacao: avaliacaoTemp } : o))
+      );
+      setAvaliacaoTemp(0);
     }
   };
 
@@ -196,6 +247,30 @@ export function PaginaOcorrencias() {
       em_andamento: ocorrencias.filter(o => o.status === 'em_andamento').length,
       resolvida: ocorrencias.filter(o => o.status === 'resolvida').length
     };
+  };
+
+  const exportarRelatorio = () => {
+    const header = ['ID','Titulo','Tipo','Status','Prioridade','DataAbertura','DataResolucao','Morador','Apartamento','Responsavel','Avaliacao'];
+    const rows = ocorrencias.map(o => [
+      o.id,
+      o.titulo,
+      getTipoNome(o.tipo),
+      o.status,
+      o.prioridade,
+      o.dataAbertura,
+      o.dataResolucao || '',
+      o.morador,
+      o.apartamento,
+      getResponsavelNome(o.responsavel),
+      o.avaliacao ?? ''
+    ]);
+    const csv = [header.join(','), ...rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'ocorrencias.csv');
+    link.click();
   };
 
   const totais = getTotaisPorStatus();
@@ -209,7 +284,7 @@ export function PaginaOcorrencias() {
             Reporte problemas e acompanhe as soluções
           </p>
         </div>
-        
+
         <Dialog open={modalNovaOcorrencia} onOpenChange={setModalNovaOcorrencia}>
           <DialogTrigger asChild>
             <Button className="gap-2">
@@ -224,38 +299,35 @@ export function PaginaOcorrencias() {
                 Preencha os dados abaixo para registrar uma nova ocorrência no condomínio
               </DialogDescription>
             </DialogHeader>
-            
+
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="titulo">Título</Label>
                 <Input
                   id="titulo"
                   value={novaOcorrencia.titulo}
-                  onChange={(e) => setNovaOcorrencia({...novaOcorrencia, titulo: e.target.value})}
+                  onChange={(e) => setNovaOcorrencia({ ...novaOcorrencia, titulo: e.target.value })}
                   placeholder="Descreva brevemente o problema"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="categoria">Categoria</Label>
-                <Select value={novaOcorrencia.categoria} onValueChange={(value) => setNovaOcorrencia({...novaOcorrencia, categoria: value})}>
+                <Label htmlFor="tipo">Tipo</Label>
+                <Select value={novaOcorrencia.tipo} onValueChange={(value) => setNovaOcorrencia({ ...novaOcorrencia, tipo: value })}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Selecione uma categoria" />
+                    <SelectValue placeholder="Selecione um tipo" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="barulho">Barulho</SelectItem>
+                    <SelectItem value="reclamacao">Reclamação</SelectItem>
+                    <SelectItem value="sugestao">Sugestão</SelectItem>
                     <SelectItem value="manutencao">Manutenção</SelectItem>
-                    <SelectItem value="limpeza">Limpeza</SelectItem>
-                    <SelectItem value="seguranca">Segurança</SelectItem>
-                    <SelectItem value="elevador">Elevador</SelectItem>
-                    <SelectItem value="outros">Outros</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="prioridade">Prioridade</Label>
-                <Select value={novaOcorrencia.prioridade} onValueChange={(value) => setNovaOcorrencia({...novaOcorrencia, prioridade: value})}>
+                <Select value={novaOcorrencia.prioridade} onValueChange={(value) => setNovaOcorrencia({ ...novaOcorrencia, prioridade: value })}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -268,14 +340,33 @@ export function PaginaOcorrencias() {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="responsavel">Responsável</Label>
+                <Select value={novaOcorrencia.responsavel} onValueChange={(value) => setNovaOcorrencia({ ...novaOcorrencia, responsavel: value })}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione o responsável" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="gestor">Gestor</SelectItem>
+                    <SelectItem value="admin">Admin</SelectItem>
+                    <SelectItem value="zelador">Zelador</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="descricao">Descrição detalhada</Label>
                 <Textarea
                   id="descricao"
                   value={novaOcorrencia.descricao}
-                  onChange={(e) => setNovaOcorrencia({...novaOcorrencia, descricao: e.target.value})}
+                  onChange={(e) => setNovaOcorrencia({ ...novaOcorrencia, descricao: e.target.value })}
                   placeholder="Descreva o problema com detalhes..."
                   rows={4}
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="anexos">Anexos</Label>
+                <Input id="anexos" type="file" multiple onChange={handleAnexos} />
               </div>
 
               <div className="flex gap-2 pt-4">
@@ -289,7 +380,7 @@ export function PaginaOcorrencias() {
                 <Button
                   className="flex-1"
                   onClick={handleNovaOcorrencia}
-                  disabled={!novaOcorrencia.titulo || !novaOcorrencia.descricao || !novaOcorrencia.categoria}
+                  disabled={!novaOcorrencia.titulo || !novaOcorrencia.descricao || !novaOcorrencia.tipo}
                 >
                   Registrar
                 </Button>
@@ -346,6 +437,23 @@ export function PaginaOcorrencias() {
             className="pl-10"
           />
         </div>
+
+        <Select value={responsavelFiltro} onValueChange={setResponsavelFiltro}>
+          <SelectTrigger className="sm:w-[180px]">
+            <SelectValue placeholder="Responsável" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="todos">Todos</SelectItem>
+            <SelectItem value="gestor">Gestor</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="zelador">Zelador</SelectItem>
+          </SelectContent>
+        </Select>
+
+        <Button variant="outline" onClick={exportarRelatorio} className="sm:w-auto">
+          <Download className="h-4 w-4 mr-2" />
+          Exportar
+        </Button>
       </div>
 
       {/* Abas por status */}
@@ -370,7 +478,7 @@ export function PaginaOcorrencias() {
             ocorrenciasFiltradas.map((ocorrencia) => {
               const statusInfo = getStatusBadge(ocorrencia.status);
               const prioridadeInfo = getPrioridadeBadge(ocorrencia.prioridade);
-              
+
               return (
                 <Card key={ocorrencia.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-4">
@@ -385,11 +493,11 @@ export function PaginaOcorrencias() {
                             {prioridadeInfo.label}
                           </Badge>
                         </div>
-                        
+
                         <p className="text-sm text-muted-foreground mb-2 line-clamp-2">
                           {ocorrencia.descricao}
                         </p>
-                        
+
                         <div className="flex items-center gap-4 text-xs text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <User className="h-3 w-3" />
@@ -399,7 +507,8 @@ export function PaginaOcorrencias() {
                             <Calendar className="h-3 w-3" />
                             {ocorrencia.dataAbertura}
                           </div>
-                          <span>Categoria: {getCategoriaNome(ocorrencia.categoria)}</span>
+                          <span>Tipo: {getTipoNome(ocorrencia.tipo)}</span>
+                          <span>Responsável: {getResponsavelNome(ocorrencia.responsavel)}</span>
                           {ocorrencia.respostas.length > 0 && (
                             <div className="flex items-center gap-1">
                               <MessageSquare className="h-3 w-3" />
@@ -408,7 +517,7 @@ export function PaginaOcorrencias() {
                           )}
                         </div>
                       </div>
-                      
+
                       <Dialog>
                         <DialogTrigger asChild>
                           <Button variant="outline" size="sm" className="ml-4">
@@ -422,7 +531,7 @@ export function PaginaOcorrencias() {
                               Detalhes completos da ocorrência e histórico de interações
                             </DialogDescription>
                           </DialogHeader>
-                          
+
                           <div className="space-y-4">
                             <div className="flex items-center gap-2">
                               <Badge variant={statusInfo.variant}>
@@ -432,14 +541,28 @@ export function PaginaOcorrencias() {
                                 {prioridadeInfo.label}
                               </Badge>
                               <Badge variant="outline">
-                                {getCategoriaNome(ocorrencia.categoria)}
+                                {getTipoNome(ocorrencia.tipo)}
+                              </Badge>
+                              <Badge variant="outline">
+                                {getResponsavelNome(ocorrencia.responsavel)}
                               </Badge>
                             </div>
-                            
+
                             <div className="bg-muted/50 p-4 rounded-lg">
                               <p className="text-sm">{ocorrencia.descricao}</p>
                             </div>
-                            
+
+                            {ocorrencia.anexos.length > 0 && (
+                              <div className="space-y-2">
+                                <h4 className="font-medium">Anexos</h4>
+                                <div className="grid grid-cols-2 gap-2">
+                                  {ocorrencia.anexos.map((anexo, idx) => (
+                                    <img key={idx} src={anexo} alt={`Anexo ${idx + 1}`} className="w-full h-32 object-cover rounded" />
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
                             <div className="text-sm text-muted-foreground">
                               <p>Reportado por: {ocorrencia.morador} - Apt {ocorrencia.apartamento}</p>
                               <p>Data: {ocorrencia.dataAbertura}</p>
@@ -447,8 +570,7 @@ export function PaginaOcorrencias() {
                                 <p>Resolvido em: {ocorrencia.dataResolucao}</p>
                               )}
                             </div>
-                            
-                            {/* Histórico de respostas */}
+
                             {ocorrencia.respostas.length > 0 && (
                               <div className="space-y-3">
                                 <h4 className="font-medium">Histórico</h4>
@@ -459,15 +581,14 @@ export function PaginaOcorrencias() {
                                         <span className="text-sm font-medium">{resposta.autor}</span>
                                         <span className="text-xs text-muted-foreground">{resposta.data}</span>
                                       </div>
-                                      <p className="text-sm text-muted-foreground mb-1">{resposta.cargo}</p>
-                                      <p className="text-sm">{resposta.mensagem}</p>
+                                        <p className="text-sm text-muted-foreground mb-1">{resposta.cargo}</p>
+                                        <p className="text-sm">{resposta.mensagem}</p>
                                     </div>
                                   ))}
                                 </div>
                               </div>
                             )}
-                            
-                            {/* Nova resposta (apenas se não estiver resolvida) */}
+
                             {ocorrencia.status !== 'resolvida' && (
                               <div className="space-y-2">
                                 <Label htmlFor="nova-resposta">Nova mensagem</Label>
@@ -478,13 +599,41 @@ export function PaginaOcorrencias() {
                                   placeholder="Digite sua mensagem..."
                                   rows={3}
                                 />
-                                <Button 
+                                <Button
                                   onClick={() => handleNovaResposta(ocorrencia.id)}
                                   disabled={!novaResposta.trim()}
                                   className="w-full"
                                 >
                                   Enviar Mensagem
                                 </Button>
+                              </div>
+                            )}
+
+                            {ocorrencia.status === 'resolvida' && (
+                              <div className="space-y-2">
+                                <Label>Avaliação do atendimento</Label>
+                                {ocorrencia.avaliacao ? (
+                                  <div className="flex gap-1">
+                                    {Array.from({ length: 5 }, (_, i) => (
+                                      <Star key={i} className={`h-5 w-5 ${i < ocorrencia.avaliacao ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} />
+                                    ))}
+                                  </div>
+                                ) : (
+                                  <>
+                                    <div className="flex gap-1">
+                                      {Array.from({ length: 5 }, (_, i) => (
+                                        <Star
+                                          key={i}
+                                          className={`h-5 w-5 cursor-pointer ${i < avaliacaoTemp ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`}
+                                          onClick={() => setAvaliacaoTemp(i + 1)}
+                                        />
+                                      ))}
+                                    </div>
+                                    <Button onClick={() => handleAvaliar(ocorrencia.id)} disabled={avaliacaoTemp === 0} className="w-full">
+                                      Enviar Avaliação
+                                    </Button>
+                                  </>
+                                )}
                               </div>
                             )}
                           </div>
@@ -501,3 +650,4 @@ export function PaginaOcorrencias() {
     </div>
   );
 }
+
