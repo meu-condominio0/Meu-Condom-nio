@@ -16,6 +16,13 @@ import {
   adicionarFoto,
   verificarManutencoesProximas
 } from './services/manutencaoService';
+import {
+  registrarChegada,
+  confirmarRetiradaPorQRCode,
+  confirmarRetiradaPorUnidade,
+  listarHistorico,
+  listarPendentes
+} from './services/encomendaService';
 
 const app = express();
 app.use(express.json());
@@ -120,6 +127,45 @@ app.post('/manutencoes/:id/fotos', (req, res) => {
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
+});
+
+app.get('/encomendas', (_req, res) => {
+  res.json(listarPendentes());
+});
+
+app.post('/encomendas', (req, res) => {
+  try {
+    const encomenda = registrarChegada(req.body);
+    res.status(201).json(encomenda);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/encomendas/qrcode/:codigo', (req, res) => {
+  try {
+    const encomenda = confirmarRetiradaPorQRCode(req.params.codigo, req.body);
+    res.json(encomenda);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/encomendas/:id/unidade', (req, res) => {
+  try {
+    const encomenda = confirmarRetiradaPorUnidade(
+      req.params.id,
+      req.body.unidade,
+      req.body
+    );
+    res.json(encomenda);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.get('/encomendas/historico', (_req, res) => {
+  res.json(listarHistorico());
 });
 
 // Geração automática todo dia 1 às 08:00
