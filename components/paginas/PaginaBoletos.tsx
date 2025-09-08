@@ -278,7 +278,12 @@ export function PaginaBoletos() {
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-sm font-medium text-muted-foreground">Linha digitável:</span>
-                          <Button variant="ghost" size="sm" className="h-8 text-sm">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 text-sm"
+                            onClick={() => navigator.clipboard.writeText(boleto.linhaDigitavel)}
+                          >
                             Copiar
                           </Button>
                         </div>
