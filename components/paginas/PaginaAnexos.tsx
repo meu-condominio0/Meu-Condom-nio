@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Upload, FileText, Search, Filter, Eye, Download, Trash2, Plus, File, Image } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -14,7 +15,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 interface Documento {
   id: string;
   nome: string;
-  categoria: 'atas' | 'regulamentos' | 'comunicados' | 'manuais' | 'outros';
+  categoria: 'atas' | 'balancetes' | 'contratos' | 'regimentos' | 'outros';
   tipo: 'pdf' | 'docx' | 'jpg' | 'png';
   tamanho: string;
   dataUpload: string;
@@ -35,32 +36,32 @@ const documentosMock: Documento[] = [
   },
   {
     id: '2',
-    nome: 'Regulamento Interno Atualizado',
-    categoria: 'regulamentos',
+    nome: 'Balancete Financeiro - Fevereiro 2024',
+    categoria: 'balancetes',
     tipo: 'pdf',
     tamanho: '1.8 MB',
     dataUpload: '03/02/2024',
-    descricao: 'Regulamento interno com as novas normas aprovadas',
+    descricao: 'Resumo das contas do mês',
     url: '#'
   },
   {
     id: '3',
-    nome: 'Manual da Academia',
-    categoria: 'manuais',
+    nome: 'Contrato de Prestação de Serviços',
+    categoria: 'contratos',
     tipo: 'pdf',
     tamanho: '5.2 MB',
     dataUpload: '20/02/2024',
-    descricao: 'Instruções de uso dos equipamentos da academia',
+    descricao: 'Contrato de manutenção dos elevadores',
     url: '#'
   },
   {
     id: '4',
-    nome: 'Comunicado - Manutenção Elevadores',
-    categoria: 'comunicados',
-    tipo: 'docx',
+    nome: 'Regimento Interno Atualizado',
+    categoria: 'regimentos',
+    tipo: 'pdf',
     tamanho: '0.5 MB',
     dataUpload: '10/03/2024',
-    descricao: 'Cronograma de manutenção dos elevadores',
+    descricao: 'Documento com as novas normas aprovadas',
     url: '#'
   },
   {
@@ -111,9 +112,9 @@ export function PaginaAnexos() {
     const nomes = {
       todas: 'Todas',
       atas: 'Atas de Reunião',
-      regulamentos: 'Regulamentos',
-      comunicados: 'Comunicados Oficiais',
-      manuais: 'Manuais de Manutenção',
+      balancetes: 'Balancetes',
+      contratos: 'Contratos',
+      regimentos: 'Regimentos',
       outros: 'Outros'
     };
     return nomes[categoria as keyof typeof nomes] || categoria;
@@ -122,9 +123,9 @@ export function PaginaAnexos() {
   const getCategoriaVariant = (categoria: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
       atas: 'default',
-      regulamentos: 'secondary',
-      comunicados: 'outline',
-      manuais: 'secondary',
+      balancetes: 'secondary',
+      contratos: 'outline',
+      regimentos: 'secondary',
       outros: 'outline'
     };
     return variants[categoria] || 'outline';
@@ -151,6 +152,7 @@ export function PaginaAnexos() {
       setDocumentos([...documentos, novoDoc]);
       setModalUploadAberto(false);
       setNovoDocumento({ nome: '', categoria: '', descricao: '' });
+      toast.success(`Novo documento disponível: ${novoDoc.nome}`);
     }
   };
 
@@ -183,7 +185,7 @@ export function PaginaAnexos() {
                   Clique aqui ou arraste arquivos
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  Suporte: PDF, DOCX, JPG, PNG (máx. 10MB)
+                  Suporte: PDF, DOCX, JPG, PNG (sem limite de tamanho)
                 </p>
               </div>
 
@@ -205,9 +207,9 @@ export function PaginaAnexos() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="atas">Atas de Reunião</SelectItem>
-                    <SelectItem value="regulamentos">Regulamentos</SelectItem>
-                    <SelectItem value="comunicados">Comunicados Oficiais</SelectItem>
-                    <SelectItem value="manuais">Manuais de Manutenção</SelectItem>
+                    <SelectItem value="balancetes">Balancetes</SelectItem>
+                    <SelectItem value="contratos">Contratos</SelectItem>
+                    <SelectItem value="regimentos">Regimentos</SelectItem>
                     <SelectItem value="outros">Outros</SelectItem>
                   </SelectContent>
                 </Select>
@@ -263,9 +265,9 @@ export function PaginaAnexos() {
           <SelectContent>
             <SelectItem value="todas">Todas as categorias</SelectItem>
             <SelectItem value="atas">Atas de Reunião</SelectItem>
-            <SelectItem value="regulamentos">Regulamentos</SelectItem>
-            <SelectItem value="comunicados">Comunicados Oficiais</SelectItem>
-            <SelectItem value="manuais">Manuais de Manutenção</SelectItem>
+            <SelectItem value="balancetes">Balancetes</SelectItem>
+            <SelectItem value="contratos">Contratos</SelectItem>
+            <SelectItem value="regimentos">Regimentos</SelectItem>
             <SelectItem value="outros">Outros</SelectItem>
           </SelectContent>
         </Select>
@@ -276,9 +278,9 @@ export function PaginaAnexos() {
         <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="todas">Todas</TabsTrigger>
           <TabsTrigger value="atas">Atas</TabsTrigger>
-          <TabsTrigger value="regulamentos">Regulamentos</TabsTrigger>
-          <TabsTrigger value="comunicados">Comunicados</TabsTrigger>
-          <TabsTrigger value="manuais">Manuais</TabsTrigger>
+          <TabsTrigger value="balancetes">Balancetes</TabsTrigger>
+          <TabsTrigger value="contratos">Contratos</TabsTrigger>
+          <TabsTrigger value="regimentos">Regimentos</TabsTrigger>
           <TabsTrigger value="outros">Outros</TabsTrigger>
         </TabsList>
 
