@@ -86,6 +86,12 @@ export function listarPendentes(): Encomenda[] {
   return encomendas.filter(e => e.status === 'pendente');
 }
 
+export function listarHistoricoPorMorador(moradorId: string): Encomenda[] {
+  return encomendas.filter(
+    e => e.status === 'retirada' && e.moradorId === moradorId
+  );
+}
+
 function gerarCodigo(): string {
   return randomBytes(4).toString('hex');
 }

@@ -21,7 +21,8 @@ import {
   confirmarRetiradaPorQRCode,
   confirmarRetiradaPorUnidade,
   listarHistorico,
-  listarPendentes
+  listarPendentes,
+  listarHistoricoPorMorador
 } from './services/encomendaService';
 
 const app = express();
@@ -166,6 +167,10 @@ app.post('/encomendas/:id/unidade', (req, res) => {
 
 app.get('/encomendas/historico', (_req, res) => {
   res.json(listarHistorico());
+});
+
+app.get('/encomendas/historico/morador/:moradorId', (req, res) => {
+  res.json(listarHistoricoPorMorador(req.params.moradorId));
 });
 
 // Geração automática todo dia 1 às 08:00
