@@ -14,6 +14,7 @@ interface Comunicado {
   data: string;
   categoria: 'todos' | 'avisos' | 'manutencao' | 'eventos' | 'regras';
   prioridade: 'baixa' | 'media' | 'alta';
+  lido?: boolean;
 }
 
 const comunicadosMock: Comunicado[] = [
@@ -24,7 +25,8 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Administração',
     data: 'Ontem',
     categoria: 'manutencao',
-    prioridade: 'alta'
+    prioridade: 'alta',
+    lido: false
   },
   {
     id: '2',
@@ -33,7 +35,8 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Síndico',
     data: '1 d',
     categoria: 'eventos',
-    prioridade: 'media'
+    prioridade: 'media',
+    lido: false
   },
   {
     id: '3',
@@ -42,7 +45,8 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Administração',
     data: '3 d',
     categoria: 'regras',
-    prioridade: 'media'
+    prioridade: 'media',
+    lido: false
   },
   {
     id: '4',
@@ -51,7 +55,8 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Administração',
     data: '3 d',
     categoria: 'regras',
-    prioridade: 'baixa'
+    prioridade: 'baixa',
+    lido: false
   },
   {
     id: '5',
@@ -60,7 +65,8 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Síndico',
     data: '4 d',
     categoria: 'manutencao',
-    prioridade: 'alta'
+    prioridade: 'alta',
+    lido: false
   },
   {
     id: '6',
@@ -69,21 +75,27 @@ const comunicadosMock: Comunicado[] = [
     autor: 'Administração',
     data: '7 d',
     categoria: 'eventos',
-    prioridade: 'media'
+    prioridade: 'media',
+    lido: false
   }
 ];
 
 export function PaginaComunicados() {
   const [termoBusca, setTermoBusca] = useState('');
   const [categoriaAtiva, setCategoriaAtiva] = useState('todos');
+  const [comunicados, setComunicados] = useState<Comunicado[]>(comunicadosMock);
 
-  const comunicadosFiltrados = comunicadosMock.filter((comunicado) => {
+  const comunicadosFiltrados = comunicados.filter((comunicado) => {
     const correspondeTermo = comunicado.titulo.toLowerCase().includes(termoBusca.toLowerCase()) ||
                            comunicado.conteudo.toLowerCase().includes(termoBusca.toLowerCase());
     const correspondeCategoria = categoriaAtiva === 'todos' || comunicado.categoria === categoriaAtiva;
-    
+
     return correspondeTermo && correspondeCategoria;
   });
+
+  const handleConfirmarLeitura = (id: string) => {
+    setComunicados(prev => prev.map(c => c.id === id ? { ...c, lido: true } : c));
+  };
 
   const getPrioridadeBadge = (prioridade: string) => {
     const badges = {
@@ -186,8 +198,20 @@ export function PaginaComunicados() {
                       <Badge {...getPrioridadeBadge(comunicado.prioridade)} className="px-3 py-1 whitespace-nowrap">
                         {getPrioridadeBadge(comunicado.prioridade).label}
                       </Badge>
-                      <Button 
-                        variant="ghost" 
+                      {comunicado.lido ? (
+                        <Badge variant="secondary" className="px-3 py-1 whitespace-nowrap">Lido</Badge>
+                      ) : (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleConfirmarLeitura(comunicado.id)}
+                          className="whitespace-nowrap"
+                        >
+                          Confirmar leitura
+                        </Button>
+                      )}
+                      <Button
+                        variant="ghost"
                         size="sm"
                         className="gap-2 text-muted-foreground hover:text-foreground"
                       >
