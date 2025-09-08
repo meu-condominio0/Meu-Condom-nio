@@ -1,12 +1,27 @@
 import express from 'express';
 import cron from 'node-cron';
 import { gerarBoletosParaCondominio, listarBoletos } from './services/boletoService';
+import { enviarComunicado, listarComunicados } from './services/comunicadoService';
 
 const app = express();
 app.use(express.json());
 
 app.get('/boletos', (_req, res) => {
   res.json(listarBoletos());
+});
+
+app.get('/comunicados', (_req, res) => {
+  res.json(listarComunicados());
+});
+
+app.post('/comunicados', (req, res) => {
+  try {
+    const { autorId, ...dados } = req.body;
+    const comunicado = enviarComunicado(autorId, dados);
+    res.status(201).json(comunicado);
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
 });
 
 // Geração automática todo dia 1 às 08:00
