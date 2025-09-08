@@ -22,7 +22,9 @@ import {
   LogOut,
   Building2,
   User,
-  Bell
+  Bell,
+  FileWarning,
+  HandCoins
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback } from './ui/avatar';
@@ -62,6 +64,8 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'planoContas', label: 'Plano de Contas', icone: FileSpreadsheet },
     { id: 'importarLancamentos', label: 'Importar Lançamentos', icone: Upload },
     { id: 'consumo', label: 'Consumo', icone: Gauge },
+    { id: 'inadimplencia', label: 'Inadimplência', icone: FileWarning },
+    { id: 'acordos', label: 'Acordos', icone: HandCoins },
     { id: 'avaliacao', label: 'Avaliações', icone: Star },
     { id: 'usuarios', label: 'Usuários', icone: Users },
     { id: 'visitantes', label: 'Visitantes', icone: UserPlus },
