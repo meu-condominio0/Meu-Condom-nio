@@ -1,0 +1,3 @@
+# Termo de Abertura do Projeto (TAP)
+
+...conteúdo original do TAP.md...
