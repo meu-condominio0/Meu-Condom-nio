@@ -15,6 +15,7 @@ export interface Boleto {
   status: 'pago' | 'pendente' | 'atrasado';
   codigoBarras: string;
   linhaDigitavel: string;
+  categoria?: string;
 }
 
 const unidades: Unidade[] = [
@@ -32,6 +33,22 @@ export async function gerarBoletosParaCondominio(): Promise<void> {
 
 export function listarBoletos(): Boleto[] {
   return boletos;
+}
+
+export function adicionarBoleto(dados: { descricao: string; valor: number; dataVencimento: string; categoria?: string }): Boleto {
+  const boleto: Boleto = {
+    id: Date.now().toString(),
+    descricao: dados.descricao,
+    valor: dados.valor,
+    dataVencimento: dados.dataVencimento,
+    categoria: dados.categoria || 'outros',
+    status: 'pendente',
+    codigoBarras: '00000000000000000000000000000000000000000000',
+    linhaDigitavel: '00000.00000 00000.000000 00000.000000 0 00000000000000'
+  };
+
+  boletos.push(boleto);
+  return boleto;
 }
 
 async function gerarBoleto(unidade: Unidade): Promise<Boleto> {
@@ -59,6 +76,7 @@ async function gerarBoleto(unidade: Unidade): Promise<Boleto> {
       descricao: `Taxa condominial - ${new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`,
       valor: unidade.valor,
       dataVencimento: dados.dataVencimento || new Date().toISOString().split('T')[0],
+      categoria: 'condominio',
       status: 'pendente',
       codigoBarras: dados.codigoBarras || '',
       linhaDigitavel: dados.linhaDigitavel || ''
@@ -73,6 +91,7 @@ async function gerarBoleto(unidade: Unidade): Promise<Boleto> {
       descricao: `Taxa condominial - ${new Date().toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`,
       valor: unidade.valor,
       dataVencimento: new Date().toISOString().split('T')[0],
+      categoria: 'condominio',
       status: 'pendente',
       codigoBarras: '00000000000000000000000000000000000000000000',
       linhaDigitavel: '00000.00000 00000.000000 00000.000000 0 00000000000000'

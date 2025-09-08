@@ -1,6 +1,6 @@
 import express from 'express';
 import cron from 'node-cron';
-import { gerarBoletosParaCondominio, listarBoletos } from './services/boletoService';
+import { gerarBoletosParaCondominio, listarBoletos, adicionarBoleto } from './services/boletoService';
 import { enviarComunicado, listarComunicados } from './services/comunicadoService';
 
 const app = express();
@@ -8,6 +8,15 @@ app.use(express.json());
 
 app.get('/boletos', (_req, res) => {
   res.json(listarBoletos());
+});
+
+app.post('/boletos', (req, res) => {
+  try {
+    const boleto = adicionarBoleto(req.body);
+    res.status(201).json(boleto);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
 });
 
 app.get('/comunicados', (_req, res) => {

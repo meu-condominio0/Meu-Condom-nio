@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Calendar as CalendarIcon, Clock, MapPin, Plus, Users, CheckCircle, X } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, MapPin, Plus, Users, CheckCircle, X, CreditCard } from 'lucide-react';
 import { toast } from "sonner";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -22,6 +22,8 @@ interface AreaComum {
   nome: string;
   descricao: string;
   capacidade: number;
+  valor: number;
+  instrucoes: string;
   horariosDisponiveis: string[];
 }
 
@@ -55,6 +57,8 @@ const areasComuns: AreaComum[] = [
     nome: 'Salão de festas I',
     descricao: 'Salão com capacidade para 50 pessoas, ideal para festas e eventos',
     capacidade: 50,
+    valor: 200,
+    instrucoes: 'Deixe o espaço limpo e respeite o horário de silêncio.',
     horariosDisponiveis: ['08:00 - 12:00', '14:00 - 18:00', '19:00 - 23:00']
   },
   {
@@ -62,6 +66,8 @@ const areasComuns: AreaComum[] = [
     nome: 'Churrasqueira I',
     descricao: 'Área de churrasqueira coberta com mesas e cadeiras',
     capacidade: 20,
+    valor: 100,
+    instrucoes: 'Providencie seus utensílios e limpe após o uso.',
     horariosDisponiveis: ['10:00 - 14:00', '15:00 - 19:00', '20:00 - 24:00']
   },
   {
@@ -69,6 +75,8 @@ const areasComuns: AreaComum[] = [
     nome: 'Quadra esportiva',
     descricao: 'Quadra poliesportiva para futebol, vôlei e basquete',
     capacidade: 12,
+    valor: 50,
+    instrucoes: 'Uso exclusivo para esportes; mantenha calçado adequado.',
     horariosDisponiveis: ['06:00 - 10:00', '14:00 - 18:00', '19:00 - 22:00']
   },
   {
@@ -76,9 +84,14 @@ const areasComuns: AreaComum[] = [
     nome: 'Academia',
     descricao: 'Espaço fitness com equipamentos modernos',
     capacidade: 8,
+    valor: 0,
+    instrucoes: 'Mantenha os equipamentos limpos após o uso.',
     horariosDisponiveis: ['06:00 - 10:00', '14:00 - 18:00', '19:00 - 22:00']
   }
 ];
+
+const formatarMoeda = (valor: number) =>
+  new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
 
 // Mock de reservas existentes para mostrar indisponibilidade
 const reservasExistentes = [
@@ -103,19 +116,38 @@ export function PaginaReservas() {
     return badges[status as keyof typeof badges];
   };
 
-  const handleNovaReserva = () => {
+  const handleNovaReserva = async () => {
     if (areaSelecionada && dataSelecionada && horarioSelecionado) {
       const areaNome = areaSelecionadaInfo?.nome || 'Área selecionada';
+      const valorReserva = areaSelecionadaInfo?.valor || 0;
+      const instrucoes = areaSelecionadaInfo?.instrucoes || '';
       const dataFormatada = dataSelecionada.toLocaleDateString('pt-BR');
-      
-      // Simular processo de reserva
+      const dataVencimento = new Date();
+      dataVencimento.setMonth(dataVencimento.getMonth() + 1);
+      const dataVencimentoFormatada = dataVencimento.toISOString().split('T')[0];
+
+      try {
+        await fetch('http://localhost:4000/boletos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            descricao: `Reserva ${areaNome}`,
+            valor: valorReserva,
+            dataVencimento: dataVencimentoFormatada,
+            categoria: 'condominio'
+          })
+        });
+      } catch (err) {
+        console.error('Erro ao registrar cobrança da reserva', err);
+      }
+
       setTimeout(() => {
         toast.success('Reserva confirmada com sucesso!', {
-          description: `${areaNome} reservada para ${dataFormatada} das ${horarioSelecionado}`,
+          description: `${areaNome} reservada para ${dataFormatada} das ${horarioSelecionado}. Valor de ${formatarMoeda(valorReserva)} será cobrado na próxima taxa condominial. ${instrucoes}`,
           duration: 5000,
         });
       }, 500);
-      
+
       setModalAberto(false);
       // Reset form
       setAreaSelecionada('');
@@ -220,6 +252,14 @@ export function PaginaReservas() {
                           <div className="flex items-center gap-2 text-sm">
                             <Users className="h-4 w-4 text-muted-foreground" />
                             <span>Capacidade: {areaSelecionadaInfo.capacidade} pessoas</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-sm">
+                            <CreditCard className="h-4 w-4 text-muted-foreground" />
+                            <span>Valor: {formatarMoeda(areaSelecionadaInfo.valor)}</span>
+                          </div>
+                          <div className="space-y-1 text-sm">
+                            <Label className="text-sm font-medium">Instruções de uso:</Label>
+                            <p>{areaSelecionadaInfo.instrucoes}</p>
                           </div>
                           <div className="space-y-2">
                             <Label className="text-sm font-medium">Horários disponíveis:</Label>
@@ -363,6 +403,11 @@ export function PaginaReservas() {
                 <div className="flex items-center gap-3 p-3 bg-accent/30 rounded-lg">
                   <Users className="h-5 w-5 text-muted-foreground" />
                   <span className="font-medium">Capacidade: {area.capacidade} pessoas</span>
+                </div>
+
+                <div className="flex items-center gap-3 p-3 bg-accent/30 rounded-lg">
+                  <CreditCard className="h-5 w-5 text-muted-foreground" />
+                  <span className="font-medium">Valor: {formatarMoeda(area.valor)}</span>
                 </div>
 
                 <div className="space-y-3">
