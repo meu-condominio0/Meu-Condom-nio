@@ -21,6 +21,8 @@ import { PaginaVeiculos } from './paginas/PaginaVeiculos';
 import { PaginaPlanoContas } from './paginas/PaginaPlanoContas';
 import { PaginaConsumo } from './paginas/PaginaConsumo';
 import { PaginaImportarLancamentos } from './paginas/PaginaImportarLancamentos';
+import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
+import { PaginaAcordos } from './paginas/PaginaAcordos';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -88,6 +90,10 @@ export function AplicativoCondominio() {
         return <PaginaPlanoContas />;
       case 'importarLancamentos':
         return <PaginaImportarLancamentos />;
+      case 'inadimplencia':
+        return <PaginaInadimplencia />;
+      case 'acordos':
+        return <PaginaAcordos />;
       case 'usuarios':
         return <PaginaUsuarios />;
       case 'visitantes':
