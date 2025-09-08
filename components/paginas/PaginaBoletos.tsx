@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { usarContextoApp, usuariosMock } from '../../contexts/AppContext';
+import { calcularRateioTaxa, Unidade } from '../../utils/condominio';
 import { Search, Download, Eye, Calendar, CreditCard, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -19,73 +21,85 @@ interface Boleto {
   linhaDigitavel: string;
 }
 
-const boletosMock: Boleto[] = [
-  {
-    id: '1',
-    descricao: 'Taxa condominial - Maio 2024',
-    valor: 450.00,
-    dataVencimento: '10/05/2024',
-    dataPagamento: '08/05/2024',
-    status: 'pago',
-    categoria: 'condominio',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  },
-  {
-    id: '2',
-    descricao: 'Taxa condominial - Junho 2024',
-    valor: 450.00,
-    dataVencimento: '10/06/2024',
-    status: 'pendente',
-    categoria: 'condominio',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  },
-  {
-    id: '3',
-    descricao: 'Taxa de água - Abril 2024',
-    valor: 85.30,
-    dataVencimento: '15/04/2024',
-    status: 'atrasado',
-    categoria: 'agua',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  },
-  {
-    id: '4',
-    descricao: 'Taxa de gás - Maio 2024',
-    valor: 45.20,
-    dataVencimento: '20/05/2024',
-    dataPagamento: '18/05/2024',
-    status: 'pago',
-    categoria: 'gas',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  },
-  {
-    id: '5',
-    descricao: 'Fundo de reserva - 2024',
-    valor: 120.00,
-    dataVencimento: '30/06/2024',
-    status: 'pendente',
-    categoria: 'fundo_reserva',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  },
-  {
-    id: '6',
-    descricao: 'Taxa condominial - Abril 2024',
-    valor: 450.00,
-    dataVencimento: '10/04/2024',
-    dataPagamento: '09/04/2024',
-    status: 'pago',
-    categoria: 'condominio',
-    codigoBarras: '23790123456789012345678901234567890123456789',
-    linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
-  }
-];
-
 export function PaginaBoletos() {
+  const { usuarioLogado } = usarContextoApp();
+
+  const unidades: Unidade[] = usuariosMock.map(u => ({
+    id: u.id,
+    fracaoIdeal: u.fracaoIdeal || 0,
+    isento: u.isentoTaxaCondominial
+  }));
+
+  // Valor total da taxa condominial do condomínio
+  const totalTaxa = 1350; // exemplo
+  const valoresRateados = calcularRateioTaxa(totalTaxa, unidades);
+  const valorCondominio = usuarioLogado ? valoresRateados[usuarioLogado.id] : 0;
+
+  const boletosMock: Boleto[] = [
+    {
+      id: '1',
+      descricao: 'Taxa condominial - Maio 2024',
+      valor: valorCondominio,
+      dataVencimento: '10/05/2024',
+      dataPagamento: '08/05/2024',
+      status: 'pago',
+      categoria: 'condominio',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    },
+    {
+      id: '2',
+      descricao: 'Taxa condominial - Junho 2024',
+      valor: valorCondominio,
+      dataVencimento: '10/06/2024',
+      status: 'pendente',
+      categoria: 'condominio',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    },
+    {
+      id: '3',
+      descricao: 'Taxa de água - Abril 2024',
+      valor: 85.30,
+      dataVencimento: '15/04/2024',
+      status: 'atrasado',
+      categoria: 'agua',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    },
+    {
+      id: '4',
+      descricao: 'Taxa de gás - Maio 2024',
+      valor: 45.20,
+      dataVencimento: '20/05/2024',
+      dataPagamento: '18/05/2024',
+      status: 'pago',
+      categoria: 'gas',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    },
+    {
+      id: '5',
+      descricao: 'Fundo de reserva - 2024',
+      valor: 120.00,
+      dataVencimento: '30/06/2024',
+      status: 'pendente',
+      categoria: 'fundo_reserva',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    },
+    {
+      id: '6',
+      descricao: 'Taxa condominial - Abril 2024',
+      valor: valorCondominio,
+      dataVencimento: '10/04/2024',
+      dataPagamento: '09/04/2024',
+      status: 'pago',
+      categoria: 'condominio',
+      codigoBarras: '23790123456789012345678901234567890123456789',
+      linhaDigitavel: '23790.12345 67890.123456 78901.234567 8 90123456789012345'
+    }
+  ];
   const [boletos] = useState(boletosMock);
   const [termoBusca, setTermoBusca] = useState('');
   const [statusFiltro, setStatusFiltro] = useState('todos');

@@ -22,6 +22,7 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+tsconfig.tsbuildinfo
 
 # Node
 node_modules/

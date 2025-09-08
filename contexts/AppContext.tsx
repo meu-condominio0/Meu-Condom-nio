@@ -8,6 +8,8 @@ interface DadosUsuario {
   email: string;
   tipo: TipoUsuario;
   apartamento?: string;
+  isentoTaxaCondominial?: boolean;
+  fracaoIdeal?: number;
 }
 
 interface ContextoApp {
@@ -25,21 +27,35 @@ interface ContextoApp {
 const ContextoApp = createContext<ContextoApp | undefined>(undefined);
 
 // Dados mockados para demonstração
-const usuariosMock = [
+export const usuariosMock = [
   {
     id: '1',
     nome: 'João Silva',
     email: 'morador@email.com',
     senha: '123456',
     tipo: 'morador' as TipoUsuario,
-    apartamento: '302'
+    apartamento: '302',
+    fracaoIdeal: 80,
+    isentoTaxaCondominial: false
   },
   {
     id: '2',
+    nome: 'Ana Souza',
+    email: 'ana@email.com',
+    senha: '123456',
+    tipo: 'morador' as TipoUsuario,
+    apartamento: '402',
+    fracaoIdeal: 70,
+    isentoTaxaCondominial: false
+  },
+  {
+    id: '3',
     nome: 'Maria Santos',
     email: 'sindico@email.com',
     senha: '123456',
-    tipo: 'sindico' as TipoUsuario
+    tipo: 'sindico' as TipoUsuario,
+    fracaoIdeal: 100,
+    isentoTaxaCondominial: true
   }
 ];
 
