@@ -9,6 +9,14 @@ import {
   gerarRelatorio
 } from './services/enqueteService';
 import {
+  listarMoradores,
+  obterMorador,
+  cadastrarMorador,
+  editarMorador,
+  excluirMorador,
+  UsuarioAutenticado
+} from './services/moradorService';
+import {
   listarManutencoes,
   adicionarManutencao,
   atualizarStatus,
@@ -27,6 +35,58 @@ import {
 
 const app = express();
 app.use(express.json());
+
+function getRequester(req: express.Request): UsuarioAutenticado {
+  return {
+    id: String(req.headers['x-user-id'] || ''),
+    role: (req.headers['x-user-role'] as any) || 'morador'
+  };
+}
+
+// --- Moradores ---
+
+app.get('/moradores', (req, res) => {
+  try {
+    res.json(listarMoradores(getRequester(req)));
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+app.get('/moradores/:id', (req, res) => {
+  try {
+    res.json(obterMorador(req.params.id, getRequester(req)));
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+app.post('/moradores', (req, res) => {
+  try {
+    const morador = cadastrarMorador(req.body, getRequester(req));
+    res.status(201).json(morador);
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+app.put('/moradores/:id', (req, res) => {
+  try {
+    const morador = editarMorador(req.params.id, req.body, getRequester(req));
+    res.json(morador);
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+app.delete('/moradores/:id', (req, res) => {
+  try {
+    excluirMorador(req.params.id, getRequester(req));
+    res.status(204).send();
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
 
 app.get('/boletos', (_req, res) => {
   res.json(listarBoletos());
