@@ -19,6 +19,7 @@ import { PaginaVisitantes } from './paginas/PaginaVisitantes';
 import { PaginaPets } from './paginas/PaginaPets';
 import { PaginaVeiculos } from './paginas/PaginaVeiculos';
 import { PaginaPlanoContas } from './paginas/PaginaPlanoContas';
+import { PaginaConsumo } from './paginas/PaginaConsumo';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -66,6 +67,8 @@ export function AplicativoCondominio() {
         return <PaginaReservas />;
       case 'boletos':
         return <PaginaBoletos />;
+      case 'consumo':
+        return <PaginaConsumo />;
       case 'ocorrencias':
         return <PaginaOcorrencias />;
       case 'chat':
