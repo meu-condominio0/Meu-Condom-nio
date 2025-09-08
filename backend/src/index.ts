@@ -2,6 +2,12 @@ import express from 'express';
 import cron from 'node-cron';
 import { gerarBoletosParaCondominio, listarBoletos, adicionarBoleto } from './services/boletoService';
 import { enviarComunicado, listarComunicados } from './services/comunicadoService';
+import {
+  criarEnquete,
+  listarEnquetes,
+  responderEnquete,
+  gerarRelatorio
+} from './services/enqueteService';
 
 const app = express();
 app.use(express.json());
@@ -30,6 +36,37 @@ app.post('/comunicados', (req, res) => {
     res.status(201).json(comunicado);
   } catch (err: any) {
     res.status(403).json({ error: err.message });
+  }
+});
+
+app.get('/enquetes', (_req, res) => {
+  res.json(listarEnquetes());
+});
+
+app.post('/enquetes', (req, res) => {
+  try {
+    const { autorId, ...dados } = req.body;
+    const enquete = criarEnquete(autorId, dados);
+    res.status(201).json(enquete);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/enquetes/:id/respostas', (req, res) => {
+  try {
+    const resposta = responderEnquete(req.params.id, req.body.usuarioId, req.body);
+    res.status(201).json(resposta);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.get('/enquetes/:id/relatorio', (req, res) => {
+  try {
+    res.json(gerarRelatorio(req.params.id));
+  } catch (err: any) {
+    res.status(404).json({ error: err.message });
   }
 });
 
