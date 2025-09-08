@@ -16,6 +16,7 @@ import {
   excluirMorador,
   UsuarioAutenticado
 } from './services/moradorService';
+import { listarColaboradores, adicionarColaborador } from './services/colaboradorService';
 import {
   listarManutencoes,
   adicionarManutencao,
@@ -83,6 +84,21 @@ app.delete('/moradores/:id', (req, res) => {
   try {
     excluirMorador(req.params.id, getRequester(req));
     res.status(204).send();
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+// --- Colaboradores ---
+
+app.get('/colaboradores', (_req, res) => {
+  res.json(listarColaboradores());
+});
+
+app.post('/colaboradores', (req, res) => {
+  try {
+    const colaborador = adicionarColaborador(req.body, getRequester(req));
+    res.status(201).json(colaborador);
   } catch (err: any) {
     res.status(403).json({ error: err.message });
   }
