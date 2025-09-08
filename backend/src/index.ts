@@ -8,6 +8,14 @@ import {
   responderEnquete,
   gerarRelatorio
 } from './services/enqueteService';
+import {
+  listarManutencoes,
+  adicionarManutencao,
+  atualizarStatus,
+  adicionarComentario,
+  adicionarFoto,
+  verificarManutencoesProximas
+} from './services/manutencaoService';
 
 const app = express();
 app.use(express.json());
@@ -70,10 +78,60 @@ app.get('/enquetes/:id/relatorio', (req, res) => {
   }
 });
 
+app.get('/manutencoes', (_req, res) => {
+  res.json(listarManutencoes());
+});
+
+app.post('/manutencoes', (req, res) => {
+  try {
+    const manutencao = adicionarManutencao(req.body);
+    res.status(201).json(manutencao);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.put('/manutencoes/:id/status', (req, res) => {
+  try {
+    const manutencao = atualizarStatus(req.params.id, req.body.status);
+    res.json(manutencao);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/manutencoes/:id/comentarios', (req, res) => {
+  try {
+    const comentario = adicionarComentario(
+      req.params.id,
+      req.body.autor,
+      req.body.texto
+    );
+    res.status(201).json(comentario);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+app.post('/manutencoes/:id/fotos', (req, res) => {
+  try {
+    const url = adicionarFoto(req.params.id, req.body.url);
+    res.status(201).json({ url });
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
 // Geração automática todo dia 1 às 08:00
 cron.schedule('0 8 1 * *', () => {
   gerarBoletosParaCondominio().catch(err =>
     console.error('Erro na geração automática de boletos', err)
+  );
+});
+
+cron.schedule('0 8 * * *', () => {
+  verificarManutencoesProximas().catch(err =>
+    console.error('Erro ao verificar manutenções', err)
   );
 });
 
