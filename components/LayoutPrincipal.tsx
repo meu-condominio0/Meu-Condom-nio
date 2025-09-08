@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { 
-  Home, 
-  MessageSquare, 
-  Calendar, 
-  CreditCard, 
-  AlertTriangle, 
+  Home,
+  MessageSquare,
+  Calendar,
+  CreditCard,
+  AlertTriangle,
   MessageCircle,
   ShoppingBag,
   BarChart3,
@@ -24,7 +24,8 @@ import {
   User,
   Bell,
   FileWarning,
-  HandCoins
+  HandCoins,
+  ReceiptText
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Avatar, AvatarFallback } from './ui/avatar';
@@ -63,6 +64,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'relatorios', label: 'Relatórios', icone: TrendingUp },
     { id: 'planoContas', label: 'Plano de Contas', icone: FileSpreadsheet },
     { id: 'importarLancamentos', label: 'Importar Lançamentos', icone: Upload },
+    { id: 'extrato', label: 'Extrato', icone: ReceiptText },
     { id: 'consumo', label: 'Consumo', icone: Gauge },
     { id: 'inadimplencia', label: 'Inadimplência', icone: FileWarning },
     { id: 'acordos', label: 'Acordos', icone: HandCoins },
