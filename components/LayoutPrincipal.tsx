@@ -52,6 +52,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle },
     { id: 'chat', label: 'Chat Portaria', icone: MessageCircle },
     { id: 'visitantes', label: 'Visitantes', icone: UserPlus },
+    { id: 'colaboradores', label: 'Colaboradores', icone: User },
     { id: 'pets', label: 'Pets', icone: PawPrint },
     { id: 'veiculos', label: 'Veículos', icone: Car },
     { id: 'marketplace', label: 'Marketplace', icone: ShoppingBag }
@@ -71,6 +72,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'avaliacao', label: 'Avaliações', icone: Star },
     { id: 'usuarios', label: 'Usuários', icone: Users },
     { id: 'visitantes', label: 'Visitantes', icone: UserPlus },
+    { id: 'colaboradores', label: 'Colaboradores', icone: User },
     { id: 'pets', label: 'Pets', icone: PawPrint },
     { id: 'veiculos', label: 'Veículos', icone: Car },
     { id: 'comunicados', label: 'Comunicados', icone: MessageSquare },

@@ -24,6 +24,7 @@ import { PaginaImportarLancamentos } from './paginas/PaginaImportarLancamentos';
 import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
 import { PaginaExtratoFinanceiro } from './paginas/PaginaExtratoFinanceiro';
+import { PaginaColaboradores } from './paginas/PaginaColaboradores';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -101,6 +102,8 @@ export function AplicativoCondominio() {
         return <PaginaUsuarios />;
       case 'visitantes':
         return <PaginaVisitantes />;
+      case 'colaboradores':
+        return <PaginaColaboradores />;
       case 'pets':
         return <PaginaPets />;
       case 'veiculos':
