@@ -23,6 +23,7 @@ import { PaginaConsumo } from './paginas/PaginaConsumo';
 import { PaginaImportarLancamentos } from './paginas/PaginaImportarLancamentos';
 import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
+import { PaginaExtratoFinanceiro } from './paginas/PaginaExtratoFinanceiro';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -94,6 +95,8 @@ export function AplicativoCondominio() {
         return <PaginaInadimplencia />;
       case 'acordos':
         return <PaginaAcordos />;
+      case 'extrato':
+        return <PaginaExtratoFinanceiro />;
       case 'usuarios':
         return <PaginaUsuarios />;
       case 'visitantes':
