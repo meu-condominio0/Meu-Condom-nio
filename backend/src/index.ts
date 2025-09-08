@@ -33,6 +33,12 @@ import {
   listarPendentes,
   listarHistoricoPorMorador
 } from './services/encomendaService';
+import {
+  listarFornecedores,
+  cadastrarFornecedor,
+  buscarFornecedores,
+  listarHistoricoFornecedores
+} from './services/fornecedorService';
 
 const app = express();
 app.use(express.json());
@@ -102,6 +108,30 @@ app.post('/colaboradores', (req, res) => {
   } catch (err: any) {
     res.status(403).json({ error: err.message });
   }
+});
+
+// --- Fornecedores ---
+
+app.get('/fornecedores', (_req, res) => {
+  res.json(listarFornecedores());
+});
+
+app.get('/fornecedores/busca', (req, res) => {
+  const q = String(req.query.q || '');
+  res.json(buscarFornecedores(q));
+});
+
+app.post('/fornecedores', (req, res) => {
+  try {
+    const fornecedor = cadastrarFornecedor(req.body, getRequester(req));
+    res.status(201).json(fornecedor);
+  } catch (err: any) {
+    res.status(403).json({ error: err.message });
+  }
+});
+
+app.get('/fornecedores/historico', (_req, res) => {
+  res.json(listarHistoricoFornecedores());
 });
 
 app.get('/boletos', (_req, res) => {
