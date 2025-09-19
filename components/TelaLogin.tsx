@@ -60,7 +60,7 @@ export function TelaLogin() {
             </div>
           </div>
           <div className="space-y-2">
-            <h1 className="text-3xl font-bold text-foreground">ResidenceApp</h1>
+            <h1 className="text-3xl font-bold text-foreground">MeuCondomínio</h1>
             <p className="text-muted-foreground">Portal do Condomínio</p>
           </div>
         </div>
@@ -198,7 +198,7 @@ export function TelaLogin() {
 
         {/* Footer */}
         <div className="text-center text-xs text-muted-foreground">
-          <p>© 2024 ResidenceApp. Sistema de gerenciamento condominial.</p>
+          <p>© 2025 MeuCondomínio. Sistema de gerenciamento condominial.</p>
         </div>
       </div>
     </div>

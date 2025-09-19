@@ -92,7 +92,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
                 <Building2 className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h2 className="font-semibold text-foreground text-lg">ResidenceApp</h2>
+                <h2 className="font-semibold text-foreground text-lg">Meu Condomínio</h2>
                 <p className="text-sm text-muted-foreground">Portal do Condomínio</p>
               </div>
             </div>
