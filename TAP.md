@@ -52,7 +52,7 @@
    ● Google Analytics – Ferramenta gratuita para analisar o tráfego e o comportamento dos usuários no site ou aplicativo, essencial para melhorar a experiência do usuário.
    Infraestrutura
    Servidores e Hospedagem:
-   ● Hostgator
+   ● Hostgator    
    Serviços de Backup:
    ● AWS S3, Google Cloud Storage ou serviços locais para armazenamento seguro de dados.
    Segurança:
