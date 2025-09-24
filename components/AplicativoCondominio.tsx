@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { usarContextoApp } from '../contexts/AppContext';
 import { TelaLogin } from './TelaLogin';
 import { LayoutPrincipal } from './LayoutPrincipal';
@@ -25,6 +25,7 @@ import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
 import { PaginaExtratoFinanceiro } from './paginas/PaginaExtratoFinanceiro';
 import { PaginaColaboradores } from './paginas/PaginaColaboradores';
+import { LandingPage, type LandingSection } from './paginas/LandingPage';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -49,6 +50,29 @@ function PaginaPlaceholder({ titulo }: { titulo: string }) {
 export function AplicativoCondominio() {
   const { usuarioLogado, estaCarregando } = usarContextoApp();
   const [paginaAtiva, setPaginaAtiva] = useState('inicio');
+  const [telaPublicaAtiva, setTelaPublicaAtiva] = useState<'landing' | 'login'>('landing');
+  const usuarioAnterior = useRef(usuarioLogado);
+
+  useEffect(() => {
+    if (!usuarioLogado && usuarioAnterior.current) {
+      setTelaPublicaAtiva('landing');
+    }
+
+    usuarioAnterior.current = usuarioLogado;
+  }, [usuarioLogado]);
+
+  const lidarComNavegacaoLanding = (destino: LandingSection) => {
+    if (destino === 'login') {
+      setTelaPublicaAtiva('login');
+      return;
+    }
+
+    const elementoAlvo = document.getElementById(`landing-${destino}`);
+
+    if (elementoAlvo) {
+      elementoAlvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   if (estaCarregando) {
     return (
@@ -59,7 +83,11 @@ export function AplicativoCondominio() {
   }
 
   if (!usuarioLogado) {
-    return <TelaLogin />;
+    if (telaPublicaAtiva === 'login') {
+      return <TelaLogin onVoltarInicio={() => setTelaPublicaAtiva('landing')} />;
+    }
+
+    return <LandingPage onNavigate={lidarComNavegacaoLanding} />;
   }
 
   const renderizarPagina = () => {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Building2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { Building2, Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
@@ -9,7 +9,11 @@ import { Separator } from './ui/separator';
 import { ToggleTema } from './ToggleTema';
 import { usarContextoApp } from '../contexts/AppContext';
 
-export function TelaLogin() {
+interface TelaLoginProps {
+  onVoltarInicio?: () => void;
+}
+
+export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
   const { fazerLogin } = usarContextoApp();
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -46,6 +50,19 @@ export function TelaLogin() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-accent/20 flex items-center justify-center p-4">
+      {onVoltarInicio && (
+        <div className="absolute top-4 left-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-2 text-muted-foreground hover:text-foreground"
+            onClick={onVoltarInicio}
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Voltar
+          </Button>
+        </div>
+      )}
       {/* Toggle tema no canto superior direito */}
       <div className="absolute top-4 right-4">
         <ToggleTema />

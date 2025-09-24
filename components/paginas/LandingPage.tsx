@@ -97,7 +97,10 @@ const noticeHighlights = [
 export function LandingPage({ onNavigate }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background text-foreground">
-      <header className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-primary/10 via-background to-background">
+      <header
+        id="landing-login"
+        className="relative overflow-hidden border-b border-border/60 bg-gradient-to-br from-primary/10 via-background to-background"
+      >
         {/* Hero com foco em confiança e inovação, reforçando o posicionamento premium do produto */}
         <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-16 md:flex-row md:items-center md:justify-between">
           <div className="max-w-2xl space-y-6">
@@ -197,7 +200,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
         </section>
 
-        <section aria-labelledby="avisos" className="grid gap-10 lg:grid-cols-[3fr_2fr]">
+        <section id="landing-avisos" aria-labelledby="avisos" className="grid gap-10 lg:grid-cols-[3fr_2fr]">
           <div className="space-y-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
@@ -316,6 +319,7 @@ interface ShortcutCardProps {
 const ShortcutCard: FC<ShortcutCardProps> = ({ item, onNavigate }) => {
   return (
     <button
+      id={`landing-${item.id}`}
       type="button"
       onClick={() => onNavigate?.(item.id)}
       className="group relative flex h-full flex-col gap-4 rounded-3xl border border-border/70 bg-card/80 p-6 text-left shadow-sm transition-transform hover:-translate-y-1 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2"
