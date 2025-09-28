@@ -12,6 +12,7 @@ import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
 import { Separator } from '../ui/separator';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { useResponsive } from '../../src/hooks/useResponsive';
 
 interface Usuario {
   id: string;
@@ -205,21 +206,22 @@ export function PaginaUsuarios() {
   };
 
   const totais = getTotaisPorStatus();
+  const { isMobile } = useResponsive();
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold text-foreground">Usuários Cadastrados</h1>
           <p className="text-muted-foreground">
             Gerencie os moradores e usuários do sistema
           </p>
         </div>
-        
+
         <Dialog open={modalNovoUsuario} onOpenChange={setModalNovoUsuario}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
+            <Button className="tap-target gap-2 h-12 w-full sm:w-auto">
               <Plus className="h-4 w-4" />
               Novo Usuário
             </Button>
@@ -233,7 +235,7 @@ export function PaginaUsuarios() {
             </DialogHeader>
             
             <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="nome">Nome completo</Label>
                   <Input
@@ -256,7 +258,7 @@ export function PaginaUsuarios() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="telefone">Telefone</Label>
                   <Input
@@ -282,7 +284,7 @@ export function PaginaUsuarios() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="apartamento">Apartamento</Label>
                   <Input
@@ -341,7 +343,7 @@ export function PaginaUsuarios() {
       </div>
 
       {/* Cards de resumo */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
@@ -421,12 +423,12 @@ export function PaginaUsuarios() {
                 placeholder="Buscar por nome, email, apartamento ou bloco..."
                 value={termoBusca}
                 onChange={(e) => setTermoBusca(e.target.value)}
-                className="pl-10"
+                className="pl-10 h-12"
               />
             </div>
-            
+
             <Select value={filtroStatus} onValueChange={setFiltroStatus}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="tap-target h-11 w-full md:w-48" aria-label="Filtrar por status">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -438,7 +440,7 @@ export function PaginaUsuarios() {
             </Select>
 
             <Select value={filtroTipo} onValueChange={setFiltroTipo}>
-              <SelectTrigger className="w-48">
+              <SelectTrigger className="tap-target h-11 w-full md:w-48" aria-label="Filtrar por tipo">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -460,16 +462,26 @@ export function PaginaUsuarios() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="overflow-x-auto">
-            <Table>
+          {isMobile && (
+            <p className="text-xs text-muted-foreground mb-3">
+              Arraste horizontalmente para visualizar todas as colunas prioritárias.
+            </p>
+          )}
+          <div
+            className="overflow-x-auto"
+            role="region"
+            aria-label="Tabela de usuários cadastrados"
+            tabIndex={0}
+          >
+            <Table className="min-w-[720px]">
               <TableHeader>
                 <TableRow>
-                  <TableHead>Usuário</TableHead>
-                  <TableHead>Contato</TableHead>
-                  <TableHead>Localização</TableHead>
-                  <TableHead>Tipo</TableHead>
+                  <TableHead className="min-w-[12rem]">Usuário</TableHead>
+                  <TableHead className="min-w-[12rem]">Contato</TableHead>
+                  <TableHead className="hidden lg:table-cell">Localização</TableHead>
+                  <TableHead className="hidden md:table-cell">Tipo</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Último Acesso</TableHead>
+                  <TableHead className="hidden xl:table-cell">Último Acesso</TableHead>
                   <TableHead className="text-right">Ações</TableHead>
                 </TableRow>
               </TableHeader>
@@ -488,76 +500,76 @@ export function PaginaUsuarios() {
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium">{usuario.nome}</p>
+                            <p className="font-medium truncate" title={usuario.nome}>{usuario.nome}</p>
                             {usuario.observacoes && (
-                              <p className="text-xs text-muted-foreground">
+                              <p className="text-xs text-muted-foreground truncate" title={usuario.observacoes}>
                                 {usuario.observacoes}
                               </p>
                             )}
                           </div>
                         </div>
                       </TableCell>
-                      
+
                       <TableCell>
                         <div className="space-y-1">
-                          <div className="flex items-center gap-1 text-sm">
+                          <div className="flex items-center gap-1 text-sm truncate" title={usuario.email}>
                             <Mail className="h-3 w-3 text-muted-foreground" />
-                            {usuario.email}
+                            <span className="truncate">{usuario.email}</span>
                           </div>
                           {usuario.telefone && (
-                            <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-1 text-sm text-muted-foreground truncate" title={usuario.telefone}>
                               <Phone className="h-3 w-3" />
-                              {usuario.telefone}
+                              <span className="truncate">{usuario.telefone}</span>
                             </div>
                           )}
                         </div>
                       </TableCell>
-                      
-                      <TableCell>
+
+                      <TableCell className="hidden lg:table-cell">
                         <div className="flex items-center gap-1">
                           <Building className="h-3 w-3 text-muted-foreground" />
-                          <span className="text-sm">
+                          <span className="text-sm truncate" title={`Apt ${usuario.apartamento} - Bloco ${usuario.bloco}`}>
                             Apt {usuario.apartamento} - Bloco {usuario.bloco}
                           </span>
                         </div>
                       </TableCell>
-                      
-                      <TableCell>
+
+                      <TableCell className="hidden md:table-cell">
                         <Badge variant={tipoInfo.variant}>
                           {tipoInfo.label}
                         </Badge>
                       </TableCell>
-                      
+
                       <TableCell>
                         <Badge variant={statusInfo.variant}>
                           {statusInfo.label}
                         </Badge>
                       </TableCell>
                       
-                      <TableCell className="text-sm text-muted-foreground">
-                        {usuario.dataUltimoAcesso === 'Nunca' ? 'Nunca' : 
+                      <TableCell className="hidden xl:table-cell text-sm text-muted-foreground">
+                        {usuario.dataUltimoAcesso === 'Nunca' ? 'Nunca' :
                          new Date(usuario.dataUltimoAcesso).toLocaleDateString('pt-BR')}
                       </TableCell>
-                      
+
                       <TableCell className="text-right">
-                        <div className="flex items-center gap-1 justify-end">
-                          <Button variant="ghost" size="sm">
+                        <div className="flex flex-wrap items-center gap-2 justify-end">
+                          <Button variant="ghost" className="tap-target">
                             <Edit className="h-3 w-3" />
                           </Button>
-                          
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
+
+                          <Button
+                            variant="ghost"
+                            className="tap-target"
                             onClick={() => handleRedefinirSenha(usuario.id)}
                           >
                             <Key className="h-3 w-3" />
                           </Button>
-                          
+
                           <Select
                             value={usuario.status}
                             onValueChange={(value: any) => handleAlterarStatus(usuario.id, value)}
                           >
-                            <SelectTrigger className="w-20 h-8">
+                            <SelectTrigger className="tap-target h-11 min-w-[5.5rem]" aria-label="Alterar status do usuário">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -569,7 +581,7 @@ export function PaginaUsuarios() {
                           
                           <AlertDialog>
                             <AlertDialogTrigger asChild>
-                              <Button variant="ghost" size="sm" className="text-destructive">
+                              <Button variant="ghost" className="tap-target text-destructive">
                                 <Trash2 className="h-3 w-3" />
                               </Button>
                             </AlertDialogTrigger>

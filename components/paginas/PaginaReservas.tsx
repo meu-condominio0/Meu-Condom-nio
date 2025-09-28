@@ -197,12 +197,12 @@ export function PaginaReservas() {
         
         <Dialog open={modalAberto} onOpenChange={setModalAberto}>
           <DialogTrigger asChild>
-            <Button className="gap-2 h-12 px-6">
+            <Button className="tap-target gap-2 h-12 px-6">
               <Plus className="h-5 w-5" />
               Nova Reserva
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="w-full max-w-[min(100vw-2rem,64rem)] sm:max-w-4xl max-h-[min(90vh,720px)] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Agendar Área Comum</DialogTitle>
               <DialogDescription>
@@ -216,7 +216,7 @@ export function PaginaReservas() {
                 <div className="space-y-3">
                   <Label>Selecione a Área</Label>
                   <Select value={areaSelecionada} onValueChange={setAreaSelecionada}>
-                    <SelectTrigger className="h-12">
+                    <SelectTrigger className="tap-target h-12">
                       <SelectValue placeholder="Escolha uma área comum" />
                     </SelectTrigger>
                     <SelectContent>

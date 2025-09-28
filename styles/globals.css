@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../src/styles/tap-target.css";
 @custom-variant dark (&:is(.dark *));
 
 :root {
