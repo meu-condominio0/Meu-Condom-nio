@@ -21,7 +21,8 @@ export function PaginaPlanoContas() {
   };
 
   const handleImportar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const arquivo = e.target.files?.[0];
+    const input = e.target;
+    const arquivo = input.files?.[0];
     if (!arquivo) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -32,6 +33,9 @@ export function PaginaPlanoContas() {
         toast.error('Não foi possível importar o arquivo. Confira se o arquivo está no formato correto.');
         console.error('Erro ao importar categorias do plano de contas:', error);
       }
+    };
+    reader.onerror = () => {
+      input.value = '';
     };
     reader.readAsText(arquivo);
   };
