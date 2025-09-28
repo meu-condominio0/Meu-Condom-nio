@@ -170,19 +170,19 @@ export function PaginaInicio({ onMudarPagina }: PaginaInicioProps) {
 
       {/* Ações rápidas - versão mais enxuta */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2>Ações Rápidas</h2>
-          <Button 
-            variant="outline" 
-            size="sm"
+          <Button
+            variant="outline"
             onClick={() => onMudarPagina(ehSindico ? 'paineis' : 'configuracoes')}
+            className="tap-target h-11"
           >
             <Settings className="h-4 w-4 mr-1" />
             {ehSindico ? 'Mais opções' : 'Configurações'}
           </Button>
         </div>
-        
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {acoesRapidas.map((acao) => {
             const Icone = acao.icone;
             return (
@@ -218,11 +218,15 @@ export function PaginaInicio({ onMudarPagina }: PaginaInicioProps) {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         {/* Feed/Atividades */}
         <div className="xl:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <h2>
               {ehSindico ? 'Atividades Recentes' : 'Feed do Condomínio'}
             </h2>
-            <Button variant="ghost" size="sm" onClick={() => onMudarPagina('comunicados')}>
+            <Button
+              variant="ghost"
+              onClick={() => onMudarPagina('comunicados')}
+              className="tap-target h-11"
+            >
               Ver todos <ArrowRight className="ml-1 h-3 w-3" />
             </Button>
           </div>

@@ -1,0 +1,14 @@
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+  padding-inline: clamp(0.5rem, 2vw, 1rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tap-target:focus-visible {
+  outline: 3px solid hsl(214, 84%, 56%);
+  outline-offset: 2px;
+}
