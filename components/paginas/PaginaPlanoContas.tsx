@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Download, Upload, Plus, Trash } from 'lucide-react';
 import { usarPlanoContas, CategoriaConta } from '../../contexts/PlanoContasContext';
+import { toast } from "sonner";
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../ui/select';
@@ -27,8 +28,9 @@ export function PaginaPlanoContas() {
       try {
         const dados = JSON.parse(ev.target?.result as string) as CategoriaConta[];
         importarCategorias(dados);
-      } catch {
-        // Ignorar erros de importação
+      } catch (error) {
+        toast.error('Não foi possível importar o arquivo. Confira se o arquivo está no formato correto.');
+        console.error('Erro ao importar categorias do plano de contas:', error);
       }
     };
     reader.readAsText(arquivo);
