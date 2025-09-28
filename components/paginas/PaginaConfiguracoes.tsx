@@ -245,14 +245,14 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
       {/* Informações do usuário */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center justify-center w-16 h-16 bg-primary rounded-full">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-center sm:text-left">
+            <div className="mx-auto sm:mx-0 flex items-center justify-center w-16 h-16 bg-primary rounded-full">
               <User className="h-8 w-8 text-primary-foreground" />
             </div>
-            <div className="flex-1">
+            <div className="flex-1 space-y-1">
               <h3 className="font-medium text-foreground">{usuarioLogado?.nome}</h3>
-              <p className="text-muted-foreground">{usuarioLogado?.email}</p>
-              <div className="flex items-center gap-2 mt-2">
+              <p className="text-muted-foreground break-all">{usuarioLogado?.email}</p>
+              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
                 <Badge variant="outline">
                   {ehSindico ? 'Síndico' : `Apartamento ${usuarioLogado?.apartamento}`}
                 </Badge>
@@ -261,7 +261,7 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
                 </Badge>
               </div>
             </div>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" className="tap-target h-11 w-full sm:w-auto">
               Editar Perfil
             </Button>
           </div>
@@ -288,14 +288,14 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
               <CardContent className="space-y-4">
                 {secao.items.map((item, index) => (
                   <div key={item.id}>
-                    <div 
-                      className={`flex items-center justify-between p-3 rounded-lg ${
+                    <div
+                      className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg ${
                         item.tipo === 'navegacao' ? 'hover:bg-accent cursor-pointer' : ''
                       }`}
                       onClick={() => handleItemClick(item)}
                     >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
                           <p className="font-medium text-foreground">{item.titulo}</p>
                           {item.badge && (
                             <Badge className="h-5 min-w-5 px-1.5 bg-destructive text-destructive-foreground">
@@ -304,18 +304,18 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
                           )}
                         </div>
                         {item.descricao && (
-                          <p className="text-sm text-muted-foreground mt-1">{item.descricao}</p>
+                          <p className="text-sm text-muted-foreground mt-1 break-words">{item.descricao}</p>
                         )}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center justify-end gap-2 sm:justify-normal">
                         {item.tipo === 'toggle' && (
-                          <Switch checked={item.valor} />
+                          <Switch checked={item.valor} aria-label={item.titulo} />
                         )}
                         {item.tipo === 'navegacao' && (
                           <ChevronRight className="h-4 w-4 text-muted-foreground" />
                         )}
                         {item.tipo === 'acao' && (
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" className="tap-target h-11">
                             Configurar
                           </Button>
                         )}
@@ -333,12 +333,12 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
       {/* Informações do app */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <p className="font-medium text-foreground">ResidenceApp</p>
               <p className="text-sm text-muted-foreground">Versão 2.1.0</p>
             </div>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" className="tap-target h-11 w-full sm:w-auto">
               <Download className="h-4 w-4 mr-2" />
               Exportar Dados
             </Button>

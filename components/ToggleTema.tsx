@@ -8,9 +8,8 @@ export function ToggleTema() {
   return (
     <Button
       variant="ghost"
-      size="icon"
       onClick={alternarTema}
-      className="h-9 w-9"
+      className="tap-target h-11 w-11 rounded-full"
       aria-label={temaDark ? 'Alternar para modo claro' : 'Alternar para modo escuro'}
     >
       {temaDark ? (
