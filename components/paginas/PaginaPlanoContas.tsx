@@ -20,7 +20,8 @@ export function PaginaPlanoContas() {
   };
 
   const handleImportar = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const arquivo = e.target.files?.[0];
+    const input = e.target;
+    const arquivo = input.files?.[0];
     if (!arquivo) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
@@ -29,7 +30,12 @@ export function PaginaPlanoContas() {
         importarCategorias(dados);
       } catch {
         // Ignorar erros de importação
+      } finally {
+        input.value = '';
       }
+    };
+    reader.onerror = () => {
+      input.value = '';
     };
     reader.readAsText(arquivo);
   };
