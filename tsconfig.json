@@ -10,9 +10,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "types": ["vite/client"]
+   "types": ["vite/client", "node"],
+
+    /* --- ADD THESE TWO LINES --- */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
+    /* --------------------------- */
+    
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules", "dist", "backend"]
 }
-
