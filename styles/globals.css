@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./_a11y-tokens.css";
 @custom-variant dark (&:is(.dark *));
 
 :root {

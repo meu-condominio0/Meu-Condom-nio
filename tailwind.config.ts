@@ -17,6 +17,7 @@ export default {
         neutral: {
           900: '#0F172A',
         },
+        'text-muted': 'rgba(255, 255, 255, 0.72)',
       },
       transitionDuration: {
         250: '250ms',
