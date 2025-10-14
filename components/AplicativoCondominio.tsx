@@ -52,6 +52,7 @@ export function AplicativoCondominio() {
   const [paginaAtiva, setPaginaAtiva] = useState('inicio');
   const [telaPublicaAtiva, setTelaPublicaAtiva] = useState<'landing' | 'login'>('landing');
   const usuarioAnterior = useRef(usuarioLogado);
+  const ehSindico = usuarioLogado?.tipo === 'sindico';
 
   useEffect(() => {
     if (!usuarioLogado && usuarioAnterior.current) {
@@ -60,6 +61,12 @@ export function AplicativoCondominio() {
 
     usuarioAnterior.current = usuarioLogado;
   }, [usuarioLogado]);
+
+  useEffect(() => {
+    if (ehSindico && paginaAtiva === 'consumo') {
+      setPaginaAtiva('inicio');
+    }
+  }, [ehSindico, paginaAtiva]);
 
   const lidarComNavegacaoLanding = (destino: LandingSection) => {
     if (destino === 'login') {
@@ -101,7 +108,7 @@ export function AplicativoCondominio() {
       case 'boletos':
         return <PaginaBoletos />;
       case 'consumo':
-        return <PaginaConsumo />;
+        return ehSindico ? <PaginaInicio onMudarPagina={setPaginaAtiva} /> : <PaginaConsumo />;
       case 'ocorrencias':
         return <PaginaOcorrencias />;
       case 'chat':
