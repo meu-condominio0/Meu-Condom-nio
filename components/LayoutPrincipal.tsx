@@ -68,7 +68,6 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'planoContas', label: 'Plano de Contas', icone: FileSpreadsheet },
     { id: 'importarLancamentos', label: 'Importar Lançamentos', icone: Upload },
     { id: 'extrato', label: 'Extrato', icone: ReceiptText },
-    { id: 'consumo', label: 'Consumo', icone: Gauge },
     { id: 'inadimplencia', label: 'Inadimplência', icone: FileWarning },
     { id: 'acordos', label: 'Acordos', icone: HandCoins },
     { id: 'avaliacao', label: 'Avaliações', icone: Star },
