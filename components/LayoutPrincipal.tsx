@@ -50,7 +50,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'comunicados', label: 'Comunicados', icone: MessageSquare, badge: 3 },
     { id: 'reservas', label: 'Reservas', icone: Calendar },
     { id: 'boletos', label: 'Boletos', icone: CreditCard, badge: 2 },
-    { id: 'consumo', label: 'Consumo', icone: Gauge },
+  // consumo removido conforme issue: remover tela de Consumo da área do morador
     { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle },
     { id: 'chat', label: 'Chat Portaria', icone: MessageCircle },
     { id: 'visitantes', label: 'Visitantes', icone: UserPlus },
@@ -68,7 +68,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'planoContas', label: 'Plano de Contas', icone: FileSpreadsheet },
     { id: 'importarLancamentos', label: 'Importar Lançamentos', icone: Upload },
     { id: 'extrato', label: 'Extrato', icone: ReceiptText },
-    { id: 'consumo', label: 'Consumo', icone: Gauge },
+  // consumo removido para síndico conforme decisão de UX
     { id: 'inadimplencia', label: 'Inadimplência', icone: FileWarning },
     { id: 'acordos', label: 'Acordos', icone: HandCoins },
     { id: 'avaliacao', label: 'Avaliações', icone: Star },

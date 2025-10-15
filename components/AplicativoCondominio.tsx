@@ -19,7 +19,6 @@ import { PaginaVisitantes } from './paginas/PaginaVisitantes';
 import { PaginaPets } from './paginas/PaginaPets';
 import { PaginaVeiculos } from './paginas/PaginaVeiculos';
 import { PaginaPlanoContas } from './paginas/PaginaPlanoContas';
-import { PaginaConsumo } from './paginas/PaginaConsumo';
 import { PaginaImportarLancamentos } from './paginas/PaginaImportarLancamentos';
 import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
@@ -100,8 +99,7 @@ export function AplicativoCondominio() {
         return <PaginaReservas />;
       case 'boletos':
         return <PaginaBoletos />;
-      case 'consumo':
-        return <PaginaConsumo />;
+      // Tela de Consumo removida da navegação — funcionalidade obsoleta
       case 'ocorrencias':
         return <PaginaOcorrencias />;
       case 'chat':

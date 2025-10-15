@@ -42,6 +42,7 @@ npm start
 
 ## Pré Requisitos
 Node 22.20.0
+
 Git 2.51.0 
 
 
