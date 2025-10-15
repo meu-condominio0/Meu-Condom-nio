@@ -20,6 +20,7 @@ import { PaginaPets } from './paginas/PaginaPets';
 import { PaginaVeiculos } from './paginas/PaginaVeiculos';
 import { PaginaPlanoContas } from './paginas/PaginaPlanoContas';
 import { PaginaImportarLancamentos } from './paginas/PaginaImportarLancamentos';
+import { PaginaConsumo } from './paginas/PaginaConsumo';
 import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
 import { PaginaExtratoFinanceiro } from './paginas/PaginaExtratoFinanceiro';
@@ -99,7 +100,14 @@ export function AplicativoCondominio() {
         return <PaginaReservas />;
       case 'boletos':
         return <PaginaBoletos />;
-      // Tela de Consumo removida da navegação — funcionalidade obsoleta
+      case 'consumo':
+        // permitir acesso somente se o usuário for síndico
+        if (usuarioLogado?.tipo === 'sindico') {
+          return <PaginaConsumo />;
+        }
+        // se não for síndico, redireciona para início
+        setPaginaAtiva('inicio');
+        return <PaginaInicio onMudarPagina={setPaginaAtiva} />;
       case 'ocorrencias':
         return <PaginaOcorrencias />;
       case 'chat':
