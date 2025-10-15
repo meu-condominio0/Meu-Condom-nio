@@ -50,7 +50,13 @@ function PaginaPlaceholder({ titulo }: { titulo: string }) {
 export function AplicativoCondominio() {
   const { usuarioLogado, estaCarregando } = usarContextoApp();
   const [paginaAtiva, setPaginaAtiva] = useState('inicio');
-  const [telaPublicaAtiva, setTelaPublicaAtiva] = useState<'landing' | 'login'>('landing');
+  const [telaPublicaAtiva, setTelaPublicaAtiva] = useState<'landing' | 'login'>(() => {
+    if (typeof window !== 'undefined' && window.location.pathname === '/entrar') {
+      return 'login';
+    }
+
+    return 'landing';
+  });
   const usuarioAnterior = useRef(usuarioLogado);
 
   useEffect(() => {
