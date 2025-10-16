@@ -1,0 +1,29 @@
+<svg width="320" height="220" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mock1Title mock1Desc">
+  <title id="mock1Title">Resumo financeiro</title>
+  <desc id="mock1Desc">Cartão com métricas de inadimplência, gráficos e botões inspirado no Marketing Screens.</desc>
+  <defs>
+    <linearGradient id="mock1-surface" x1="40" y1="20" x2="280" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <filter id="mock1-shadow" x="-40" y="-40" width="400" height="300" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+    <linearGradient id="mock1-accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+  </defs>
+  <g filter="url(#mock1-shadow)">
+    <rect x="32" y="24" width="256" height="172" rx="28" fill="url(#mock1-surface)" stroke="#1E293B" stroke-opacity="0.6"/>
+    <rect x="60" y="56" width="72" height="72" rx="20" fill="#0EA5E9" opacity="0.3"/>
+    <rect x="72" y="68" width="48" height="48" rx="14" fill="#38BDF8" opacity="0.8"/>
+    <rect x="140" y="56" width="120" height="16" rx="8" fill="#E0F2FE" opacity="0.85"/>
+    <rect x="140" y="80" width="96" height="12" rx="6" fill="#5EEAD4" opacity="0.75"/>
+    <rect x="140" y="100" width="88" height="12" rx="6" fill="#34D399" opacity="0.8"/>
+    <rect x="60" y="140" width="160" height="36" rx="18" fill="#020617" opacity="0.35" stroke="#1E293B" stroke-opacity="0.5"/>
+    <rect x="80" y="150" width="120" height="16" rx="8" fill="#22C55E" opacity="0.85"/>
+    <rect x="206" y="140" width="60" height="36" rx="18" fill="url(#mock1-accent)"/>
+    <rect x="218" y="152" width="36" height="12" rx="6" fill="#020617" opacity="0.8"/>
+  </g>
+</svg>
