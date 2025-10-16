@@ -6,7 +6,7 @@ import './styles/globals.css';
 const container = document.getElementById('root')!;
 createRoot(container).render(
   <React.StrictMode>
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <App />
     </ThemeProvider>
   </React.StrictMode>
