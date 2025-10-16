@@ -1,0 +1,24 @@
+<svg width="320" height="220" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="mock3Title mock3Desc">
+  <title id="mock3Title">Superpoderes do síndico</title>
+  <desc id="mock3Desc">Dashboard com indicadores de inadimplência, tarefas e alertas automáticos.</desc>
+  <defs>
+    <linearGradient id="mock3-surface" x1="36" y1="24" x2="284" y2="196" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111C3B"/>
+      <stop offset="1" stop-color="#1F2937"/>
+    </linearGradient>
+    <filter id="mock3-shadow" x="-40" y="-40" width="400" height="300" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#020617" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+  <g filter="url(#mock3-shadow)">
+    <rect x="28" y="24" width="264" height="172" rx="28" fill="url(#mock3-surface)" stroke="#1E293B" stroke-opacity="0.6"/>
+    <rect x="56" y="56" width="208" height="32" rx="16" fill="#0B1120" stroke="#1E293B" stroke-opacity="0.5"/>
+    <rect x="72" y="68" width="120" height="12" rx="6" fill="#F8FAFC" opacity="0.85"/>
+    <rect x="56" y="102" width="208" height="32" rx="16" fill="#020617" stroke="#1E293B" stroke-opacity="0.5"/>
+    <rect x="72" y="112" width="92" height="12" rx="6" fill="#38BDF8" opacity="0.75"/>
+    <rect x="56" y="140" width="100" height="40" rx="16" fill="#0EA5E9" opacity="0.3"/>
+    <rect x="80" y="152" width="56" height="12" rx="6" fill="#22C55E" opacity="0.85"/>
+    <rect x="168" y="140" width="96" height="40" rx="16" fill="#020617" stroke="#1E293B" stroke-opacity="0.5"/>
+    <rect x="184" y="152" width="64" height="12" rx="6" fill="#5EEAD4" opacity="0.7"/>
+  </g>
+</svg>
