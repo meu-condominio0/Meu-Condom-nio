@@ -104,7 +104,7 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 h-12"
                     required
                   />
                 </div>
@@ -121,14 +121,13 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
                     placeholder="Sua senha"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
-                    className="pl-10 pr-10"
+                    className="pl-10 pr-12 h-12"
                     required
                   />
                   <Button
                     type="button"
                     variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+                    className="tap-target absolute right-1 top-1 h-[calc(100%-0.5rem)] px-3 hover:bg-transparent"
                     onClick={() => setMostrarSenha(!mostrarSenha)}
                   >
                     {mostrarSenha ? (
@@ -177,22 +176,22 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
               </div>
 
               {/* Botões de demonstração */}
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <Button
                   variant="outline"
                   onClick={() => preencherCredenciais('morador')}
-                  className="h-11"
+                  className="tap-target h-11"
                   disabled={estaCarregando}
                 >
                   <div className="flex flex-col items-center">
                     <span className="text-xs font-medium">Demo Morador</span>
                   </div>
                 </Button>
-                
+
                 <Button
                   variant="outline"
                   onClick={() => preencherCredenciais('sindico')}
-                  className="h-11"
+                  className="tap-target h-11"
                   disabled={estaCarregando}
                 >
                   <div className="flex flex-col items-center">

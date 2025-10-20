@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-front
+    ports:
+      - "5173:80"
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backendpy
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backendpy:/app
+    env_file:
+      - ./backendpy/.env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.0
+    container_name: meu-condominio-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    env_file:
+      - ./backendpy/.env
+
+volumes:
+  mysql_data:

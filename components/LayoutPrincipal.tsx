@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { 
+import {
   Home,
   MessageSquare,
   Calendar,
@@ -33,6 +32,8 @@ import { Badge } from './ui/badge';
 import { ToggleTema } from './ToggleTema';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarProvider, SidebarTrigger } from './ui/sidebar';
 import { usarContextoApp } from '../contexts/AppContext';
+import { useResponsive } from '../src/hooks/useResponsive';
+import { Container } from '../src/components/Container';
 
 interface LayoutPrincipalProps {
   children: React.ReactNode;
@@ -42,6 +43,7 @@ interface LayoutPrincipalProps {
 
 export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: LayoutPrincipalProps) {
   const { usuarioLogado, fazerLogout } = usarContextoApp();
+  const { isMobile } = useResponsive();
 
   const menuMorador = [
     { id: 'inicio', label: 'Início', icone: Home },
@@ -182,27 +184,39 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
 
         <div className="flex-1 flex flex-col min-w-0">
           {/* Header */}
-          <header className="bg-background border-b border-border/50 px-4 sm:px-6 lg:px-8 py-5">
-            <div className="flex items-center justify-between max-w-7xl mx-auto">
-              <div className="flex items-center gap-4">
-                <SidebarTrigger className="lg:hidden" />
-                <div>
-                  <h1 className="text-xl sm:text-2xl font-semibold text-foreground">
+          <header className="bg-background border-b border-border/50 py-5">
+            <Container className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
+                <SidebarTrigger
+                  aria-label="Alternar menu de navegação"
+                  className="tap-target h-11 w-11 lg:hidden"
+                />
+                <div className="min-w-0">
+                  <h1 className="text-xl sm:text-2xl font-semibold text-foreground truncate">
                     {menuItens.find(item => item.id === paginaAtiva)?.label || 'Dashboard'}
                   </h1>
                   <p className="text-sm text-muted-foreground hidden sm:block">
-                    {new Date().toLocaleDateString('pt-BR', { 
-                      weekday: 'long', 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
+                    {new Date().toLocaleDateString('pt-BR', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
                     })}
                   </p>
+                  {isMobile && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {new Date().toLocaleDateString('pt-BR')}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                <Button variant="ghost" size="sm" className="relative">
+              <div className="flex items-center gap-2 sm:gap-3">
+                <Button
+                  variant="ghost"
+                  className="tap-target h-11 w-11 relative"
+                  aria-label="Ver notificações"
+                >
                   <Bell className="h-4 w-4" />
                   <Badge className="absolute -top-1 -right-1 h-5 w-5 p-0 text-xs bg-destructive text-destructive-foreground">
                     3
@@ -210,16 +224,14 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
                 </Button>
                 <ToggleTema />
               </div>
-            </div>
+            </Container>
           </header>
 
           {/* Conteúdo principal */}
           <main className="flex-1 overflow-auto bg-background">
-            <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-none">
-              <div className="max-w-7xl mx-auto">
-                {children}
-              </div>
-            </div>
+            <Container className="py-4 sm:py-6 lg:py-8">
+              {children}
+            </Container>
           </main>
         </div>
       </div>
