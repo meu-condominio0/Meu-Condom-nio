@@ -1,0 +1,75 @@
+<svg width="960" height="800" viewBox="0 0 960 800" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="heroTitle heroDesc">
+  <title id="heroTitle">Aplicativo MeuCondomínio com dashboards e marketplace</title>
+  <desc id="heroDesc">Mockup realista inspirado no pacote Marketing Screens com telas móveis exibindo métricas financeiras e marketplace.</desc>
+  <defs>
+    <linearGradient id="hero-surface" x1="120" y1="60" x2="840" y2="720" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111C3B"/>
+      <stop offset="0.45" stop-color="#0F172A"/>
+      <stop offset="1" stop-color="#020617"/>
+    </linearGradient>
+    <radialGradient id="hero-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(680 160) rotate(135) scale(420 360)">
+      <stop offset="0" stop-color="#38BDF8" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="hero-glow-2" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(280 620) rotate(35) scale(360 320)">
+      <stop offset="0" stop-color="#22C55E" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#020617" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="hero-shadow" x="-60" y="-60" width="1080" height="920" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="45" stdDeviation="45" flood-color="#020617" flood-opacity="0.55"/>
+    </filter>
+    <linearGradient id="hero-card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#111C3B"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <linearGradient id="hero-pill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22C55E"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="hero-badge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#F8FAFC" stop-opacity="0.75"/>
+      <stop offset="1" stop-color="#E0F2FE" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <rect x="60" y="40" width="840" height="720" rx="64" fill="url(#hero-surface)"/>
+  <ellipse cx="690" cy="170" rx="340" ry="240" fill="url(#hero-glow)"/>
+  <ellipse cx="300" cy="600" rx="320" ry="220" fill="url(#hero-glow-2)"/>
+  <g filter="url(#hero-shadow)">
+    <rect x="280" y="120" width="240" height="520" rx="48" fill="#050C26" stroke="#1E293B" stroke-width="2"/>
+    <rect x="300" y="170" width="200" height="420" rx="32" fill="#0F172A"/>
+    <rect x="312" y="186" width="176" height="42" rx="12" fill="#111C3B" stroke="#1E293B" stroke-width="1"/>
+    <rect x="328" y="200" width="88" height="16" rx="8" fill="#22D3EE"/>
+    <rect x="328" y="232" width="124" height="12" rx="6" fill="#38BDF8" opacity="0.8"/>
+    <rect x="312" y="248" width="176" height="118" rx="20" fill="#020617" stroke="#1E293B" stroke-opacity="0.7"/>
+    <rect x="328" y="268" width="144" height="16" rx="8" fill="#22C55E"/>
+    <rect x="328" y="296" width="120" height="12" rx="6" fill="#38BDF8" opacity="0.6"/>
+    <rect x="312" y="378" width="176" height="104" rx="20" fill="#050C26" stroke="#1E293B" stroke-opacity="0.6"/>
+    <rect x="332" y="400" width="136" height="14" rx="7" fill="#A855F7" opacity="0.9"/>
+    <rect x="332" y="426" width="120" height="10" rx="5" fill="#38BDF8" opacity="0.7"/>
+    <rect x="312" y="500" width="176" height="60" rx="18" fill="#0EA5E9" opacity="0.25"/>
+  </g>
+  <g filter="url(#hero-shadow)">
+    <rect x="480" y="220" width="320" height="260" rx="40" fill="url(#hero-card)" stroke="#334155" stroke-width="1.5"/>
+    <rect x="512" y="256" width="256" height="36" rx="18" fill="#0B1120" stroke="#1E293B" stroke-width="1"/>
+    <rect x="528" y="268" width="120" height="12" rx="6" fill="#22C55E"/>
+    <rect x="512" y="312" width="256" height="120" rx="24" fill="#050C26" stroke="#1E293B" stroke-opacity="0.6"/>
+    <rect x="532" y="332" width="104" height="64" rx="18" fill="#0EA5E9" opacity="0.35"/>
+    <rect x="644" y="332" width="92" height="20" rx="10" fill="#22C55E" opacity="0.75"/>
+    <rect x="644" y="364" width="132" height="16" rx="8" fill="#38BDF8" opacity="0.65"/>
+    <rect x="512" y="448" width="150" height="24" rx="12" fill="#22D3EE"/>
+    <rect x="668" y="448" width="100" height="24" rx="12" fill="#34D399"/>
+  </g>
+  <g filter="url(#hero-shadow)">
+    <rect x="560" y="520" width="260" height="92" rx="36" fill="url(#hero-pill)"/>
+    <rect x="592" y="540" width="52" height="52" rx="26" fill="#020617" opacity="0.75"/>
+    <rect x="656" y="548" width="128" height="20" rx="10" fill="#F8FAFC" opacity="0.92"/>
+    <rect x="656" y="574" width="96" height="12" rx="6" fill="#E2E8F0" opacity="0.7"/>
+  </g>
+  <g opacity="0.75">
+    <rect x="140" y="210" width="180" height="140" rx="32" fill="#1E3A8A" opacity="0.3"/>
+    <rect x="160" y="238" width="84" height="16" rx="8" fill="#E0F2FE" opacity="0.8"/>
+    <rect x="160" y="268" width="120" height="14" rx="7" fill="#34D399" opacity="0.65"/>
+    <rect x="120" y="520" width="220" height="130" rx="36" fill="#22D3EE" opacity="0.25"/>
+    <rect x="150" y="560" width="120" height="16" rx="8" fill="#F8FAFC" opacity="0.6"/>
+  </g>
+</svg>
