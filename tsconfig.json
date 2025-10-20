@@ -17,15 +17,37 @@
       "@testing-library/jest-dom",
       "vite/client",
       "vitest"
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@/components/ui/*": [
+        "Marketing Screens Package/src/components/ui/*"
+      ]
+    }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "components/marketing/**/*.ts",
+    "components/marketing/**/*.tsx",
+    "components/marketing/**/*.d.ts",
+    "components/home/**/*.ts",
+    "components/home/**/*.tsx",
+    "components/**/*.d.ts",
+    "vitest.config.ts",
+    "vite.config.ts",
+    "react.d.ts",
+    "next-themes.d.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
-    "backend"
+    "backend",
+    "components/paginas",
+    "components/paginas/**/*",
+    "src/pages/HomeNew.tsx"
   ]
 }
