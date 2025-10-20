@@ -1,235 +1,105 @@
 import { useEffect } from 'react';
-import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
+import type { MarketingPageProps } from './MarketingLayout';
+import { Navbar } from './landing/Navbar';
+import { PillHighlight } from './landing/PillHighlight';
+import { MarketplaceCard } from './landing/MarketplaceCard';
+import { Button } from './landing/Button';
+import type { Product } from './landing/types';
 
-const HERO_FEATURES = [
+const products: Product[] = [
   {
-    title: 'Financeiro turbo',
-    description:
-      'Boletos com registro automático, conciliação em tempo real e projeção de fluxo de caixa para decisões sem sustos.',
+    id: '1',
+    title: 'iPhone 13 Pro 256GB',
+    price: 'R$ 3.200',
+    condition: 'Usado',
+    tower: 'Torre A',
+    rating: 4.9,
+    imageUrl: '/img/inicio/marketplace-iphone.svg',
   },
   {
-    title: 'Comunicação inteligente',
-    description:
-      'Envie comunicados segmentados, automatize avisos e acompanhe a leitura em tempo real com recibos digitais.',
-  },
-  {
-    title: 'Operações conectadas',
-    description:
-      'Reservas, ocorrências, assembleias digitais e marketplace funcionando de ponta a ponta em uma só plataforma.',
-  },
-];
-
-const MODULES = [
-  {
-    title: 'Gestão financeira completa',
-    points: [
-      'Fluxo de caixa unificado',
-      'Prestação de contas com um clique',
-      'Integração bancária automática',
-    ],
-  },
-  {
-    title: 'Experiência premium para moradores',
-    points: [
-      'Aplicativo com marca do condomínio',
-      'Atendimento 24/7 com assistente virtual',
-      'Marketplace interno para serviços e produtos',
-    ],
-  },
-  {
-    title: 'Superpoderes para o síndico',
-    points: [
-      'Dashboards com indicadores de inadimplência',
-      'Workflows automatizados para tarefas recorrentes',
-      'Biblioteca de documentos sempre atualizada',
-    ],
-  },
-];
-
-const METRICS = [
-  { value: '92%', label: 'redução no tempo de fechamento mensal' },
-  { value: '3x', label: 'mais engajamento dos moradores no app' },
-  { value: '48h', label: 'para colocar o condomínio em produção' },
-  { value: '∞', label: 'integrações com bancos e fabricantes de IoT' },
-];
-
-const TESTIMONIALS = [
-  {
-    quote:
-      '“Migramos 12 condomínios em menos de uma semana. O MeuCondomínio trouxe transparência para o conselho e reduziu em 63% as visitas presenciais ao escritório.”',
-    author: 'Marina Lopes — Gestora na Vizinhança Administradora',
-  },
-  {
-    quote:
-      '“O marketplace interno virou uma fonte de renda para os moradores. Já foram mais de 800 serviços contratados sem sair do aplicativo.”',
-    author: 'André Cavalcanti — Síndico profissional',
+    id: '2',
+    title: 'Sofá 3 lugares',
+    price: 'R$ 1.500',
+    condition: 'Usado',
+    tower: 'Torre B',
+    rating: 5.0,
+    imageUrl: '/img/inicio/marketplace-sofa.svg',
   },
 ];
 
 export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'MeuCondomínio — Gestão completa para condomínios';
+    document.title = 'MeuCondomínio — Administre seu condomínio sem fricção';
   }, []);
 
+  const handleNavigate = (path: Parameters<typeof onNavigate>[0]) => () => {
+    onNavigate(path);
+  };
+
   return (
-    <MarketingLayout currentPath="/" onNavigate={onNavigate} onLogin={onLogin}>
-      <section className="marketing-section" aria-labelledby="hero-heading">
-        <span className="marketing-eyebrow" aria-hidden="true">
-          • lançamento • experiência premium
-        </span>
-        <h1 id="hero-heading" className="marketing-title">
-          Gestão de condomínio que dá superpoderes ao síndico — e uma vida mais simples aos moradores.
-        </h1>
-        <p className="marketing-lead">
-          Financeiro afiado, comunicação fluida e operações sob controle.
-          Agora com <strong>Marketplace no condomínio</strong>: venda e contrate serviços sem sair do app.
-        </p>
+    <div
+      className="relative min-h-screen overflow-hidden text-[#0B0F12]"
+      style={{
+        backgroundImage:
+          'radial-gradient(120% 120% at 15% -10%, rgba(30, 107, 87, 0.12), transparent 55%), linear-gradient(180deg, #FFFFFF 0%, #F6FBF9 100%)',
+      }}
+    >
+      <Navbar currentPath="/" onNavigate={onNavigate} onLogin={onLogin} />
 
-        <div className="marketing-hero-actions" role="group" aria-label="Ações principais">
-          <a href="/comece" onClick={(event) => { event.preventDefault(); onNavigate('/comece'); }}>
-            Começar agora
-          </a>
-          <a
-            className="secondary"
-            href="/demo"
-            onClick={(event) => {
-              event.preventDefault();
-              onNavigate('/demo');
-            }}
-          >
-            Ver demonstração
-          </a>
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="destaques-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Feito para administradoras modernas
-          </span>
-          <h2 id="destaques-heading" className="marketing-tagline">
-            Tudo o que você precisa para comandar um condomínio de forma impecável.
-          </h2>
-        </div>
-
-        <div className="marketing-grid">
-          {HERO_FEATURES.map((feature) => (
-            <article key={feature.title} className="marketing-card" aria-label={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="marketplace-heading">
-        <div className="marketing-highlight-card marketing-card" style={{ gap: 20 }}>
-          <span className="marketing-badge" aria-hidden="true">
-            Diferencial exclusivo
-          </span>
-          <h2 id="marketplace-heading" className="marketing-tagline">
-            Marketplace do condomínio conectado ao financeiro.
-          </h2>
-          <p className="marketing-subtitle">
-            Moradores vendem produtos, oferecem serviços e contratam especialistas com a segurança da portaria.
-            Todos os repasses e taxas são conciliados automaticamente com o caixa do condomínio.
-          </p>
-          <div className="marketing-pill-list">
-            <span className="marketing-pill">Classificados com aprovação em 1 clique</span>
-            <span className="marketing-pill">Pagamentos via PIX e cartão</span>
-            <span className="marketing-pill">Histórico de reputação e avaliações</span>
-            <span className="marketing-pill">Cupons para fornecedores parceiros</span>
-          </div>
-          <div className="marketing-hero-actions" role="group" aria-label="Ações do marketplace">
-            <a
-              href="/marketplace"
-              onClick={(event) => {
-                event.preventDefault();
-                onNavigate('/marketplace');
-              }}
-            >
-              Explorar marketplace
-            </a>
-            <a
-              className="secondary"
-              href="/entrar"
-              onClick={(event) => {
-                event.preventDefault();
-                onLogin();
-              }}
-            >
-              Entrar para anunciar
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="modulos-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Plataforma modular
-          </span>
-          <h2 id="modulos-heading" className="marketing-tagline">
-            Escolha os módulos que fazem sentido hoje e ative novos recursos quando precisar.
-          </h2>
-        </div>
-
-        <div className="marketing-grid-2">
-          {MODULES.map((module) => (
-            <article key={module.title} className="marketing-card" aria-label={module.title}>
-              <h3>{module.title}</h3>
-              <ul className="marketing-list">
-                {module.points.map((point) => (
-                  <li key={point}>
-                    <strong>•</strong>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="metricas-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Resultados comprovados
-          </span>
-          <h2 id="metricas-heading" className="marketing-tagline">
-            Impacto real nos números do condomínio.
-          </h2>
-        </div>
-
-        <div className="marketing-metrics">
-          {METRICS.map((metric) => (
-            <div key={metric.value} className="marketing-metric-card" aria-label={metric.label}>
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
+      <main className="pt-28 pb-16 md:pt-32" role="main">
+        <section className="mx-auto max-w-[1280px] px-4 md:px-8">
+          <div className="grid min-h-[560px] grid-cols-1 items-center gap-12 py-14 md:py-24 lg:grid-cols-2">
+            <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
+              <h1 className="max-w-[14ch] text-4xl font-bold tracking-tight text-[#0B0F12] sm:text-5xl md:text-6xl">
+                Administre seu condomínio
+                <span className="block">sem fricção</span>
+              </h1>
+              <p className="mt-6 text-lg text-slate-600 md:text-xl">
+                Boletos, reservas, chamados e portaria — em 3 cliques.
+              </p>
+              <div className="flex justify-center lg:justify-start">
+                <PillHighlight
+                  icon={<ShieldCheck className="size-5 text-emerald-600" strokeWidth={1.75} />}
+                  className="mt-8 w-full max-w-xl text-left"
+                >
+                  + Marketplace de Moradores → venda de produtos e oferta de serviços entre vizinhos, com proteção e regras do
+                  condomínio.
+                </PillHighlight>
+              </div>
+              <div className="mt-10 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <Button
+                  icon={<ArrowRight className="size-5" strokeWidth={1.75} />}
+                  onClick={handleNavigate('/marketplace')}
+                  className="w-full sm:w-auto"
+                >
+                  Explorar Marketplace
+                </Button>
+                <Button variant="secondary" onClick={handleNavigate('/sobre')} className="w-full sm:w-auto">
+                  Como funciona
+                </Button>
+              </div>
             </div>
-          ))}
-        </div>
-      </section>
 
-      <section className="marketing-section" aria-labelledby="depoimentos-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Histórias reais
-          </span>
-          <h2 id="depoimentos-heading" className="marketing-tagline">
-            Síndicos e administradoras que transformaram a rotina com o MeuCondomínio.
-          </h2>
-        </div>
+            <div className="flex justify-center lg:justify-end">
+              <MarketplaceCard products={products} />
+            </div>
+          </div>
 
-        <div className="marketing-columns-balanced">
-          {TESTIMONIALS.map((testimonial) => (
-            <figure key={testimonial.author} className="marketing-card" aria-label={`Depoimento de ${testimonial.author}`}>
-              <blockquote className="marketing-quote">{testimonial.quote}</blockquote>
-              <cite>{testimonial.author}</cite>
-            </figure>
-          ))}
-        </div>
-      </section>
-    </MarketingLayout>
+          <div className="mt-12 flex flex-col items-stretch gap-3 sm:flex-row sm:justify-center lg:justify-start">
+            <Button
+              icon={<ArrowRight className="size-5" strokeWidth={1.75} />}
+              onClick={handleNavigate('/marketplace')}
+              className="w-full sm:w-auto"
+            >
+              Explorar Marketplace
+            </Button>
+            <Button variant="secondary" onClick={handleNavigate('/sobre')} className="w-full sm:w-auto">
+              Como funciona
+            </Button>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
