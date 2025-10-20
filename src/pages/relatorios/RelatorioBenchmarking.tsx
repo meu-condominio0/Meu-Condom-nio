@@ -32,7 +32,7 @@ export default function RelatorioBenchmarking() {
             <tr>
               <td className="border p-2 font-semibold">uCondo</td>
               <td className="border p-2">Comunicação, reservas e gestão integrada.</td>
-              <td className="border p-2">Condomínios médios e pequenos.</td>
+              <td className="border p-2">Condomínios médios e pequenos.</td>  
             </tr>
             <tr>
               <td className="border p-2 font-semibold">CondoConta</td>
