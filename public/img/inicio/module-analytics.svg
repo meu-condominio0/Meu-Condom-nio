@@ -1,0 +1,55 @@
+<svg width="420" height="320" viewBox="0 0 420 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="analyticsTitle analyticsDesc">
+  <title id="analyticsTitle">Dashboards financeiros do MeuCondomínio</title>
+  <desc id="analyticsDesc">Cartão com gráfico de barras, comparativo de inadimplência e indicador de fluxo de caixa positivo.</desc>
+  <defs>
+    <linearGradient id="analytics-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F3D2E" />
+      <stop offset="1" stop-color="#145943" />
+    </linearGradient>
+    <linearGradient id="analytics-card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#EFF8F3" />
+    </linearGradient>
+    <linearGradient id="analytics-bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#20C997" />
+      <stop offset="1" stop-color="#0BA67C" />
+    </linearGradient>
+    <filter id="analytics-shadow" x="-40" y="-40" width="500" height="400" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#0B2B20" flood-opacity="0.28" />
+    </filter>
+  </defs>
+  <rect width="420" height="320" rx="36" fill="url(#analytics-bg)" />
+  <g transform="translate(36 44)" filter="url(#analytics-shadow)">
+    <rect width="348" height="232" rx="28" fill="url(#analytics-card)" />
+    <g transform="translate(32 36)">
+      <rect width="120" height="56" rx="16" fill="#F2F9F5" />
+      <rect x="16" y="12" width="72" height="12" rx="6" fill="#145943" opacity="0.45" />
+      <rect x="16" y="32" width="92" height="12" rx="6" fill="#20C997" opacity="0.75" />
+    </g>
+    <g transform="translate(180 36)">
+      <rect width="136" height="56" rx="16" fill="#F8FBF9" />
+      <rect x="16" y="12" width="88" height="12" rx="6" fill="#145943" opacity="0.35" />
+      <g transform="translate(12 32)">
+        <rect y="0" width="20" height="16" rx="4" fill="#0F3D2E" opacity="0.15" />
+        <rect x="28" width="20" height="24" rx="4" fill="#20C997" opacity="0.6" />
+        <rect x="56" width="20" height="32" rx="4" fill="#20C997" />
+        <rect x="84" width="20" height="20" rx="4" fill="#20C997" opacity="0.7" />
+      </g>
+    </g>
+    <g transform="translate(32 112)">
+      <rect width="284" height="100" rx="20" fill="#F7FAF9" />
+      <rect x="20" y="20" width="72" height="60" rx="12" fill="#ECF7F3" />
+      <rect x="40" y="32" width="32" height="36" rx="8" fill="url(#analytics-bar)" />
+      <rect x="112" y="28" width="68" height="12" rx="6" fill="#0F3D2E" opacity="0.22" />
+      <rect x="112" y="48" width="92" height="12" rx="6" fill="#20C997" opacity="0.65" />
+      <rect x="112" y="68" width="52" height="12" rx="6" fill="#0F3D2E" opacity="0.18" />
+      <rect x="220" y="24" width="44" height="52" rx="12" fill="#20C997" opacity="0.25" />
+      <path d="M224 60c12-10 22-18 32-24 12-6 18-10 24-20" fill="none" stroke="#20C997" stroke-width="6" stroke-linecap="round" />
+    </g>
+    <g transform="translate(32 224)">
+      <rect width="112" height="20" rx="10" fill="#D7ECE3" />
+      <rect x="128" width="92" height="20" rx="10" fill="#D7ECE3" />
+      <rect x="236" width="80" height="20" rx="10" fill="#D7ECE3" />
+    </g>
+  </g>
+</svg>
