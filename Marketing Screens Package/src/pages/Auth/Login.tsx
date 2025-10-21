@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { CSSProperties, FormEvent } from 'react';
 import Logo from '../../components/Logo';
 import ThemeToggle from '../../components/ThemeToggle';
 import { Button } from '../../components/ui/button';
@@ -8,13 +8,31 @@ interface LoginProps {
   onNavigateHome?: () => void;
 }
 
+const loginThemeStyles: CSSProperties = {
+  '--bg': '#FFFFFF',
+  '--surface': '#FFFFFF',
+  '--surface-soft': '#F6F7F8',
+  '--text-title': '#111111',
+  '--text-body': '#374151',
+  '--text-muted': '#6B7280',
+  '--border-soft': 'rgba(17,17,17,0.08)',
+  '--brand': '#0F3D2E',
+  '--brand-600': '#145943',
+  '--accent': '#20C997',
+  '--input-background': '#FFFFFF',
+  '--switch-background': 'rgba(17,17,17,0.12)'
+};
+
 export default function Login({ onNavigateHome }: LoginProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 py-8 text-[var(--text-body)]">
+    <main
+      style={loginThemeStyles}
+      className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 py-8 text-[var(--text-body)]"
+    >
       <section className="w-full max-w-md rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] p-8 shadow-e4">
         <header className="mb-6 flex items-center justify-between gap-4">
           <Logo onClick={onNavigateHome} />
