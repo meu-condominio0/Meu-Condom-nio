@@ -131,7 +131,7 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
   });
 
   return (
-    <div className="w-full bg-white py-12">
+    <div className="w-full min-h-screen bg-[var(--bg)] text-[var(--text-body)] py-12">
       <div className="container-custom">
         {/* Hero */}
         <div className="text-center mb-12">
@@ -144,20 +144,20 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
             <Button
               onClick={() => setHowItWorksOpen(true)}
               size="lg"
-              className="bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-600)] text-white"
+              className="h-12 rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             >
               Como funciona
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight aria-hidden="true" className="ml-2 h-5 w-5" focusable="false" />
             </Button>
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-soft)] rounded-full">
-              <Shield className="w-4 h-4 text-[var(--brand-accent)]" />
+            <div className="flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-4 py-2">
+              <Shield aria-hidden="true" className="h-4 w-4 text-[var(--brand-accent)]" focusable="false" />
               <span className="text-[var(--ink-body)]">Taxa opcional do condomínio</span>
             </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-soft)] rounded-full">
-              <CheckCircle2 className="w-4 h-4 text-[var(--brand-accent)]" />
+            <div className="flex items-center gap-2 rounded-full bg-[var(--surface-soft)] px-4 py-2">
+              <CheckCircle2 aria-hidden="true" className="h-4 w-4 text-[var(--brand-accent)]" focusable="false" />
               <span className="text-[var(--ink-body)]">Suporte validado</span>
             </div>
           </div>
@@ -166,13 +166,13 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
         {/* Search */}
         <div className="max-w-2xl mx-auto mb-12">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--ink-muted)]" />
+            <Search aria-hidden="true" className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[var(--ink-muted)]" focusable="false" />
             <Input
               type="text"
               placeholder="Buscar produtos ou serviços..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-14 rounded-2xl"
+              className="h-12 rounded-xl border border-[var(--border-soft)] bg-[var(--surface)] pl-12 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
             />
           </div>
         </div>
@@ -204,8 +204,8 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
             </div>
           ) : (
             <div className="text-center py-16">
-              <div className="w-16 h-16 bg-[var(--bg-soft)] rounded-full flex items-center justify-center mx-auto mb-4">
-                <Package className="w-8 h-8 text-[var(--ink-muted)]" />
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--surface-soft)]">
+                <Package aria-hidden="true" className="h-8 w-8 text-[var(--ink-muted)]" focusable="false" />
               </div>
               <h3 className="mb-2">Nenhum anúncio encontrado</h3>
               <p className="text-[var(--ink-muted)] mb-4">
@@ -216,7 +216,7 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
         </div>
 
         {/* Metrics */}
-        <div className="py-16 bg-[var(--bg-soft)] rounded-2xl mb-16">
+        <div className="mb-16 rounded-2xl bg-[var(--surface-soft)] py-16">
           <div className="text-center mb-12">
             <h2 className="mb-4">Comunidade ativa</h2>
           </div>
@@ -230,9 +230,17 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
         {/* CTA Final */}
         <div className="text-center">
           <h2 className="mb-6">Descubra produtos e serviços</h2>
-          <p className="text-lg text-[var(--ink-body)] mb-8 max-w-2xl mx-auto">
-            Conecte-se com seus vizinhos e encontre o que você precisa com segurança e praticidade
+          <p className="mx-auto mb-8 max-w-2xl text-lg text-[var(--ink-body)]">
+            Conecte-se com seus vizinhos e encontre o que você precisa com segurança e praticidade.
           </p>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => setHowItWorksOpen(true)}
+              className="h-12 min-w-[180px] rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+            >
+              Como funciona
+            </Button>
+          </div>
         </div>
       </div>
 

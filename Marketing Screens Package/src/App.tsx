@@ -16,6 +16,7 @@ import { LeadForm } from './components/LeadForm';
 import { SupportForm } from './components/SupportForm';
 import { AppModal } from './components/AppModal';
 import { Toaster } from './components/ui/sonner';
+import Login from './pages/Auth/Login';
 
 type Page =
   | 'home'
@@ -27,7 +28,8 @@ type Page =
   | 'blogPost'
   | 'marketplace-moradores'
   | 'marketplace-create'
-  | 'marketplace-listing';
+  | 'marketplace-listing'
+  | 'login';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
@@ -84,12 +86,16 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const isLoginPage = currentPage === 'login';
+
   return (
-    <div className="min-h-screen flex flex-col bg-white">
-      <Header
-        onNavigate={handleNavigate}
-        onOpenLeadForm={() => setLeadFormOpen(true)}
-      />
+    <div className="flex min-h-screen flex-col bg-[var(--bg)] text-[var(--text-body)]">
+      {!isLoginPage && (
+        <Header
+          onNavigate={handleNavigate}
+          currentPage={currentPage}
+        />
+      )}
 
       <main className="flex-1">
         {currentPage === 'home' && (
@@ -150,11 +156,18 @@ export default function App() {
         {currentPage === 'marketplace-listing' && (
           <MarketplaceListingPage listingId={selectedListingId} onBack={handleBackToMarketplace} />
         )}
+
+        {currentPage === 'login' && (
+          <Login onNavigateHome={() => handleNavigate('home')} />
+        )}
       </main>
 
-      <Footer onNavigate={handleNavigate} />
-      
-      <FloatingWhatsApp />
+      {!isLoginPage && (
+        <>
+          <Footer onNavigate={handleNavigate} />
+          <FloatingWhatsApp />
+        </>
+      )}
 
       <LeadForm
         open={leadFormOpen}

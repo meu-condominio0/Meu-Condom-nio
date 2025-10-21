@@ -1,95 +1,133 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { Menu, X, LogIn } from 'lucide-react';
-import { Logo } from './Logo';
+import Logo from './Logo';
+import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
   onNavigate?: (page: string) => void;
-  onOpenLeadForm?: () => void;
+  currentPage?: string;
 }
 
-export function Header({ onNavigate, onOpenLeadForm }: HeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const NAV_ITEMS = [
+  { label: 'Soluções', page: 'solucoes' },
+  { label: 'Preços', page: 'precos' },
+  { label: 'Sobre', page: 'sobre' },
+  { label: 'Suporte', page: 'suporte' },
+  { label: 'Blog', page: 'blog' },
+  { label: 'Marketplace', page: 'marketplace-moradores' },
+] as const;
 
-  const navItems = [
-    { label: 'Soluções', page: 'solucoes' },
-    { label: 'Preços', page: 'precos' },
-    { label: 'Sobre', page: 'sobre' },
-    { label: 'Suporte', page: 'suporte' },
-    { label: 'Blog', page: 'blog' },
-    { label: 'Marketplace', page: 'marketplace-moradores' },
-  ];
+const normalizeActivePage = (page?: string) => {
+  if (!page) return undefined;
+  if (page.startsWith('marketplace')) {
+    return 'marketplace-moradores';
+  }
+  return page;
+};
+
+export function Header({ onNavigate, currentPage }: HeaderProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const activePage = useMemo(() => normalizeActivePage(currentPage), [currentPage]);
+  const isLogin = activePage === 'login';
+
+  const handleNavigate = (page: string) => {
+    onNavigate?.(page);
+    setMobileMenuOpen(false);
+  };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[var(--border-soft)]">
+    <header className="sticky top-0 z-50 border-b border-[var(--border-soft)] bg-[var(--surface)]/95 text-[var(--text-body)] backdrop-blur-xl shadow-e2 transition-colors duration-200">
       <div className="container-custom">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Logo onClick={() => onNavigate?.('home')} />
+        <div className="flex items-center justify-between gap-4 py-4">
+          <Logo onClick={() => handleNavigate('home')} />
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => onNavigate?.(item.page)}
-                className="relative text-[var(--ink-body)] hover:text-[var(--brand-primary)] font-medium transition-all duration-200 group focus-visible:outline-2 focus-visible:outline-[var(--brand-primary)] focus-visible:outline-offset-2 rounded px-3 py-2 min-h-[48px] flex items-center"
-              >
-                <span className="relative">
-                  {item.label}
-                  <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-[var(--brand-primary)] transition-all duration-200 group-hover:w-full group-hover:left-0" />
-                </span>
-              </button>
-            ))}
+          <nav className="hidden lg:flex items-center gap-6 text-sm" aria-label="Navegação principal">
+            {NAV_ITEMS.map((item) => {
+              const isActive = activePage === item.page;
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => handleNavigate(item.page)}
+                  className={`group relative min-h-[48px] rounded-xl px-3 py-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 ${
+                    isActive
+                      ? 'bg-brand-900/5 text-[var(--text-title)]'
+                      : 'text-[var(--text-body)] hover:text-brand-900'
+                  }`}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  <span>{item.label}</span>
+                  <span
+                    aria-hidden
+                    className={`pointer-events-none absolute -bottom-1 left-1/2 h-[2px] w-0 rounded-full bg-brand-900 transition-all duration-200 ease-out group-hover:left-0 group-hover:w-full ${
+                      isActive ? 'left-0 w-full' : ''
+                    }`}
+                  />
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:block">
+          <div className="hidden items-center gap-3 lg:flex">
+            <ThemeToggle />
             <Button
-              onClick={() => window.open('#login', '_blank')}
-              className="bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-600)] text-white flex items-center gap-2"
+              type="button"
+              aria-label="Entrar"
+              onClick={() => handleNavigate('login')}
+              disabled={isLogin}
+              className="min-w-[128px] rounded-xl bg-brand-900 text-white transition-colors duration-200 hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed"
             >
-              <LogIn className="w-4 h-4" />
               Entrar
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-[var(--ink-body)] hover:text-[var(--brand-primary)]"
+            type="button"
+            aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((open) => !open)}
+            className="inline-flex items-center justify-center rounded-xl p-2 text-[var(--text-title)] transition-colors duration-200 hover:bg-[var(--surface-soft)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 lg:hidden"
           >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {mobileMenuOpen ? (
+              <X aria-hidden focusable="false" className="h-6 w-6" />
+            ) : (
+              <Menu aria-hidden focusable="false" className="h-6 w-6" />
+            )}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-6 border-t border-[var(--border-soft)]">
-            <nav className="flex flex-col gap-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => {
-                    onNavigate?.(item.page);
-                    setMobileMenuOpen(false);
-                  }}
-                  className="text-[var(--ink-body)] hover:text-[var(--brand-primary)] font-medium transition-colors py-2 text-left"
-                >
-                  {item.label}
-                </button>
-              ))}
+          <div className="lg:hidden">
+            <div className="flex flex-col gap-4 border-t border-[var(--border-soft)] py-6">
+              <ThemeToggle />
+              {NAV_ITEMS.map((item) => {
+                const isActive = activePage === item.page;
+                return (
+                  <button
+                    key={item.label}
+                    type="button"
+                    onClick={() => handleNavigate(item.page)}
+                    className={`rounded-xl px-3 py-2 text-left text-base transition-colors duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 ${
+                      isActive
+                        ? 'bg-brand-900/5 text-[var(--text-title)]'
+                        : 'text-[var(--text-body)] hover:bg-[var(--surface-soft)]'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </button>
+                );
+              })}
               <Button
-                onClick={() => {
-                  window.open('#login', '_blank');
-                  setMobileMenuOpen(false);
-                }}
-                className="bg-[var(--brand-primary)] hover:bg-[var(--brand-primary-600)] text-white flex items-center gap-2 mt-2"
+                type="button"
+                onClick={() => handleNavigate('login')}
+                disabled={isLogin}
+                className="h-12 rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed"
               >
-                <LogIn className="w-4 h-4" />
                 Entrar
               </Button>
-            </nav>
+            </div>
           </div>
         )}
       </div>
