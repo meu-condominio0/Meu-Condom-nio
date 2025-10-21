@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import Hero from '@/src/components/Hero';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 
 const HERO_FEATURES = [
@@ -68,39 +69,16 @@ const TESTIMONIALS = [
 
 export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'MeuCondomínio — Gestão completa para condomínios';
+    document.title = 'MeuCondomínio — Seu condomínio 10x mais eficiente.';
   }, []);
 
   return (
     <MarketingLayout currentPath="/" onNavigate={onNavigate} onLogin={onLogin}>
-      <section className="marketing-section" aria-labelledby="hero-heading">
-        <span className="marketing-eyebrow" aria-hidden="true">
-          • lançamento • experiência premium
-        </span>
-        <h1 id="hero-heading" className="marketing-title">
-          Gestão de condomínio que dá superpoderes ao síndico — e uma vida mais simples aos moradores.
-        </h1>
-        <p className="marketing-lead">
-          Financeiro afiado, comunicação fluida e operações sob controle.
-          Agora com <strong>Marketplace no condomínio</strong>: venda e contrate serviços sem sair do app.
-        </p>
-
-        <div className="marketing-hero-actions" role="group" aria-label="Ações principais">
-          <a href="/comece" onClick={(event) => { event.preventDefault(); onNavigate('/comece'); }}>
-            Começar agora
-          </a>
-          <a
-            className="secondary"
-            href="/demo"
-            onClick={(event) => {
-              event.preventDefault();
-              onNavigate('/demo');
-            }}
-          >
-            Ver demonstração
-          </a>
-        </div>
-      </section>
+      <Hero
+        variant="A"
+        onPrimaryClick={() => onNavigate('/comece')}
+        onSecondaryClick={() => onNavigate('/demo')}
+      />
 
       <section className="marketing-section" aria-labelledby="destaques-heading">
         <div className="marketing-section-header">
