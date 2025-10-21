@@ -1,27 +1,53 @@
-import React from 'react';
-import { Home } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
-interface LogoProps {
+type LogoProps = {
   onClick?: () => void;
-}
+  ariaLabel?: string;
+};
 
-export function Logo({ onClick }: LogoProps) {
-  return (
-    <button
-      onClick={onClick}
-      className="flex items-center gap-3 hover:opacity-80 transition-opacity relative group"
-    >
-      <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-accent)] flex items-center justify-center">
-        <Home className="w-6 h-6 text-white" strokeWidth={2.5} />
-      </div>
-      
-      <span className="font-bold text-xl text-[var(--ink-title)] relative overflow-hidden">
-        <span className="relative inline-block">
-          MeuCondomínio
-          {/* Shimmer overlay */}
-          <span className="absolute inset-0 -translate-x-full animate-shimmer bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-        </span>
+export default function Logo({ onClick, ariaLabel = 'MeuCondomínio' }: LogoProps = {}) {
+  const shimmerRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const node = shimmerRef.current;
+    if (!node) {
+      return undefined;
+    }
+
+    const play = () => {
+      node.classList.remove('animate-shimmer');
+      void node.offsetWidth;
+      node.classList.add('animate-shimmer');
+    };
+
+    play();
+    const interval = window.setInterval(play, 6000);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  const content = (
+    <div className="relative inline-block">
+      <span className="relative z-10 font-semibold tracking-tight text-[var(--text-title)]">
+        Meu<span className="text-brand-900 dark:text-[var(--accent)]">Condomínio</span>
       </span>
-    </button>
+      <span aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden rounded-md">
+        <span ref={shimmerRef} className="shimmer block h-full w-[28%] -translate-x-[130%]" />
+      </span>
+    </div>
   );
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label={ariaLabel}
+        className="group inline-flex items-center rounded-xl px-2 py-1 text-left focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2"
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return content;
 }

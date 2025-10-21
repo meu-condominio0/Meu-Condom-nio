@@ -1,25 +1,18 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Design System - Meu Condomínio */
-  
-  /* Brand Colors */
-  --brand-primary: #0F3D2E;
-  --brand-primary-600: #145943;
-  --brand-accent: #20C997;
-  
-  /* Ink/Text */
-  --ink-title: #111111;
-  --ink-body: #374151;
-  --ink-muted: #6B7280;
-  
-  /* Background */
-  --bg-base: #FFFFFF;
-  --bg-soft: #F6F7F8;
-  
-  /* Border */
-  --border-soft: rgba(17, 17, 17, 0.08);
-  
+  /* Design System aliases */
+  --brand-primary: var(--brand);
+  --brand-primary-600: var(--brand-600);
+  --brand-accent: var(--accent);
+
+  --ink-title: var(--text-title);
+  --ink-body: var(--text-body);
+  --ink-muted: var(--text-muted);
+
+  --bg-base: var(--bg);
+  --bg-soft: var(--surface-soft);
+
   /* Typography Scale - Inter/SF */
   --text-h1: 48px;
   --line-h1: 56px;
@@ -42,41 +35,41 @@
   --space-6: 48px;
   --space-8: 64px;
   --space-12: 96px;
-  
+
   /* UI */
   --radius-card: 16px;
   --radius-button: 8px;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
+
   /* Legacy variables for compatibility */
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: #111111;
-  --card: #ffffff;
-  --card-foreground: #111111;
-  --popover: #ffffff;
-  --popover-foreground: #111111;
-  --primary: #0F3D2E;
+  --background: var(--bg);
+  --foreground: var(--text-body);
+  --card: var(--surface);
+  --card-foreground: var(--text-body);
+  --popover: var(--surface);
+  --popover-foreground: var(--text-body);
+  --primary: var(--brand);
   --primary-foreground: #ffffff;
-  --secondary: #F6F7F8;
-  --secondary-foreground: #111111;
-  --muted: #F6F7F8;
-  --muted-foreground: #6B7280;
-  --accent: #20C997;
-  --accent-foreground: #111111;
+  --secondary: var(--surface-soft);
+  --secondary-foreground: var(--text-title);
+  --muted: var(--surface-soft);
+  --muted-foreground: var(--text-muted);
+  --accent: var(--accent);
+  --accent-foreground: var(--text-title);
   --destructive: #d4183d;
   --destructive-foreground: #ffffff;
-  --border: rgba(17, 17, 17, 0.08);
-  --input: rgba(17, 17, 17, 0.08);
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
+  --border: var(--border-soft);
+  --input: var(--border-soft);
+  --input-background: var(--surface);
+  --switch-background: rgba(17, 17, 17, 0.12);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #20C997;
+  --ring: var(--accent);
   --radius: 16px;
 }
 
