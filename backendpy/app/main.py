@@ -9,10 +9,15 @@ from .database import engine, Base
 from .routers import usuario as usuario_router
 from .routers import visitante as visitante_router
 from .routers import anexo as anexo_router  # Importação do novo router
+from .routers import anuncio as anuncio_router
 from fastapi.staticfiles import StaticFiles
+
 
 # Importa o model de anexo para garantir criação da tabela
 from .models import anexo as modelo_anexo
+
+# NOVO: Importa o model de anúncio para garantir que o ORM o conheça antes de criar as tabelas
+from .models import anuncio as modelo_anuncio
 
 # Carrega variáveis de ambiente
 load_dotenv()
@@ -40,6 +45,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(usuario_router.router, prefix="/api", tags=["Usuarios"])
 app.include_router(visitante_router.router, prefix="/api", tags=["Visitante"])
 app.include_router(anexo_router.router, prefix="/api", tags=["Anexos"])
+app.include_router(anuncio_router.router, prefix="/api", tags=["Marketplace"])
 
 # Rota raiz
 @app.get("/")
