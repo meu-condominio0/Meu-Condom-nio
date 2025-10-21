@@ -144,7 +144,7 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
             <Button
               onClick={() => setHowItWorksOpen(true)}
               size="lg"
-              className="h-12 rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+              className="inline-flex h-12 min-h-[48px] items-center justify-center gap-2 rounded-[16px] bg-[#0F3D2E] px-6 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#145943] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#20C997] focus-visible:ring-offset-2 active:ring-2 active:ring-[#145943] active:ring-offset-2"
             >
               Como funciona
               <ArrowRight aria-hidden="true" className="ml-2 h-5 w-5" focusable="false" />
@@ -236,7 +236,7 @@ export function MarketplaceMoradoresPage({ onNavigateCreate, onNavigateListing }
           <div className="flex justify-center">
             <Button
               onClick={() => setHowItWorksOpen(true)}
-              className="h-12 min-w-[180px] rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+              className="h-12 min-h-[48px] min-w-[180px] rounded-[16px] bg-[#0F3D2E] px-6 text-base font-semibold text-white transition-colors duration-200 hover:bg-[#145943] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#20C997] focus-visible:ring-offset-2 active:ring-2 active:ring-[#145943] active:ring-offset-2"
             >
               Como funciona
             </Button>

@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { LogIn, Menu, X } from 'lucide-react';
 import { Button } from './ui/button';
-import Logo from './Logo';
+import { LogoShimmer } from './Logo';
 import ThemeToggle from './ThemeToggle';
 
 interface HeaderProps {
@@ -36,13 +36,24 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
     setMobileMenuOpen(false);
   };
 
+  const handleLoginNavigate = () => {
+    if (isLogin) return;
+
+    const hasNavigateHandler = Boolean(onNavigate);
+    handleNavigate('login');
+
+    if (!hasNavigateHandler && typeof window !== 'undefined') {
+      window.location.assign('/login');
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--border-soft)] bg-[var(--surface)]/95 text-[var(--text-body)] backdrop-blur-xl shadow-e2 transition-colors duration-200">
       <div className="container-custom">
         <div className="flex items-center justify-between gap-4 py-4">
-          <Logo onClick={() => handleNavigate('home')} />
+          <LogoShimmer onClick={() => handleNavigate('home')} />
 
-          <nav className="hidden lg:flex items-center gap-6 text-sm" aria-label="Navegação principal">
+          <nav className="hidden items-center gap-6 text-sm lg:flex" aria-label="Navegação principal">
             {NAV_ITEMS.map((item) => {
               const isActive = activePage === item.page;
               return (
@@ -74,11 +85,13 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
             <Button
               type="button"
               aria-label="Entrar"
-              onClick={() => handleNavigate('login')}
+              onClick={handleLoginNavigate}
               disabled={isLogin}
-              className="min-w-[128px] rounded-xl bg-brand-900 text-white transition-colors duration-200 hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+              data-href="/login"
+              className="inline-flex min-h-[48px] min-w-[128px] items-center justify-center gap-2 rounded-[16px] bg-[#0F3D2E] px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#145943] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#20C997] focus-visible:ring-offset-2 active:ring-2 active:ring-[#145943] active:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Entrar
+              <LogIn aria-hidden className="h-4 w-4" />
+              <span>Entrar</span>
             </Button>
           </div>
 
@@ -121,9 +134,10 @@ export function Header({ onNavigate, currentPage }: HeaderProps) {
               })}
               <Button
                 type="button"
-                onClick={() => handleNavigate('login')}
+                onClick={handleLoginNavigate}
                 disabled={isLogin}
-                className="h-12 rounded-xl bg-brand-900 text-white hover:bg-brand-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 disabled:cursor-not-allowed"
+                data-href="/login"
+                className="h-12 min-h-[48px] rounded-[16px] bg-[#0F3D2E] text-white transition-colors duration-200 hover:bg-[#145943] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#20C997] focus-visible:ring-offset-2 active:ring-2 active:ring-[#145943] active:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 Entrar
               </Button>
