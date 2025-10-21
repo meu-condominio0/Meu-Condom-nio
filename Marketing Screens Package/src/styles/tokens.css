@@ -1,0 +1,49 @@
+:root {
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-soft: #F6F7F8;
+  --text-title: #111111;
+  --text-body: #374151;
+  --text-muted: #6B7280;
+  --brand: #0F3D2E;
+  --brand-600: #145943;
+  --accent: #20C997;
+  --border-soft: rgba(17,17,17,0.08);
+  --input-background: var(--surface);
+  --switch-background: rgba(17,17,17,0.12);
+
+  /* Legacy aliases */
+  --brand-primary: var(--brand);
+  --brand-primary-600: var(--brand-600);
+  --brand-accent: var(--accent);
+  --ink-title: var(--text-title);
+  --ink-body: var(--text-body);
+  --ink-muted: var(--text-muted);
+  --bg-base: var(--bg);
+  --bg-soft: var(--surface-soft);
+}
+
+.dark {
+  --bg: #0C1512;
+  --surface: #0F1B17;
+  --surface-soft: #0B1714;
+  --text-title: #F3F4F6;
+  --text-body: #E5E7EB;
+  --text-muted: #9CA3AF;
+  --brand: #20C997;
+  --brand-600: #19a982;
+  --accent: #20C997;
+  --border-soft: rgba(255,255,255,0.12);
+  --input-background: var(--surface);
+  --switch-background: rgba(255,255,255,0.16);
+
+  /* Legacy aliases */
+  --brand-primary: var(--brand);
+  --brand-primary-600: var(--brand-600);
+  --brand-accent: var(--accent);
+  --ink-title: var(--text-title);
+  --ink-body: var(--text-body);
+  --ink-muted: var(--text-muted);
+  --bg-base: var(--bg);
+  --bg-soft: var(--surface-soft);
+}

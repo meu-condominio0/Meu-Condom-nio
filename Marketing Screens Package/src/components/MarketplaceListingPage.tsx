@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { CallingBanner } from './CallingBanner';
 import { ImageWithFallback } from './figma/ImageWithFallback';
-import { toast } from 'sonner';
+import { toast } from 'sonner@2.0.3';
 import {
   ArrowLeft,
   Star,
