@@ -49,3 +49,11 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Ambientes virtuais
+venv/
+backendpy/venv/
+
+# Cache do Python
+__pycache__/
+*.pyc
