@@ -1,35 +1,10 @@
-# Node
+# ========================
+# Node / Vite
+# ========================
 node_modules/
-
-# Build output
 dist/
 .vite/
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Env
-.env
-.env.*
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Editor
-.idea/
-.vscode/
-*.swp
 tsconfig.tsbuildinfo
-
-# Node
-node_modules/
-
-# Build output
-dist/
-.vite/
 
 # Logs
 npm-debug.log*
@@ -37,15 +12,46 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Env
+# Cobertura/relatórios (se usar)
+coverage/
+.nyc_output/
+
+# ========================
+# Playwright (tests e reports)
+# ========================
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# ========================
+# Python (virtualenv e caches)
+# ========================
+venv/
+backendpy/venv/
+.venv/
+**/__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.python-version
+
+# ========================
+# Env / Secrets
+# ========================
 .env
 .env.*
+!.env.example
 
-# OS
+# ========================
+# SO / Editor
+# ========================
 .DS_Store
 Thumbs.db
-
-# Editor
 .idea/
 .vscode/
 *.swp

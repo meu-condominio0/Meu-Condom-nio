@@ -2,18 +2,30 @@ import * as React from "react";
 
 import { cn } from "./utils";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card"
-      className={cn(
-        "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border",
-        className,
-      )}
-      {...props}
-    />
-  );
+interface CardProps extends React.ComponentPropsWithoutRef<"article"> {
+  label?: string;
 }
+
+const Card = React.forwardRef<HTMLElement, CardProps>(
+  ({ className, label, tabIndex = 0, ...props }, ref) => {
+    const ariaLabel = props["aria-label"] ?? label;
+
+    return (
+      <article
+        data-slot="card"
+        ref={ref}
+        tabIndex={tabIndex}
+        aria-label={ariaLabel}
+        className={cn(
+          "bg-card text-card-foreground flex flex-col gap-6 rounded-xl border outline-none transition focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:shadow-lg",
+          className,
+        )}
+        {...props}
+      />
+    );
+  },
+);
+Card.displayName = "Card";
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (

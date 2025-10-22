@@ -2,7 +2,10 @@
   "compilerOptions": {
     "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2023", "DOM"],
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
     "module": "ESNext",
     "skipLibCheck": true,
     "moduleResolution": "Bundler",
@@ -10,16 +13,41 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-   "types": ["vite/client", "node"],
-
-    /* --- ADD THESE TWO LINES --- */
+    "types": [
+      "@testing-library/jest-dom",
+      "vite/client",
+      "vitest"
+    ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ],
+      "@/components/ui/*": [
+        "Marketing Screens Package/src/components/ui/*"
+      ]
     }
-    /* --------------------------- */
-    
   },
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "dist", "backend"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "components/marketing/**/*.ts",
+    "components/marketing/**/*.tsx",
+    "components/marketing/**/*.d.ts",
+    "components/home/**/*.ts",
+    "components/home/**/*.tsx",
+    "components/**/*.d.ts",
+    "vitest.config.ts",
+    "vite.config.ts",
+    "react.d.ts",
+    "next-themes.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "backend",
+    "components/paginas",
+    "components/paginas/**/*",
+    "src/pages/HomeNew.tsx"
+  ]
 }

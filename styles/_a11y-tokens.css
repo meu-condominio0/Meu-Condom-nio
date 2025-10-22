@@ -1,0 +1,7 @@
+:root{
+  --color-text-default: #ffffff;
+  --color-text-muted: rgba(255,255,255,0.72);
+  --bg-surface: #071219;
+  --brand-500: #00A85A;
+  --focus-ring: rgba(0,168,90,0.28);
+}

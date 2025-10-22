@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { ComponentType } from 'react';
 import { usarContextoApp } from '../contexts/AppContext';
 import { TelaLogin } from './TelaLogin';
 import { LayoutPrincipal } from './LayoutPrincipal';
@@ -25,7 +26,16 @@ import { PaginaInadimplencia } from './paginas/PaginaInadimplencia';
 import { PaginaAcordos } from './paginas/PaginaAcordos';
 import { PaginaExtratoFinanceiro } from './paginas/PaginaExtratoFinanceiro';
 import { PaginaColaboradores } from './paginas/PaginaColaboradores';
-import { LandingPage, type LandingSection } from './paginas/LandingPage';
+import type { MarketingPageProps, MarketingPath } from './marketing/MarketingLayout';
+import { MarketingHomePage } from './marketing/HomePage';
+import { MarketingSolucoesPage } from './marketing/SolucoesPage';
+import { MarketingPrecosPage } from './marketing/PrecosPage';
+import { MarketingSobrePage } from './marketing/SobrePage';
+import { MarketingSuportePage } from './marketing/SuportePage';
+import { MarketingBlogPage } from './marketing/BlogPage';
+import { MarketingComecePage } from './marketing/ComecePage';
+import { MarketingDemoPage } from './marketing/DemoPage';
+import { MarketingMarketplacePage } from './marketing/MarketplacePage';
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -47,32 +57,113 @@ function PaginaPlaceholder({ titulo }: { titulo: string }) {
   );
 }
 
+const MARKETING_PATHS: readonly MarketingPath[] = [
+  '/',
+  '/solucoes',
+  '/precos',
+  '/sobre',
+  '/suporte',
+  '/blog',
+  '/comece',
+  '/demo',
+  '/marketplace',
+] as const;
+
+type PublicPath = MarketingPath | '/entrar';
+
+const MARKETING_ROUTES: Record<MarketingPath, ComponentType<MarketingPageProps>> = {
+  '/': MarketingHomePage,
+  '/solucoes': MarketingSolucoesPage,
+  '/precos': MarketingPrecosPage,
+  '/sobre': MarketingSobrePage,
+  '/suporte': MarketingSuportePage,
+  '/blog': MarketingBlogPage,
+  '/comece': MarketingComecePage,
+  '/demo': MarketingDemoPage,
+  '/marketplace': MarketingMarketplacePage,
+};
+
+function normalizarCaminhoPublico(pathname: string): PublicPath {
+  const caminhoSemBarraFinal = pathname.replace(/\/$/, '') || '/';
+
+  if (caminhoSemBarraFinal === '/entrar') {
+    return '/entrar';
+  }
+
+  if ((MARKETING_PATHS as readonly string[]).includes(caminhoSemBarraFinal)) {
+    return caminhoSemBarraFinal as MarketingPath;
+  }
+
+  return '/';
+}
+
 export function AplicativoCondominio() {
   const { usuarioLogado, estaCarregando } = usarContextoApp();
   const [paginaAtiva, setPaginaAtiva] = useState('inicio');
-  const [telaPublicaAtiva, setTelaPublicaAtiva] = useState<'landing' | 'login'>('landing');
+  const [publicPath, setPublicPath] = useState<PublicPath>(() => {
+    if (typeof window === 'undefined') {
+      return '/';
+    }
+
+    return normalizarCaminhoPublico(window.location.pathname);
+  });
   const usuarioAnterior = useRef(usuarioLogado);
 
   useEffect(() => {
     if (!usuarioLogado && usuarioAnterior.current) {
-      setTelaPublicaAtiva('landing');
+      setPublicPath('/');
+
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', '/');
+      }
     }
 
     usuarioAnterior.current = usuarioLogado;
   }, [usuarioLogado]);
 
-  const lidarComNavegacaoLanding = (destino: LandingSection) => {
-    if (destino === 'login') {
-      setTelaPublicaAtiva('login');
+  useEffect(() => {
+    if (typeof window === 'undefined' || usuarioLogado) {
       return;
     }
 
-    const elementoAlvo = document.getElementById(`landing-${destino}`);
+    const handlePopState = () => {
+      setPublicPath(normalizarCaminhoPublico(window.location.pathname));
+    };
 
-    if (elementoAlvo) {
-      elementoAlvo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [usuarioLogado]);
+
+  const navegarPublico = (path: MarketingPath) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', path);
     }
+
+    setPublicPath(path);
   };
+
+  const abrirLoginPublico = () => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({}, '', '/entrar');
+    }
+
+    setPublicPath('/entrar');
+  };
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || usuarioLogado) {
+      return;
+    }
+
+    const caminhoAtual = normalizarCaminhoPublico(window.location.pathname);
+
+    if (caminhoAtual !== publicPath) {
+      window.history.replaceState({}, '', publicPath);
+    }
+  }, [publicPath, usuarioLogado]);
 
   if (estaCarregando) {
     return (
@@ -83,11 +174,18 @@ export function AplicativoCondominio() {
   }
 
   if (!usuarioLogado) {
-    if (telaPublicaAtiva === 'login') {
-      return <TelaLogin onVoltarInicio={() => setTelaPublicaAtiva('landing')} />;
+    if (publicPath === '/entrar') {
+      return <TelaLogin onVoltarInicio={() => navegarPublico('/')} />;
     }
 
-    return <LandingPage onNavigate={lidarComNavegacaoLanding} />;
+    const MarketingComponent = MARKETING_ROUTES[publicPath] ?? MARKETING_ROUTES['/'];
+
+    return (
+      <MarketingComponent
+        onNavigate={navegarPublico}
+        onLogin={abrirLoginPublico}
+      />
+    );
   }
 
   const renderizarPagina = () => {
