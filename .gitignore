@@ -63,3 +63,7 @@ backendpy/venv/
 # Cache do Python
 __pycache__/
 *.pyc
+
+backendpy/uploads/
+node_modules.zip
+
