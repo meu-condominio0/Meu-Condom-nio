@@ -26,11 +26,14 @@ services:
     env_file:
       - ./backendpy/.env
     environment:
-      - DOCKER_ENV=true  # 👈 adiciona isso!
+      - DOCKER_ENV=true
     depends_on:
       meu-condominio-db:
         condition: service_healthy
     restart: on-failure
+    # 👉 monta apenas a pasta app, sem sobrescrever start.sh
+    volumes:
+      - ./backendpy/app:/app/app
 
   frontend:
     build:
