@@ -66,4 +66,8 @@ __pycache__/
 
 backendpy/uploads/
 node_modules.zip
+# Ignorar arquivos e pastas do MySQL local
+mysql_data/
+*.sock
+*.pid
 

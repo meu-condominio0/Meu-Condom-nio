@@ -1,11 +1,22 @@
-fastapi==0.104.1
-uvicorn==0.24.0
-sqlalchemy==2.0.23
-pymysql==1.1.0
-python-dotenv==1.0.0
-pydantic==2.5.0
-pydantic[email]
-cryptography
-fastapi
-uvicorn
-python-dotenv
+# --- Framework principal ---
+fastapi==0.115.2
+uvicorn[standard]==0.30.6
+
+# --- Banco de dados ---
+sqlalchemy==2.0.36
+pymysql==1.1.1
+
+# --- Validação e configurações ---
+pydantic==2.9.2
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+email-validator==2.2.0   # ✅ necessário para validar campos de e-mail (usado pelo Pydantic)
+
+# --- Segurança e criptografia ---
+cryptography==43.0.3
+
+# --- Uploads e formulários ---
+python-multipart==0.0.9
+
+# --- Utilitários de build e compatibilidade ---
+typing-extensions>=4.12.2

@@ -1,4 +1,5 @@
 import { usarContextoApp } from '../../contexts/AppContext';
+import { LucideIcon } from "lucide-react";
 import { 
   User, 
   Bell, 
@@ -33,7 +34,7 @@ interface SecaoConfig {
   id: string;
   titulo: string;
   descricao: string;
-  icone: React.ComponentType<{ className?: string }>;
+  icone: LucideIcon;
   items: {
     id: string;
     titulo: string;

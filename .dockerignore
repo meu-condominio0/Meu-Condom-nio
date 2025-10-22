@@ -1,7 +1,11 @@
 node_modules
 dist
+build
 .git
 .gitignore
 Dockerfile
 docker-compose.yml
 README.md
+mysql_data
+.env
+.ds_store

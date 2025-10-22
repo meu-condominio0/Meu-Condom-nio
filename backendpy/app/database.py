@@ -1,14 +1,10 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-import os
-from dotenv import load_dotenv
+from .config import settings  # importa nossa classe Settings
 
-# Carrega o arquivo .env (para ter a DATABASE_URL)
-load_dotenv()
-
-
-SQLALCHEMY_DATABASE_URL = os.getenv("DATABASE_URL")
+# Agora pegamos a URL dinâmica (que detecta se é local ou Docker)
+SQLALCHEMY_DATABASE_URL = settings.sqlalchemy_database_url
 
 # Criação do engine de conexão com o MySQL
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)

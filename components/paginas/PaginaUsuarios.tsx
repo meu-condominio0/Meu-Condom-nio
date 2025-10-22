@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-
+import InputMask from "react-input-mask";
+import { toast } from "sonner";
 import { Search, Plus, Edit, Lock, Trash2, UserCheck, UserX, Mail, Phone, Key, Building } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -19,6 +20,7 @@ interface Usuario {
   nome: string;
   email: string;
   telefone: string;
+  cpf?: string;
   apartamento: string;
   bloco: string;
   tipo: 'morador' | 'sindico' | 'subsindico';
@@ -121,6 +123,7 @@ export function PaginaUsuarios() {
   const [novoUsuario, setNovoUsuario] = useState({
     nome: '',
     email: '',
+    cpf: '',
     telefone: '',
     apartamento: '',
     bloco: '',
@@ -159,24 +162,75 @@ export function PaginaUsuarios() {
   };
 
   const handleNovoUsuario = async () => {
-    if (!novoUsuario.nome || !novoUsuario.email || !novoUsuario.apartamento) {
-        alert("Por favor, preencha os campos obrigatórios: Nome, Email e Apartamento.");
-        return;
-    }
-    try {
-      const usuarioCadastrado = await cadastrarUsuario(novoUsuario);
-      setUsuarios(prevUsuarios => [...prevUsuarios, usuarioCadastrado]);
-      alert('Usuário cadastrado com sucesso!');
-      setModalNovoUsuario(false);
-      setNovoUsuario({
-        nome: '', email: '', telefone: '', apartamento: '',
-        bloco: '', tipo: 'morador', observacoes: ''
-      });
-    } catch (err) {
-      console.error('Erro no cadastro:', err);
-      alert('Falha no cadastro: ' + (err as Error).message);
-    }
+  // 🟡 Validação de campos obrigatórios
+  if (!novoUsuario.nome || !novoUsuario.email || !novoUsuario.apartamento) {
+    toast.warning("Campos obrigatórios faltando.", {
+      description: "Informe nome, e-mail e apartamento antes de continuar.",
+    });
+    return;
+  }
+
+  // 🔍 CPF incompleto (máscara parcial)
+  if (novoUsuario.cpf && novoUsuario.cpf.includes("_")) {
+    toast.warning("CPF incompleto.", {
+      description: "Preencha todos os dígitos antes de continuar.",
+    });
+    return;
+  }
+
+  // 🧹 Remove pontos e traços antes de enviar
+  const payload = {
+    ...novoUsuario,
+    cpf: novoUsuario.cpf.replace(/\D/g, ""),
   };
+
+  try {
+    const response = await fetch("/api/usuarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    // ❌ Caso o backend retorne erro
+    if (!response.ok) {
+      const errorData = await response.json();
+      const msg =
+        errorData?.detail?.[0]?.msg ||
+        errorData?.detail ||
+        "Erro ao cadastrar usuário.";
+
+      toast.error("Falha ao cadastrar", {
+        description: msg,
+      });
+      return;
+    }
+
+    // ✅ Caso sucesso
+    const usuarioCadastrado = await response.json();
+    setUsuarios((prev) => [...prev, usuarioCadastrado]);
+    setModalNovoUsuario(false);
+    setNovoUsuario({
+      nome: "",
+      email: "",
+      cpf: "",
+      telefone: "",
+      apartamento: "",
+      bloco: "",
+      tipo: "morador",
+      observacoes: "",
+    });
+
+    toast.success("Usuário cadastrado com sucesso!", {
+      description: "O novo usuário foi adicionado ao sistema.",
+    });
+  } catch (error) {
+    console.error("Erro ao cadastrar:", error);
+    toast.error("Erro de conexão com o servidor.", {
+      description: "Verifique sua internet e tente novamente.",
+    });
+  }
+};
+
 
   const handleAlterarStatus = async (id: number, novoStatus: 'ativo' | 'inativo' | 'bloqueado') => {
     try {
@@ -251,64 +305,153 @@ export function PaginaUsuarios() {
             </DialogHeader>
             
             <div className="space-y-4 py-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="nome">Nome completo</Label>
-                  <Input id="nome" value={novoUsuario.nome} onChange={(e) => setNovoUsuario({...novoUsuario, nome: e.target.value})} placeholder="Ex: João Silva Santos"/>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" value={novoUsuario.email} onChange={(e) => setNovoUsuario({...novoUsuario, email: e.target.value})} placeholder="joao@email.com" />
-                </div>
-              </div>
+  {/* NOME E EMAIL */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="space-y-2">
+      <Label htmlFor="nome">Nome completo</Label>
+      <Input
+        id="nome"
+        value={novoUsuario.nome}
+        onChange={(e) => setNovoUsuario({ ...novoUsuario, nome: e.target.value })}
+        placeholder="Ex: João Silva Santos"
+      />
+    </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="telefone">Telefone</Label>
-                  <Input id="telefone" value={novoUsuario.telefone} onChange={(e) => setNovoUsuario({...novoUsuario, telefone: e.target.value})} placeholder="(11) 99999-9999" />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="tipo">Tipo de usuário</Label>
-                  <Select value={novoUsuario.tipo} onValueChange={(value: any) => setNovoUsuario({...novoUsuario, tipo: value})}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="morador">Morador</SelectItem>
-                      <SelectItem value="subsindico">Subsíndico</SelectItem>
-                      <SelectItem value="sindico">Síndico</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+    <div className="space-y-2">
+      <Label htmlFor="email">Email</Label>
+      <Input
+        id="email"
+        type="email"
+        value={novoUsuario.email}
+        onChange={(e) => setNovoUsuario({ ...novoUsuario, email: e.target.value })}
+        placeholder="joao@email.com"
+      />
+    </div>
+  </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="apartamento">Apartamento</Label>
-                  <Input id="apartamento" value={novoUsuario.apartamento} onChange={(e) => setNovoUsuario({...novoUsuario, apartamento: e.target.value})} placeholder="302"/>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="bloco">Bloco</Label>
-                  <Select value={novoUsuario.bloco} onValueChange={(value) => setNovoUsuario({...novoUsuario, bloco: value})}>
-                    <SelectTrigger><SelectValue placeholder="Selecione o bloco" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="A">Bloco A</SelectItem>
-                      <SelectItem value="B">Bloco B</SelectItem>
-                      <SelectItem value="C">Bloco C</SelectItem>
-                      <SelectItem value="D">Bloco D</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+  {/* CPF E TELEFONE */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="space-y-2">
+      <Label htmlFor="cpf">CPF</Label>
+      <InputMask
+        mask="999.999.999-99"
+        maskChar=""
+        value={novoUsuario.cpf}
+        onChange={(e) => setNovoUsuario({ ...novoUsuario, cpf: e.target.value })}
+      >
+        {(inputProps: any) => (
+          <Input
+            {...inputProps}
+            id="cpf"
+            placeholder="000.000.000-00"
+          />
+        )}
+      </InputMask>
+    </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="observacoes">Observações (opcional)</Label>
-                <Input id="observacoes" value={novoUsuario.observacoes} onChange={(e) => setNovoUsuario({...novoUsuario, observacoes: e.target.value})} placeholder="Informações adicionais..."/>
-              </div>
+    <div className="space-y-2">
+      <Label htmlFor="telefone">Telefone</Label>
+      <InputMask
+        mask="(99) 99999-9999"
+        maskChar=""
+        value={novoUsuario.telefone}
+        onChange={(e) => setNovoUsuario({ ...novoUsuario, telefone: e.target.value })}
+      >
+        {(inputProps: any) => (
+          <Input
+            {...inputProps}
+            id="telefone"
+            placeholder="(00) 00000-0000"
+          />
+        )}
+      </InputMask>
+    </div>
+  </div>
 
-              <div className="flex gap-2 pt-4">
-                <Button variant="outline" className="flex-1" onClick={() => setModalNovoUsuario(false)}>Cancelar</Button>
-                <Button className="flex-1" onClick={handleNovoUsuario} disabled={!novoUsuario.nome || !novoUsuario.email || !novoUsuario.apartamento}>Cadastrar</Button>
-              </div>
-            </div>
+  {/* TIPO DE USUÁRIO */}
+  <div className="space-y-2">
+    <Label htmlFor="tipo">Tipo de usuário</Label>
+    <Select
+      value={novoUsuario.tipo}
+      onValueChange={(value: any) => setNovoUsuario({ ...novoUsuario, tipo: value })}
+    >
+      <SelectTrigger>
+        <SelectValue placeholder="Selecione o tipo" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="morador">Morador</SelectItem>
+        <SelectItem value="subsindico">Subsíndico</SelectItem>
+        <SelectItem value="sindico">Síndico</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+
+  {/* APARTAMENTO E BLOCO */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="space-y-2">
+      <Label htmlFor="apartamento">Apartamento</Label>
+      <Input
+        id="apartamento"
+        value={novoUsuario.apartamento}
+        onChange={(e) => setNovoUsuario({ ...novoUsuario, apartamento: e.target.value })}
+        placeholder="302"
+      />
+    </div>
+
+    <div className="space-y-2">
+      <Label htmlFor="bloco">Bloco</Label>
+      <Select
+        value={novoUsuario.bloco}
+        onValueChange={(value) => setNovoUsuario({ ...novoUsuario, bloco: value })}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Selecione o bloco" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="A">Bloco A</SelectItem>
+          <SelectItem value="B">Bloco B</SelectItem>
+          <SelectItem value="C">Bloco C</SelectItem>
+          <SelectItem value="D">Bloco D</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  </div>
+
+  {/* OBSERVAÇÕES */}
+  <div className="space-y-2">
+    <Label htmlFor="observacoes">Observações (opcional)</Label>
+    <Input
+      id="observacoes"
+      value={novoUsuario.observacoes}
+      onChange={(e) => setNovoUsuario({ ...novoUsuario, observacoes: e.target.value })}
+      placeholder="Informações adicionais..."
+    />
+  </div>
+
+  {/* BOTÕES */}
+  <div className="flex gap-2 pt-4">
+    <Button
+      variant="outline"
+      className="flex-1"
+      onClick={() => setModalNovoUsuario(false)}
+    >
+      Cancelar
+    </Button>
+    <Button
+      className="flex-1"
+      onClick={handleNovoUsuario}
+      disabled={
+        !novoUsuario.nome ||
+        !novoUsuario.email ||
+        !novoUsuario.apartamento ||
+        !novoUsuario.cpf
+      }
+    >
+      Cadastrar
+    </Button>
+  </div>
+</div>
+
           </DialogContent>
         </Dialog>
       </div>
@@ -364,12 +507,31 @@ export function PaginaUsuarios() {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <div className="space-y-1">
-                          <div className="flex items-center gap-1 text-sm truncate" title={usuario.email}><Mail className="h-3 w-3 text-muted-foreground" /><span className="truncate">{usuario.email}</span></div>
-                          {usuario.telefone && (<div className="flex items-center gap-1 text-sm text-muted-foreground truncate" title={usuario.telefone}><Phone className="h-3 w-3" /><span className="truncate">{usuario.telefone}</span></div>)}
-                        </div>
-                      </TableCell>
+                     <TableCell>
+  <div className="space-y-1">
+    <div className="flex items-center gap-1 text-sm truncate" title={usuario.email}>
+      <Mail className="h-3 w-3 text-muted-foreground" />
+      <span className="truncate">{usuario.email}</span>
+    </div>
+
+    {usuario.telefone && (
+      <div className="flex items-center gap-1 text-sm text-muted-foreground truncate" title={usuario.telefone}>
+        <Phone className="h-3 w-3" />
+        <span className="truncate">{usuario.telefone}</span>
+      </div>
+    )}
+
+    {usuario.cpf && (
+      <div className="flex items-center gap-2 pt-1 text-xs font-medium text-foreground/70 border-t border-border/20 mt-1">
+        <span className="px-2 py-[1px] rounded-md bg-primary/10 text-primary font-mono tracking-widest shadow-sm">
+          CPF: {usuario.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4")}
+        </span>
+      </div>
+    )}
+  </div>
+</TableCell>
+
+
                       <TableCell className="hidden lg:table-cell"><div className="flex items-center gap-1"><Building className="h-3 w-3 text-muted-foreground" /><span className="text-sm truncate" title={`Apt ${usuario.apartamento} - Bloco ${usuario.bloco}`}>Apt {usuario.apartamento} - Bloco {usuario.bloco}</span></div></TableCell>
                       <TableCell className="hidden md:table-cell"><Badge variant={getTipoBadge(usuario.tipo).variant}>{getTipoBadge(usuario.tipo).label}</Badge></TableCell>
                       <TableCell><Badge variant={getStatusBadge(usuario.status).variant}>{getStatusBadge(usuario.status).label}</Badge></TableCell>

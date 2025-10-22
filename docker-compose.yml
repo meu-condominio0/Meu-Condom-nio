@@ -1,48 +1,43 @@
-services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile-front
-    ports:
-      - "5173:80"
-    restart: unless-stopped
+version: '3.9'
 
-  db:
+services:
+  meu-condominio-db:
     image: mysql:8.0
-    container_name: meu-condominio-db
-    ports:
-      # HOST:CONTAINER — você escolheu expor no 3307 do host
-      - "3307:3306"
+    container_name: condominio_db_container
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?defina_no_.env}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-meucondominio}
-      MYSQL_USER: ${MYSQL_USER:-app}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-app123}
+      MYSQL_ROOT_PASSWORD: 253122
+      MYSQL_DATABASE: condominio_system
+    ports:
+      - "3308:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-    restart: unless-stopped
+      - ./mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${MYSQL_ROOT_PASSWORD}"]
-      interval: 10s
-      timeout: 5s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
       retries: 10
 
   backend:
-    build:
-      context: ./backendpy
-      dockerfile: Dockerfile
+    build: ./backendpy
+    container_name: backend
     ports:
       - "8000:8000"
-    # injeta só o que precisa no container (evita drift)
+    env_file:
+      - ./backendpy/.env
     environment:
-      - DATABASE_URL=${DATABASE_URL}
+      - DOCKER_ENV=true  # 👈 adiciona isso!
     depends_on:
-      db:
+      meu-condominio-db:
         condition: service_healthy
-    volumes:
-      - ./backendpy:/app
-    restart: unless-stopped
+    restart: on-failure
 
-volumes:
-  mysql_data:
-
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
