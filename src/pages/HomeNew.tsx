@@ -57,9 +57,9 @@ const MODULES = [
       'Integração bancária automática',
     ],
     media: {
-      src: '/img/inicio/module-analytics.svg',
+      src: '/assets/marketing/mock-1.svg',
       width: 420,
-      height: 320,
+      height: 300,
     },
   },
   {
@@ -70,9 +70,9 @@ const MODULES = [
       'Marketplace interno para serviços e produtos',
     ],
     media: {
-      src: '/img/inicio/module-mobile.svg',
+      src: '/assets/marketing/mock-2.svg',
       width: 420,
-      height: 320,
+      height: 300,
     },
   },
   {
@@ -83,29 +83,10 @@ const MODULES = [
       'Biblioteca de documentos sempre atualizada',
     ],
     media: {
-      src: '/img/inicio/module-operations.svg',
+      src: '/assets/marketing/mock-3.svg',
       width: 420,
-      height: 320,
+      height: 300,
     },
-  },
-];
-
-const MARKETPLACE_LISTINGS = [
-  {
-    title: 'iPhone 13 Pro 256GB',
-    price: 'R$ 3.200',
-    condition: 'Usado',
-    tower: 'Torre A',
-    rating: '4.9',
-    image: '/img/inicio/marketplace-iphone.svg',
-  },
-  {
-    title: 'Sofá 3 lugares',
-    price: 'R$ 1.500',
-    condition: 'Usado',
-    tower: 'Torre B',
-    rating: '5.0',
-    image: '/img/inicio/marketplace-sofa.svg',
   },
 ];
 
@@ -138,50 +119,50 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
     <div className="home-new">
       <style>{`
         :where(.light) .home-new {
-          --home-bg: #f3fbf7;
-          --home-surface: rgba(255, 255, 255, 0.94);
-          --home-surface-subtle: rgba(227, 247, 238, 0.7);
-          --home-border: rgba(15, 61, 46, 0.08);
-          --home-border-strong: rgba(15, 61, 46, 0.16);
-          --home-ink: #0f3d2e;
-          --home-ink-muted: #3d6755;
-          --home-ink-soft: #145943;
-          --home-primary: #0f3d2e;
-          --home-primary-soft: rgba(15, 61, 46, 0.08);
-          --home-primary-strong: #20c997;
-          --home-accent: #20c997;
-          --home-secondary: #145943;
-          --home-highlight: rgba(32, 201, 151, 0.22);
-          --home-shadow-lg: 0 40px 70px rgba(15, 61, 46, 0.18);
-          --home-shadow-md: 0 28px 60px rgba(15, 61, 46, 0.12);
-          --home-shadow-sm: 0 20px 45px rgba(15, 61, 46, 0.08);
+          --home-bg: #f8fafc;
+          --home-surface: rgba(255, 255, 255, 0.92);
+          --home-surface-subtle: rgba(241, 245, 249, 0.6);
+          --home-border: rgba(15, 23, 42, 0.08);
+          --home-border-strong: rgba(15, 23, 42, 0.18);
+          --home-ink: #0f172a;
+          --home-ink-muted: #475569;
+          --home-ink-soft: #1e293b;
+          --home-primary: #16a34a;
+          --home-primary-soft: rgba(22, 163, 74, 0.12);
+          --home-primary-strong: #0f766e;
+          --home-accent: #0ea5e9;
+          --home-secondary: #6366f1;
+          --home-highlight: rgba(14, 165, 233, 0.22);
+          --home-shadow-lg: 0 40px 70px rgba(15, 23, 42, 0.18);
+          --home-shadow-md: 0 28px 60px rgba(15, 23, 42, 0.12);
+          --home-shadow-sm: 0 20px 45px rgba(15, 23, 42, 0.08);
         }
 
         :where(.dark) .home-new {
-          --home-bg: #041f16;
-          --home-surface: rgba(6, 22, 16, 0.86);
-          --home-surface-subtle: rgba(6, 22, 16, 0.65);
-          --home-border: rgba(135, 225, 196, 0.2);
-          --home-border-strong: rgba(135, 225, 196, 0.32);
-          --home-ink: rgba(234, 252, 244, 0.95);
-          --home-ink-muted: rgba(178, 232, 211, 0.82);
-          --home-ink-soft: rgba(209, 246, 231, 0.88);
-          --home-primary: #20c997;
-          --home-primary-soft: rgba(32, 201, 151, 0.22);
-          --home-primary-strong: #5fe3bb;
-          --home-accent: #5fe3bb;
-          --home-secondary: #83f0cf;
-          --home-highlight: rgba(32, 201, 151, 0.32);
-          --home-shadow-lg: 0 50px 90px rgba(4, 31, 22, 0.65);
-          --home-shadow-md: 0 35px 70px rgba(4, 31, 22, 0.45);
-          --home-shadow-sm: 0 25px 55px rgba(4, 31, 22, 0.32);
+          --home-bg: #020617;
+          --home-surface: rgba(15, 23, 42, 0.85);
+          --home-surface-subtle: rgba(15, 23, 42, 0.65);
+          --home-border: rgba(148, 163, 184, 0.22);
+          --home-border-strong: rgba(148, 163, 184, 0.35);
+          --home-ink: rgba(226, 232, 240, 0.96);
+          --home-ink-muted: rgba(148, 163, 184, 0.82);
+          --home-ink-soft: rgba(203, 213, 225, 0.9);
+          --home-primary: #22c55e;
+          --home-primary-soft: rgba(34, 197, 94, 0.18);
+          --home-primary-strong: #38bdf8;
+          --home-accent: #38bdf8;
+          --home-secondary: #a855f7;
+          --home-highlight: rgba(59, 130, 246, 0.35);
+          --home-shadow-lg: 0 50px 90px rgba(2, 6, 23, 0.65);
+          --home-shadow-md: 0 35px 70px rgba(2, 6, 23, 0.45);
+          --home-shadow-sm: 0 25px 55px rgba(2, 6, 23, 0.32);
         }
 
         .home-new {
           min-height: 100vh;
           background:
-            radial-gradient(140% 90% at 10% -10%, rgba(32, 201, 151, 0.18), transparent 60%),
-            radial-gradient(160% 95% at 95% 15%, rgba(14, 89, 67, 0.22), transparent 70%),
+            radial-gradient(120% 80% at 15% -10%, rgba(14, 165, 233, 0.15), transparent 60%),
+            radial-gradient(150% 80% at 90% 10%, rgba(34, 197, 94, 0.18), transparent 70%),
             var(--home-bg);
           font-family: 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
           color: var(--home-ink);
@@ -201,22 +182,6 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
             gap: 4rem;
             padding-top: 3rem;
             padding-bottom: 5rem;
-          }
-
-          .home-hero__media {
-            margin-top: 1.5rem;
-            min-height: 360px;
-          }
-
-          .home-hero__media-collab {
-            top: 6%;
-            right: -2%;
-            width: min(220px, 60%);
-          }
-
-          .home-hero__media-profile {
-            left: 4%;
-            bottom: 6%;
           }
         }
 
@@ -437,112 +402,28 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
 
         .home-hero__media {
           position: relative;
-          padding: 2rem;
-          border-radius: 40px;
-          background:
-            radial-gradient(120% 80% at 20% 0%, rgba(32, 201, 151, 0.22), transparent 60%),
-            radial-gradient(110% 70% at 80% 20%, rgba(14, 89, 67, 0.25), transparent 65%),
-            linear-gradient(145deg, var(--home-surface), var(--home-surface-subtle));
+          padding: 1.25rem;
+          border-radius: 36px;
+          background: linear-gradient(140deg, var(--home-surface), var(--home-surface-subtle));
           border: 1px solid var(--home-border);
           box-shadow: var(--home-shadow-lg);
-          overflow: hidden;
-          min-height: 420px;
-          isolation: isolate;
         }
 
         .home-hero__media::after {
           content: '';
           position: absolute;
-          inset: 1.5rem;
+          inset: 2.5rem;
           border-radius: 32px;
           border: 1px dashed var(--home-border);
-          opacity: 0.4;
           pointer-events: none;
         }
 
-        .home-hero__media-main {
-          position: relative;
-          width: min(420px, 100%);
-          border-radius: 32px;
-          overflow: hidden;
-          box-shadow: var(--home-shadow-md);
-          z-index: 1;
-        }
-
-        .home-hero__media-main img {
+        .home-hero__media img {
           display: block;
           width: 100%;
           height: auto;
-        }
-
-        .home-hero__media-floating {
-          position: absolute;
-          background: var(--home-surface);
-          border-radius: 28px;
-          border: 1px solid var(--home-border);
-          box-shadow: var(--home-shadow-sm);
-          padding: 1rem;
-          display: grid;
-          gap: 0.75rem;
-          z-index: 2;
-          backdrop-filter: blur(12px);
-        }
-
-        .home-hero__media-collab {
-          top: 10%;
-          right: -6%;
-          width: min(260px, 65%);
-        }
-
-        .home-hero__media-collab img {
-          display: block;
-          width: 100%;
-          height: auto;
-          border-radius: 22px;
-        }
-
-        .home-hero__media-profile {
-          left: -6%;
-          bottom: 8%;
-          padding: 0.9rem 1.2rem;
-          display: flex;
-          align-items: center;
-          gap: 0.85rem;
-        }
-
-        .home-hero__media-profile img {
-          width: 74px;
-          height: 74px;
-          border-radius: 50%;
-          border: 3px solid rgba(32, 201, 151, 0.4);
-          box-shadow: var(--home-shadow-sm);
-        }
-
-        .home-hero__media-profile__content {
-          display: grid;
-          gap: 0.2rem;
-        }
-
-        .home-hero__media-profile__title {
-          font-weight: 600;
-          font-size: 0.95rem;
-        }
-
-        .home-hero__media-profile__subtitle {
-          font-size: 0.8rem;
-          color: var(--home-ink-muted);
-        }
-
-        .home-hero__media-rating {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
-          font-weight: 600;
-          font-size: 0.8rem;
-          color: var(--home-primary-strong);
-          background: var(--home-primary-soft);
-          padding: 0.3rem 0.65rem;
-          border-radius: 999px;
+          border-radius: 24px;
+          box-shadow: 0 15px 40px rgba(15, 23, 42, 0.15);
         }
 
         .home-feature-grid {
@@ -626,143 +507,17 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
         }
 
         .home-marketplace__media {
-          display: grid;
-          place-items: center;
-        }
-
-        .home-marketplace__app-card {
-          width: min(420px, 100%);
+          background: linear-gradient(150deg, var(--home-surface), var(--home-highlight));
           padding: 1.75rem;
           border-radius: 32px;
           border: 1px solid var(--home-border);
-          background:
-            radial-gradient(110% 80% at 0% 20%, rgba(32, 201, 151, 0.2), transparent 70%),
-            linear-gradient(150deg, var(--home-surface), var(--home-surface-subtle));
           box-shadow: var(--home-shadow-md);
-          display: grid;
-          gap: 1.5rem;
         }
 
-        .home-marketplace__card-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        .home-marketplace__chip {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.4rem 0.85rem;
-          border-radius: 999px;
-          background: var(--home-primary-soft);
-          color: var(--home-primary-strong);
-          font-weight: 600;
-          font-size: 0.85rem;
-        }
-
-        .home-marketplace__chip--muted {
-          background: rgba(15, 61, 46, 0.12);
-          color: var(--home-ink);
-        }
-
-        :where(.dark) .home-marketplace__chip--muted {
-          background: rgba(95, 227, 187, 0.22);
-          color: var(--home-ink);
-        }
-
-        .home-marketplace__card-header h3 {
-          margin: 0.75rem 0 0;
-          font-size: 1.1rem;
-          font-weight: 600;
-          letter-spacing: -0.01em;
-        }
-
-        .home-marketplace__listings {
-          display: grid;
-          gap: 1rem;
-        }
-
-        .home-marketplace__listing {
-          display: grid;
-          grid-template-columns: auto 1fr;
-          gap: 1rem;
-          align-items: center;
-          padding: 0.9rem;
-          border-radius: 22px;
-          border: 1px solid var(--home-border);
-          background: rgba(255, 255, 255, 0.7);
-          box-shadow: 0 18px 28px rgba(15, 23, 42, 0.08);
-        }
-
-        :where(.dark) .home-marketplace__listing {
-          background: rgba(15, 23, 42, 0.75);
-        }
-
-        .home-marketplace__listing-image {
-          width: 76px;
-          height: 76px;
-          border-radius: 20px;
-          background: var(--home-surface-subtle);
-          display: grid;
-          place-items: center;
-        }
-
-        .home-marketplace__listing-image img {
+        .home-marketplace__media img {
           width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
-
-        .home-marketplace__listing-title {
-          font-weight: 600;
-          font-size: 1rem;
-        }
-
-        .home-marketplace__listing-price {
-          font-weight: 700;
-          color: var(--home-primary);
-        }
-
-        .home-marketplace__listing-meta {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.6rem;
-          margin-top: 0.3rem;
-          color: var(--home-ink-muted);
-          font-size: 0.85rem;
-        }
-
-        .home-marketplace__listing-rating {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.25rem;
-          font-weight: 600;
-          color: var(--home-secondary);
-        }
-
-        .home-marketplace__footer {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.5rem;
-          color: var(--home-ink-muted);
-          font-size: 0.78rem;
-        }
-
-        .home-marketplace__footer span {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.35rem;
-          padding: 0.45rem 0.75rem;
-          border-radius: 999px;
-          background: rgba(14, 165, 233, 0.12);
-          color: var(--home-ink-soft);
-          font-weight: 500;
-        }
-
-        :where(.dark) .home-marketplace__footer span {
-          background: rgba(56, 189, 248, 0.2);
-          color: var(--home-ink);
+          height: auto;
+          display: block;
         }
 
         .home-marketplace__heading {
@@ -994,25 +749,6 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           .home-cta__actions {
             justify-content: center;
           }
-
-          .home-hero__media {
-            padding: 1.5rem;
-          }
-
-          .home-hero__media-floating {
-            position: static;
-            width: 100%;
-            margin-top: 1.25rem;
-            backdrop-filter: none;
-          }
-
-          .home-hero__media-collab {
-            width: 100%;
-          }
-
-          .home-hero__media-profile {
-            justify-content: center;
-          }
         }
       `}</style>
 
@@ -1083,46 +819,16 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           </div>
 
           <div className="home-hero__media">
-            <div className="home-hero__media-main">
-              <img
-                src="/img/inicio/hero-app-car.svg"
-                alt="Aplicativo móvel do MeuCondomínio em destaque"
-                width={640}
-                height={480}
-                fetchpriority="high"
-                decoding="async"
-              />
-            </div>
-
-            <div className="home-hero__media-floating home-hero__media-collab">
-              <img
-                src="/img/inicio/hero-collab.svg"
-                alt="Equipe colaborando em painel digital"
-                width={420}
-                height={320}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-
-            <div className="home-hero__media-floating home-hero__media-profile">
-              <img
-                src="/img/inicio/testimonial-marina.svg"
-                alt="Retrato de síndica satisfeita"
-                width={120}
-                height={134}
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="home-hero__media-profile__content">
-                <span className="home-hero__media-profile__title">Marina Lopes</span>
-                <span className="home-hero__media-profile__subtitle">Síndica profissional</span>
-                <span className="home-hero__media-rating">
-                  <Star size={14} fill="currentColor" strokeWidth={0} />
-                  4,9/5 satisfação
-                </span>
-              </div>
-            </div>
+            <img
+              src="/assets/marketing/hero.svg"
+              alt="Aplicativo MeuCondomínio exibindo dashboards e marketplace"
+              width={960}
+              height={800}
+              fetchpriority="high"
+              decoding="async"
+              srcSet="/assets/marketing/hero.svg 960w"
+              sizes="(max-width: 960px) 90vw, 480px"
+            />
           </div>
         </section>
 
@@ -1137,60 +843,16 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
 
         <section className="home-marketplace">
           <div className="home-marketplace__media">
-            <div className="home-marketplace__app-card">
-              <div>
-                <div className="home-marketplace__card-header">
-                  <span className="home-marketplace__chip">
-                    <Sparkles size={16} strokeWidth={1.8} /> Destaques da semana
-                  </span>
-                  <span className="home-marketplace__chip home-marketplace__chip--muted">
-                    <ShieldCheck size={16} strokeWidth={1.8} /> Protegido
-                  </span>
-                </div>
-                <h3>Marketplace de moradores</h3>
-              </div>
-
-              <div className="home-marketplace__listings">
-                {MARKETPLACE_LISTINGS.map((listing) => (
-                  <article key={listing.title} className="home-marketplace__listing">
-                    <div className="home-marketplace__listing-image">
-                      <img
-                        src={listing.image}
-                        alt={listing.title}
-                        width={96}
-                        height={96}
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                    <div>
-                      <h3 className="home-marketplace__listing-title">{listing.title}</h3>
-                      <div className="home-marketplace__listing-price">{listing.price}</div>
-                      <div className="home-marketplace__listing-meta">
-                        <span>{listing.condition}</span>
-                        <span>• {listing.tower}</span>
-                        <span className="home-marketplace__listing-rating">
-                          <Star size={14} fill="currentColor" strokeWidth={0} />
-                          {listing.rating}
-                        </span>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              <div className="home-marketplace__footer">
-                <span>
-                  <ShieldCheck size={14} strokeWidth={1.8} /> Verificação do morador
-                </span>
-                <span>
-                  <Sparkles size={14} strokeWidth={1.8} /> Pagamento protegido
-                </span>
-                <span>
-                  <Building2 size={14} strokeWidth={1.8} /> Retirada na portaria
-                </span>
-              </div>
-            </div>
+            <img
+              src="/assets/marketing/market-illus.svg"
+              alt="Tela do marketplace com vitrine de serviços para moradores"
+              width={720}
+              height={540}
+              loading="lazy"
+              decoding="async"
+              srcSet="/assets/marketing/market-illus.svg 720w"
+              sizes="(max-width: 900px) 90vw, 420px"
+            />
           </div>
 
           <div>

@@ -12,13 +12,13 @@ export function CategoryChip({ label, icon: Icon, active, onClick }: CategoryChi
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium transition-all duration-200 min-h-[48px] focus-visible:outline-2 focus-visible:outline-[var(--brand-primary)] focus-visible:outline-offset-2 ${
+      className={`inline-flex min-h-[48px] items-center gap-2 rounded-full px-4 py-2 font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 ${
         active
-          ? 'bg-[var(--brand-primary)] text-white shadow-sm'
-          : 'bg-white border border-[var(--border-soft)] text-[var(--ink-body)] hover:border-[var(--brand-primary)] hover:text-[var(--brand-primary)]'
+          ? 'border border-transparent bg-brand-900 text-white shadow-e2'
+          : 'border border-[var(--border-soft)] bg-[var(--surface)] text-[var(--text-body)] hover:bg-[var(--surface-soft)]'
       }`}
     >
-      {Icon && <Icon className="w-4 h-4" />}
+      {Icon && <Icon aria-hidden="true" className="h-4 w-4" focusable="false" />}
       <span>{label}</span>
     </button>
   );
