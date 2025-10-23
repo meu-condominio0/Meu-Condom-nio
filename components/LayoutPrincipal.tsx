@@ -57,7 +57,8 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'colaboradores', label: 'Colaboradores', icone: User },
     { id: 'pets', label: 'Pets', icone: PawPrint },
     { id: 'veiculos', label: 'Veículos', icone: Car },
-    { id: 'marketplace', label: 'Marketplace', icone: ShoppingBag }
+    { id: 'marketplace', label: 'Marketplace', icone: ShoppingBag },
+    { id: 'faq', label: 'FAQ', icone: FileText },
   ];
 
   const menuSindico = [
@@ -79,7 +80,8 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'veiculos', label: 'Veículos', icone: Car },
     { id: 'comunicados', label: 'Comunicados', icone: MessageSquare },
     { id: 'reservas', label: 'Reservas', icone: Calendar },
-    { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle, badge: 5 }
+    { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle, badge: 5 },
+    { id: 'faqSindico', label: 'FAQ', icone: FileText },
   ];
 
   const menuItens = usuarioLogado?.tipo === 'sindico' ? menuSindico : menuMorador;

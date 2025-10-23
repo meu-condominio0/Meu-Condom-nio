@@ -36,6 +36,10 @@ import { MarketingBlogPage } from './marketing/BlogPage';
 import { MarketingComecePage } from './marketing/ComecePage';
 import { MarketingDemoPage } from './marketing/DemoPage';
 import { MarketingMarketplacePage } from './marketing/MarketplacePage';
+import { PaginaFaq } from './paginas/PaginaFaq';
+import { PaginaFaqSindico } from './paginas/PaginaFaqSindico';
+
+
 
 // Páginas placeholder para outras funcionalidades
 function PaginaPlaceholder({ titulo }: { titulo: string }) {
@@ -236,6 +240,12 @@ export function AplicativoCondominio() {
         return <PaginaVeiculos />;
       case 'configuracoes':
         return <PaginaConfiguracoes onMudarPagina={setPaginaAtiva} />;
+      case 'faq':
+        return <PaginaFaq />;
+      case 'faqSindico':
+        return <PaginaFaqSindico />;
+
+
       default:
         return <PaginaInicio onMudarPagina={setPaginaAtiva} />;
     }
