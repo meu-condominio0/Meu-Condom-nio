@@ -9,6 +9,48 @@ interface Colaborador {
   turno: string;
 }
 
+const colaboradoresMock: Colaborador[] = [
+  {
+    id: '1',
+    nome: 'João Silva',
+    funcao: 'porteiro',
+    turno: 'Manhã (6h às 14h)'
+  },
+  {
+    id: '2',
+    nome: 'Maria Santos',
+    funcao: 'zelador',
+    turno: 'Manhã (7h às 15h)'
+  },
+  {
+    id: '3',
+    nome: 'Pedro Oliveira',
+    funcao: 'seguranca',
+    turno: 'Noite (22h às 6h)'
+  },
+  {
+    id: '4',
+    nome: 'Ana Costa',
+    funcao: 'porteiro',
+    turno: 'Tarde (14h às 22h)'
+  },
+  {
+    id: '5',
+    nome: 'Carlos Souza',
+    funcao: 'zelador',
+    turno: 'Tarde (15h às 23h)'
+  }
+];
+
+const getFuncaoFormatada = (funcao: string) => {
+  const formatos = {
+    porteiro: 'Porteiro',
+    zelador: 'Zelador',
+    seguranca: 'Segurança'
+  };
+  return formatos[funcao as keyof typeof formatos] || funcao;
+};
+
 export function PaginaColaboradores() {
   const [colaboradores, setColaboradores] = useState<Colaborador[]>([]);
 
@@ -16,7 +58,10 @@ export function PaginaColaboradores() {
     fetch('http://localhost:4000/colaboradores')
       .then(r => r.json())
       .then(setColaboradores)
-      .catch(() => {});
+      .catch(() => {
+        // Usar dados mock se a API falhar
+        setColaboradores(colaboradoresMock);
+      });
   }, []);
 
   return (
@@ -41,8 +86,8 @@ export function PaginaColaboradores() {
             <TableBody>
               {colaboradores.map(c => (
                 <TableRow key={c.id}>
-                  <TableCell>{c.nome}</TableCell>
-                  <TableCell className="capitalize">{c.funcao}</TableCell>
+                  <TableCell className="font-medium">{c.nome}</TableCell>
+                  <TableCell>{getFuncaoFormatada(c.funcao)}</TableCell>
                   <TableCell>{c.turno}</TableCell>
                 </TableRow>
               ))}

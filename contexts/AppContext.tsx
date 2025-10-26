@@ -2,6 +2,12 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type TipoUsuario = 'morador' | 'sindico' | null;
 
+interface ConfiguracoesNotificacao {
+  push: boolean;
+  email: boolean;
+  sms: boolean;
+}
+
 interface DadosUsuario {
   id: string;
   nome: string;
@@ -10,6 +16,9 @@ interface DadosUsuario {
   apartamento?: string;
   isentoTaxaCondominial?: boolean;
   fracaoIdeal?: number;
+  configuracoes?: {
+    notificacoes: ConfiguracoesNotificacao;
+  };
 }
 
 interface ContextoApp {
@@ -22,12 +31,16 @@ interface ContextoApp {
   fazerLogin: (email: string, senha: string) => boolean;
   fazerLogout: () => void;
   estaCarregando: boolean;
+
+  // Adicionar função de atualização
+  atualizarUsuario: (dadosAtualizados: Partial<DadosUsuario>) => Promise<void>;
+  atualizarConfiguracoes: (novasConfiguracoes: Partial<ConfiguracoesNotificacao>) => Promise<void>;
 }
 
 const ContextoApp = createContext<ContextoApp | undefined>(undefined);
 
 // Dados mockados para demonstração
-export const usuariosMock = [
+export const usuariosMock: (DadosUsuario & { senha: string })[] = [
   {
     id: '1',
     nome: 'João Silva',
@@ -36,7 +49,14 @@ export const usuariosMock = [
     tipo: 'morador' as TipoUsuario,
     apartamento: '302',
     fracaoIdeal: 80,
-    isentoTaxaCondominial: false
+    isentoTaxaCondominial: false,
+    configuracoes: {
+      notificacoes: {
+        push: true,
+        email: true,
+        sms: false
+      }
+    }
   },
   {
     id: '2',
@@ -46,7 +66,14 @@ export const usuariosMock = [
     tipo: 'morador' as TipoUsuario,
     apartamento: '402',
     fracaoIdeal: 70,
-    isentoTaxaCondominial: false
+    isentoTaxaCondominial: false,
+    configuracoes: {
+      notificacoes: {
+        push: true,
+        email: true,
+        sms: false
+      }
+    }
   },
   {
     id: '3',
@@ -55,7 +82,14 @@ export const usuariosMock = [
     senha: '123456',
     tipo: 'sindico' as TipoUsuario,
     fracaoIdeal: 100,
-    isentoTaxaCondominial: true
+    isentoTaxaCondominial: true,
+    configuracoes: {
+      notificacoes: {
+        push: true,
+        email: true,
+        sms: false
+      }
+    }
   }
 ];
 
@@ -105,6 +139,48 @@ export function ProvedorContextoApp({ children }: { children: React.ReactNode })
     setUsuarioLogado(null);
   };
 
+  const atualizarUsuario = async (dadosAtualizados: Partial<DadosUsuario>) => {
+    if (!usuarioLogado) return;
+    
+    // Atualizar usuário no estado
+    const novosDados = { ...usuarioLogado, ...dadosAtualizados };
+    setUsuarioLogado(novosDados);
+    
+    // Atualizar na "base de dados" mock
+    const index = usuariosMock.findIndex(u => u.id === usuarioLogado.id);
+    if (index !== -1) {
+      usuariosMock[index] = { ...usuariosMock[index], ...dadosAtualizados };
+    }
+
+    // Simular delay de API
+    await new Promise(resolve => setTimeout(resolve, 500));
+  };
+
+  const atualizarConfiguracoes = async (novasConfiguracoes: Partial<ConfiguracoesNotificacao>) => {
+    if (!usuarioLogado) return;
+
+    const configuracoesAtualizadas = {
+      ...usuarioLogado.configuracoes?.notificacoes,
+      ...novasConfiguracoes
+    };
+
+    const novoUsuario = {
+      ...usuarioLogado,
+      configuracoes: {
+        ...usuarioLogado.configuracoes,
+        notificacoes: configuracoesAtualizadas
+      }
+    };
+
+    setUsuarioLogado(novoUsuario);
+
+    // Atualizar mock
+    const index = usuariosMock.findIndex(u => u.id === usuarioLogado.id);
+    if (index !== -1) {
+      usuariosMock[index] = { ...usuariosMock[index], ...novoUsuario };
+    }
+  };
+
   return (
     <ContextoApp.Provider value={{
       temaDark,
@@ -112,7 +188,9 @@ export function ProvedorContextoApp({ children }: { children: React.ReactNode })
       usuarioLogado,
       fazerLogin,
       fazerLogout,
-      estaCarregando
+      estaCarregando,
+      atualizarUsuario, // Adicionar ao provider
+      atualizarConfiguracoes
     }}>
       {children}
     </ContextoApp.Provider>
