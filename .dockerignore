@@ -21,3 +21,5 @@ mysql_data/
 !backendpy/requirements.txt
 !backendpy/app/**
 !backendpy/Dockerfile
+
+Marketing Screens Package/
