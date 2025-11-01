@@ -13,10 +13,12 @@ python-dotenv==1.0.1
 email-validator==2.2.0   # ✅ necessário para validar campos de e-mail (usado pelo Pydantic)
 
 # --- Segurança e criptografia ---
-cryptography==43.0.3
+cryptography>=44.0.1
+
 
 # --- Uploads e formulários ---
-python-multipart==0.0.9
+python-multipart>=0.0.18
+
 
 # --- Utilitários de build e compatibilidade ---
 typing-extensions>=4.12.2
