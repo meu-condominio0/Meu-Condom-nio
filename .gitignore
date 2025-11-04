@@ -56,6 +56,7 @@ Thumbs.db
 .vscode/
 *.swp
 
+<<<<<<< HEAD
 # Ambientes virtuais
 venv/
 backendpy/venv/
@@ -71,3 +72,7 @@ mysql_data/
 *.sock
 *.pid
 
+=======
+venv/
+backendpy/venv/
+>>>>>>> 1f0c2c3 (Remove pasta venv do versionamento e adiciona ao .gitignore)
