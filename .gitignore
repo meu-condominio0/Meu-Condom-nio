@@ -29,7 +29,7 @@ blob-report/
 # ========================
 venv/
 backendpy/venv/
-.venv/
+backendpy/.venv/
 **/__pycache__/
 *.py[cod]
 *.pyd
@@ -66,8 +66,8 @@ __pycache__/
 
 backendpy/uploads/
 node_modules.zip
+
 # Ignorar arquivos e pastas do MySQL local
 mysql_data/
 *.sock
 *.pid
-
