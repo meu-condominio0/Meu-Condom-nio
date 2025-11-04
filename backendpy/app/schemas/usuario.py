@@ -68,21 +68,37 @@ class UsuarioBase(BaseModel):
         return validar_cpf(v)
 
 
+# ---------------------------------------
+# CRIAÇÃO
+# ---------------------------------------
 class UsuarioCreate(UsuarioBase):
     pass
 
 
+# ---------------------------------------
+# ATUALIZAÇÃO (para PUT /usuarios/{id})
+# ---------------------------------------
 class UsuarioUpdate(BaseModel):
+    nome: Optional[str] = None
+    email: Optional[EmailStr] = None
+    apartamento: Optional[str] = None
+    bloco: Optional[str] = None
+    tipo: Optional[TipoUsuario] = None
     status: Optional[StatusUsuario] = None
+    telefone: Optional[str] = None
+    observacoes: Optional[str] = None
 
     model_config = {"from_attributes": True}
 
 
+# ---------------------------------------
+# RESPOSTA
+# ---------------------------------------
 class UsuarioResponse(BaseModel):
     id: int
     nome: str
     email: EmailStr
-    cpf: str  
+    cpf: str
     telefone: Optional[str]
     apartamento: str
     bloco: str

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { BotaoExportarVisitantes } from "@/components/ui/BotaoExportarVisitantes";
 import {
   Dialog,
   DialogContent,
@@ -93,15 +94,26 @@ export function PaginaVisitantes() {
 
   return (
     <div className="space-y-6 p-4 md:p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold mb-2">Controle de Visitantes</h2>
-          <p className="text-muted-foreground">
-            Gerencie o fluxo de acesso ao condomínio.
-          </p>
-        </div>
-        <ModalNovoRegistro onRegistroCriado={fetchRegistros} />
-      </div>
+     <div className="flex flex-wrap items-center justify-between gap-3">
+  <div>
+    <h2 className="text-2xl font-semibold mb-2">Controle de Visitantes</h2>
+    <p className="text-muted-foreground">
+      Gerencie o fluxo de acesso ao condomínio.
+    </p>
+  </div>
+
+{/* Bloco de ações (Exportar + Novo Registro) */}
+<div className="flex items-center gap-2 w-full sm:w-auto">
+  {/* Botão de exportar visitantes */}
+  <BotaoExportarVisitantes data={registrosFiltrados} />
+
+  {/* Botão de novo registro */}
+  <ModalNovoRegistro onRegistroCriado={fetchRegistros} />
+</div>
+
+
+</div>
+
 
       <Card>
         <CardHeader className="pb-2">
@@ -480,9 +492,10 @@ function ModalNovoRegistro({
   return (
     <Dialog open={aberto} onOpenChange={setAberto}>
       <DialogTrigger asChild>
-        <Button className="gap-2">
-          <Plus className="h-4 w-4" /> Novo Registro
-        </Button>
+    <Button className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium h-10 px-4 rounded-md">
+  <Plus className="h-4 w-4" /> Novo Registro
+</Button>
+
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

@@ -43,6 +43,8 @@
     "cmdk": "1.1.1",
     "embla-carousel-react": "^8.6.0",
     "input-otp": "1.4.2",
+    "jspdf": "^3.0.3",
+    "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.487.0",
     "next-themes": "0.4.6",
     "react": "^18.3.1",
@@ -54,7 +56,8 @@
     "recharts": "^2.12.7",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.5.2",
-    "vaul": "1.1.2"
+    "vaul": "1.1.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@axe-core/puppeteer": "^4.10.1",
@@ -76,11 +79,7 @@
     "vite": "^7.1.12",
     "vitest": "^4.0.4"
   },
-
   "overrides": {
-  "esbuild": ">=0.25.0"
-}
-
-
-  
+    "esbuild": ">=0.25.0"
+  }
 }

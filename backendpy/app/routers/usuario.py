@@ -4,6 +4,7 @@ from typing import List, Optional
 from ..crud.usuario import create_usuario, get_usuarios, update_usuario_status, delete_usuario, redefinir_senha, usuario_to_response
 from ..schemas.usuario import UsuarioCreate, UsuarioResponse, TipoUsuario, StatusUsuario
 from ..database import get_db
+from ..schemas.usuario import UsuarioUpdate  
 
 router = APIRouter()
 
@@ -44,6 +45,23 @@ def alterar_status(
 ):
     try:
         usuario = update_usuario_status(db, usuario_id, status)
+        return usuario_to_response(usuario)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    
+@router.put("/usuarios/{usuario_id}", response_model=UsuarioResponse)
+def atualizar_usuario(
+    usuario_id: int,
+    usuario_update: UsuarioUpdate,
+    db: Session = Depends(get_db),
+    current_user_id: int = Depends(get_current_sindico_id)
+):
+    """
+    Atualiza as informações básicas de um usuário (nome, email, bloco, apartamento, tipo, status).
+    """
+    try:
+        from ..crud.usuario import update_usuario_info  # 👈 função no CRUD
+        usuario = update_usuario_info(db, usuario_id, usuario_update)
         return usuario_to_response(usuario)
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))

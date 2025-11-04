@@ -13,7 +13,7 @@ def usuario_to_response(usuario: Usuario) -> UsuarioResponse:
         id=usuario.id,
         nome=usuario.nome,
         email=usuario.email,
-        cpf=usuario.cpf,  # ✅ agora o CPF é incluído
+        cpf=usuario.cpf,
         telefone=usuario.telefone,
         apartamento=usuario.apartamento,
         bloco=usuario.bloco,
@@ -38,7 +38,6 @@ def create_usuario(db: Session, usuario: UsuarioCreate, created_by: int):
     if db.query(Usuario).filter(Usuario.email == usuario.email).first():
         raise HTTPException(status_code=400, detail="Email já cadastrado")
 
-    # ✅ Cria o novo registro com CPF incluso
     db_usuario = Usuario(
         nome=usuario.nome,
         email=usuario.email,
@@ -47,7 +46,7 @@ def create_usuario(db: Session, usuario: UsuarioCreate, created_by: int):
         apartamento=usuario.apartamento,
         bloco=usuario.bloco,
         tipo=usuario.tipo,
-        status='ativo',  # Padrão inicial
+        status='ativo',
         data_ultimo_acesso=None,
         observacoes=usuario.observacoes,
         created_by=created_by
@@ -68,7 +67,7 @@ def get_usuarios(db: Session, skip: int = 0, limit: int = 100, search: str = Non
                 func.lower(Usuario.email).contains(search.lower()),
                 Usuario.apartamento.contains(search),
                 func.lower(Usuario.bloco).contains(search.lower()),
-                Usuario.cpf.contains(search)  # ✅ permite buscar por CPF também
+                Usuario.cpf.contains(search)
             )
         )
     if tipo:
@@ -104,3 +103,50 @@ def redefinir_senha(db: Session, usuario_id: int):
     usuario.data_ultimo_acesso = date.today()
     db.commit()
     return {"message": "Senha redefinida e enviada por email (simulado)"}
+
+
+# 🆕 =======================================================
+# ✅ Função: atualizar informações do usuário
+# =======================================================
+def update_usuario_info(db: Session, usuario_id: int, novos_dados: dict):
+    usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+    if not usuario:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+
+    # 🧩 Se CPF for enviado, valida e verifica duplicidade
+    if "cpf" in novos_dados and novos_dados["cpf"]:
+        cpf_limpo = re.sub(r'\D', '', novos_dados["cpf"])
+        if len(cpf_limpo) != 11:
+            raise HTTPException(status_code=422, detail="CPF deve conter 11 dígitos válidos")
+        duplicado_cpf = (
+            db.query(Usuario)
+            .filter(Usuario.cpf == novos_dados["cpf"], Usuario.id != usuario_id)
+            .first()
+        )
+        if duplicado_cpf:
+            raise HTTPException(status_code=400, detail="CPF já cadastrado para outro usuário")
+
+    # 🧩 Se e-mail for enviado, verifica duplicidade
+    if "email" in novos_dados and novos_dados["email"]:
+        duplicado_email = (
+            db.query(Usuario)
+            .filter(Usuario.email == novos_dados["email"], Usuario.id != usuario_id)
+            .first()
+        )
+        if duplicado_email:
+            raise HTTPException(status_code=400, detail="E-mail já cadastrado para outro usuário")
+
+    # 🔄 Atualiza apenas os campos válidos
+    campos_permitidos = [
+        "nome", "email", "cpf", "telefone", "apartamento",
+        "bloco", "tipo", "observacoes"
+    ]
+
+    for campo in campos_permitidos:
+        if campo in novos_dados and novos_dados[campo] is not None:
+            setattr(usuario, campo, novos_dados[campo])
+
+    usuario.data_ultimo_acesso = usuario.data_ultimo_acesso or None
+    db.commit()
+    db.refresh(usuario)
+    return usuario
