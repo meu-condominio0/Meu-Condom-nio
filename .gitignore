@@ -29,72 +29,7 @@ blob-report/
 # ========================
 venv/
 backendpy/venv/
-.venv/
-**/__pycache__/
-*.py[cod]
-*.pyd
-*.so
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.python-version
-
-# ========================
-# Env / Secrets
-# ========================
-.env
-.env.*
-!.env.example
-
-# ========================
-# SO / Editor
-# ========================
-.DS_Store
-Thumbs.db
-.idea/
-.vscode/
-*.swp
-
-<<<<<<< HEAD
-# Ambientes virtuais
-venv/
-backendpy/venv/
-
-<<<<<<< HEAD
-=======
-# ========================
-# Node / Vite
-# ========================
-node_modules/
-dist/
-.vite/
-tsconfig.tsbuildinfo
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Cobertura/relatórios (se usar)
-coverage/
-.nyc_output/
-
-# ========================
-# Playwright (tests e reports)
-# ========================
-playwright-report/
-test-results/
-blob-report/
-.playwright/
-
-# ========================
-# Python (virtualenv e caches)
-# ========================
-venv/
-backendpy/venv/
-.venv/
+backendpy/.venv/
 **/__pycache__/
 *.py[cod]
 *.pyd
@@ -125,22 +60,14 @@ Thumbs.db
 venv/
 backendpy/venv/
 
->>>>>>> 081f923 (Remove pasta venv do versionamento e adiciona ao .gitignore)
 # Cache do Python
 __pycache__/
 *.pyc
 
 backendpy/uploads/
 node_modules.zip
+
 # Ignorar arquivos e pastas do MySQL local
 mysql_data/
 *.sock
 *.pid
-
-<<<<<<< HEAD
-=======
-venv/
-backendpy/venv/
->>>>>>> 1f0c2c3 (Remove pasta venv do versionamento e adiciona ao .gitignore)
-=======
->>>>>>> 081f923 (Remove pasta venv do versionamento e adiciona ao .gitignore)
