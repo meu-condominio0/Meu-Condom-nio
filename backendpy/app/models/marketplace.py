@@ -3,7 +3,7 @@ from sqlalchemy.orm import validates
 from app.database import Base
 import enum
 
-class CategoriaEnum (enum.Enum):
+class CategoriaEnum (str, enum.Enum):
     troca = 'troca'
     venda = 'venda'
     servico = 'serviço'
