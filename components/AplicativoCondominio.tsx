@@ -38,6 +38,7 @@ import { MarketingDemoPage } from './marketing/DemoPage';
 import { MarketingMarketplacePage } from './marketing/MarketplacePage';
 import { PaginaFaq } from './paginas/PaginaFaq';
 import { PaginaFaqSindico } from './paginas/PaginaFaqSindico';
+import { PaginaAssembleias } from './paginas/PaginaAssembleias';
 
 
 
@@ -244,6 +245,8 @@ export function AplicativoCondominio() {
         return <PaginaFaq />;
       case 'faqSindico':
         return <PaginaFaqSindico />;
+      case 'assembleias':
+        return <PaginaAssembleias />;
 
 
       default:
