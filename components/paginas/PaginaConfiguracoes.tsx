@@ -30,6 +30,7 @@ import { ModalEditarPerfil } from '../modais/ModalEditarPerfil';
 import { ModalDadosPerfil } from '../modais/ModalDadosPerfil';
 import { ModalAlterarSenha } from '../modais/ModalAlterarSenha';
 import { ModalPrivacidade } from '../modais/ModalPrivacidade';
+import { ModalTutorial } from '../modais/ModalTutorial';
 
 interface PaginaConfiguracoesProps {
   onMudarPagina: (pagina: string) => void;
@@ -244,6 +245,7 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
   const [mostrarModalDadosPerfil, setMostrarModalDadosPerfil] = useState(false);
   const [mostrarModalAlterarSenha, setMostrarModalAlterarSenha] = useState(false);
   const [mostrarModalPrivacidade, setMostrarModalPrivacidade] = useState(false);
+  const [mostrarModalTutorial, setMostrarModalTutorial] = useState(false);
 
   const handleItemClick = (item: any) => {
     if (item.tipo === 'acao') {
@@ -256,6 +258,9 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
           break;
         case 'privacidade':
           setMostrarModalPrivacidade(true);
+          break;
+        case 'tutorial':
+          setMostrarModalTutorial(true);
           break;
       }
     }
@@ -364,7 +369,7 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
                                 handleItemClick(item);
                               }}
                             >
-                              Configurar
+                              {(item.id === 'tutorial' || item.id === 'contato' || item.id === 'termos') ? 'Acessar' : 'Editar'}
                             </Button>
                           )}
                         </div>
@@ -439,6 +444,12 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
               configuracoes: config 
             });
           }}
+        />
+      )}
+
+      {mostrarModalTutorial && (
+        <ModalTutorial
+          onClose={() => setMostrarModalTutorial(false)}
         />
       )}
     </>
