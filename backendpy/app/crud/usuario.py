@@ -108,12 +108,16 @@ def redefinir_senha(db: Session, usuario_id: int):
 # 🆕 =======================================================
 # ✅ Função: atualizar informações do usuário
 # =======================================================
-def update_usuario_info(db: Session, usuario_id: int, novos_dados: dict):
+def update_usuario_info(db: Session, usuario_id: int, usuario_update):
     usuario = db.query(Usuario).filter(Usuario.id == usuario_id).first()
+
     if not usuario:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-    # 🧩 Se CPF for enviado, valida e verifica duplicidade
+    # 🔹 Converte Pydantic -> dict
+    novos_dados = usuario_update.dict(exclude_unset=True)
+
+    # 🧩 Validação de CPF (se enviado)
     if "cpf" in novos_dados and novos_dados["cpf"]:
         cpf_limpo = re.sub(r'\D', '', novos_dados["cpf"])
         if len(cpf_limpo) != 11:
@@ -126,7 +130,7 @@ def update_usuario_info(db: Session, usuario_id: int, novos_dados: dict):
         if duplicado_cpf:
             raise HTTPException(status_code=400, detail="CPF já cadastrado para outro usuário")
 
-    # 🧩 Se e-mail for enviado, verifica duplicidade
+    # 🧩 Validação de email (se enviado)
     if "email" in novos_dados and novos_dados["email"]:
         duplicado_email = (
             db.query(Usuario)
@@ -136,17 +140,13 @@ def update_usuario_info(db: Session, usuario_id: int, novos_dados: dict):
         if duplicado_email:
             raise HTTPException(status_code=400, detail="E-mail já cadastrado para outro usuário")
 
-    # 🔄 Atualiza apenas os campos válidos
-    campos_permitidos = [
-        "nome", "email", "cpf", "telefone", "apartamento",
-        "bloco", "tipo", "observacoes"
-    ]
+    # 🔄 Atualiza apenas os campos informados
+    for campo, valor in novos_dados.items():
+        setattr(usuario, campo, valor)
 
-    for campo in campos_permitidos:
-        if campo in novos_dados and novos_dados[campo] is not None:
-            setattr(usuario, campo, novos_dados[campo])
-
-    usuario.data_ultimo_acesso = usuario.data_ultimo_acesso or None
+    # 🔹 Persiste no banco
     db.commit()
     db.refresh(usuario)
+
     return usuario
+
