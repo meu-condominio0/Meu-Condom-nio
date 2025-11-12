@@ -1,35 +1,42 @@
-# ========================
-# Node / Vite
-# ========================
+# ======================================================
+# ⚙️ NODE / VITE
+# ======================================================
 node_modules/
 dist/
 .vite/
 tsconfig.tsbuildinfo
 
-# Logs
+# Logs de execução Node / NPM
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Cobertura/relatórios (se usar)
+# Cobertura / relatórios de testes
 coverage/
 .nyc_output/
 
-# ========================
-# Playwright (tests e reports)
-# ========================
+# ======================================================
+# 🎭 PLAYWRIGHT / CYPRESS (testes e reports)
+# ======================================================
 playwright-report/
 test-results/
 blob-report/
 .playwright/
+cypress/videos/
+cypress/screenshots/
 
-# ========================
-# Python (virtualenv e caches)
-# ========================
+# ======================================================
+# 🐍 PYTHON / FASTAPI
+# ======================================================
+# Ambientes virtuais
 venv/
+.venv/
 backendpy/venv/
 backendpy/.venv/
+
+# Caches e builds Python
+__pycache__/
 **/__pycache__/
 *.py[cod]
 *.pyd
@@ -40,34 +47,43 @@ backendpy/.venv/
 .ruff_cache/
 .python-version
 
-# ========================
-# Env / Secrets
-# ========================
+# Pastas temporárias e uploads locais
+backendpy/uploads/
+tmp/
+temp/
+*.sqlite3
+
+# ======================================================
+# 🔐 VARIÁVEIS / SECRETS
+# ======================================================
 .env
 .env.*
 !.env.example
 
-# ========================
-# SO / Editor
-# ========================
+# ======================================================
+# 🐳 DOCKER / CONTAINERS
+# ======================================================
+docker-compose.override.yml
+*.pid
+*.sock
+mysql_data/
+postgres_data/
+volumes/
+
+# ======================================================
+# 💻 SISTEMA / EDITOR
+# ======================================================
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.swp
+*.swo
 
-# Ambientes virtuais
-venv/
-backendpy/venv/
-
-# Cache do Python
-__pycache__/
-*.pyc
-
-backendpy/uploads/
+# ======================================================
+# 🗂️ BACKUPS / ARQUIVOS EXTRAS
+# ======================================================
 node_modules.zip
-
-# Ignorar arquivos e pastas do MySQL local
-mysql_data/
-*.sock
-*.pid
+*.bak
+*.old
+*.orig
