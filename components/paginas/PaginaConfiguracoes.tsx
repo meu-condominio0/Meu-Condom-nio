@@ -1,4 +1,5 @@
 import { usarContextoApp } from '../../contexts/AppContext';
+import { LucideIcon } from "lucide-react";
 import { 
   User, 
   Bell, 
@@ -24,6 +25,12 @@ import { Button } from '../ui/button';
 import { Switch } from '../ui/switch';
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
+import { useState } from 'react';
+import { ModalEditarPerfil } from '../modais/ModalEditarPerfil';
+import { ModalDadosPerfil } from '../modais/ModalDadosPerfil';
+import { ModalAlterarSenha } from '../modais/ModalAlterarSenha';
+import { ModalPrivacidade } from '../modais/ModalPrivacidade';
+import { ModalTutorial } from '../modais/ModalTutorial';
 
 interface PaginaConfiguracoesProps {
   onMudarPagina: (pagina: string) => void;
@@ -33,7 +40,7 @@ interface SecaoConfig {
   id: string;
   titulo: string;
   descricao: string;
-  icone: React.ComponentType<{ className?: string }>;
+  icone: LucideIcon;
   items: {
     id: string;
     titulo: string;
@@ -46,8 +53,16 @@ interface SecaoConfig {
 }
 
 export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps) {
-  const { usuarioLogado } = usarContextoApp();
+  const { usuarioLogado, atualizarUsuario, atualizarConfiguracoes } = usarContextoApp();
   const ehSindico = usuarioLogado?.tipo === 'sindico';
+
+  const handleToggleNotificacao = async (tipo: 'push' | 'email' | 'sms', valor: boolean) => {
+    try {
+      await atualizarConfiguracoes({ [tipo]: valor });
+    } catch (error) {
+      console.error('Erro ao atualizar notificações:', error);
+    }
+  };
 
   const secoesConfig: SecaoConfig[] = [
     {
@@ -87,21 +102,21 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
           titulo: 'Notificações Push',
           descricao: 'Receber no dispositivo',
           tipo: 'toggle',
-          valor: true
+          valor: usuarioLogado?.configuracoes?.notificacoes?.push ?? false
         },
         {
           id: 'email',
           titulo: 'Email',
           descricao: 'Comunicados por email',
           tipo: 'toggle',
-          valor: true
+          valor: usuarioLogado?.configuracoes?.notificacoes?.email ?? false
         },
         {
           id: 'sms',
           titulo: 'SMS',
           descricao: 'Emergências por SMS',
           tipo: 'toggle',
-          valor: false
+          valor: usuarioLogado?.configuracoes?.notificacoes?.sms ?? false
         }
       ]
     }
@@ -226,125 +241,217 @@ export function PaginaConfiguracoes({ onMudarPagina }: PaginaConfiguracoesProps)
     ]
   });
 
+  const [mostrarModalEditarPerfil, setMostrarModalEditarPerfil] = useState(false);
+  const [mostrarModalDadosPerfil, setMostrarModalDadosPerfil] = useState(false);
+  const [mostrarModalAlterarSenha, setMostrarModalAlterarSenha] = useState(false);
+  const [mostrarModalPrivacidade, setMostrarModalPrivacidade] = useState(false);
+  const [mostrarModalTutorial, setMostrarModalTutorial] = useState(false);
+
   const handleItemClick = (item: any) => {
+    if (item.tipo === 'acao') {
+      switch (item.id) {
+        case 'perfil':
+          setMostrarModalDadosPerfil(true);
+          break;
+        case 'senha':
+          setMostrarModalAlterarSenha(true);
+          break;
+        case 'privacidade':
+          setMostrarModalPrivacidade(true);
+          break;
+        case 'tutorial':
+          setMostrarModalTutorial(true);
+          break;
+      }
+    }
     if (item.tipo === 'navegacao' && item.pagina) {
       onMudarPagina(item.pagina);
     }
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="space-y-2">
-        <h1>Configurações</h1>
-        <p className="text-muted-foreground">
-          Gerencie suas preferências e configurações do sistema
-        </p>
-      </div>
-
-      {/* Informações do usuário */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-center sm:text-left">
-            <div className="mx-auto sm:mx-0 flex items-center justify-center w-16 h-16 bg-primary rounded-full">
-              <User className="h-8 w-8 text-primary-foreground" />
-            </div>
-            <div className="flex-1 space-y-1">
-              <h3 className="font-medium text-foreground">{usuarioLogado?.nome}</h3>
-              <p className="text-muted-foreground break-all">{usuarioLogado?.email}</p>
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
-                <Badge variant="outline">
-                  {ehSindico ? 'Síndico' : `Apartamento ${usuarioLogado?.apartamento}`}
-                </Badge>
-                <Badge variant="secondary">
-                  {ehSindico ? 'Administrador' : 'Morador'}
-                </Badge>
-              </div>
-            </div>
-            <Button variant="outline" className="tap-target h-11 w-full sm:w-auto">
-              Editar Perfil
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Seções de configuração */}
+    <>
       <div className="space-y-6">
-        {secoesConfig.map((secao) => {
-          const IconeSecao = secao.icone;
-          return (
-            <Card key={secao.id}>
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/10">
-                    <IconeSecao className="h-5 w-5 text-primary" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-lg">{secao.titulo}</CardTitle>
-                    <p className="text-sm text-muted-foreground">{secao.descricao}</p>
-                  </div>
+        {/* Header */}
+        <div className="space-y-2">
+          <h1>Configurações</h1>
+          <p className="text-muted-foreground">
+            Gerencie suas preferências e configurações do sistema
+          </p>
+        </div>
+
+        {/* Informações do usuário */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-center sm:text-left">
+              <div className="mx-auto sm:mx-0 flex items-center justify-center w-16 h-16 bg-primary rounded-full">
+                <User className="h-8 w-8 text-primary-foreground" />
+              </div>
+              <div className="flex-1 space-y-1">
+                <h3 className="font-medium text-foreground">{usuarioLogado?.nome}</h3>
+                <p className="text-muted-foreground break-all">{usuarioLogado?.email}</p>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-2">
+                  <Badge variant="outline">
+                    {ehSindico ? 'Síndico' : `Apartamento ${usuarioLogado?.apartamento}`}
+                  </Badge>
+                  <Badge variant="secondary">
+                    {ehSindico ? 'Administrador' : 'Morador'}
+                  </Badge>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {secao.items.map((item, index) => (
-                  <div key={item.id}>
-                    <div
-                      className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg ${
-                        item.tipo === 'navegacao' ? 'hover:bg-accent cursor-pointer' : ''
-                      }`}
-                      onClick={() => handleItemClick(item)}
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <p className="font-medium text-foreground">{item.titulo}</p>
-                          {item.badge && (
-                            <Badge className="h-5 min-w-5 px-1.5 bg-destructive text-destructive-foreground">
-                              {item.badge}
-                            </Badge>
+              </div>
+              <Button 
+                variant="outline" 
+                className="tap-target h-11 w-full sm:w-auto" 
+                onClick={() => setMostrarModalEditarPerfil(true)}
+              >
+                Editar Perfil
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Seções de configuração */}
+        <div className="space-y-6">
+          {secoesConfig.map((secao) => {
+            const IconeSecao = secao.icone;
+            return (
+              <Card key={secao.id}>
+                <CardHeader className="pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <IconeSecao className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{secao.titulo}</CardTitle>
+                      <p className="text-sm text-muted-foreground">{secao.descricao}</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {secao.items.map((item, index) => (
+                    <div key={item.id}>
+                      <div
+                        className={`flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between p-3 rounded-lg ${
+                          item.tipo === 'navegacao' ? 'hover:bg-accent cursor-pointer' : ''
+                        }`}
+                        onClick={() => handleItemClick(item)}
+                      >
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="font-medium text-foreground">{item.titulo}</p>
+                            {item.badge && (
+                              <Badge className="h-5 min-w-5 px-1.5 bg-destructive text-destructive-foreground">
+                                {item.badge}
+                              </Badge>
+                            )}
+                          </div>
+                          {item.descricao && (
+                            <p className="text-sm text-muted-foreground mt-1 break-words">{item.descricao}</p>
                           )}
                         </div>
-                        {item.descricao && (
-                          <p className="text-sm text-muted-foreground mt-1 break-words">{item.descricao}</p>
-                        )}
+                        <div className="flex items-center justify-end gap-2 sm:justify-normal">
+                          {item.tipo === 'toggle' && (
+                            <Switch 
+                              checked={item.valor} 
+                              onCheckedChange={(checked) => handleToggleNotificacao(item.id as any, checked)}
+                              aria-label={item.titulo} 
+                            />
+                          )}
+                          {item.tipo === 'navegacao' && (
+                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                          )}
+                          {item.tipo === 'acao' && (
+                            <Button
+                              variant="ghost"
+                              className="tap-target h-11"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleItemClick(item);
+                              }}
+                            >
+                              {(item.id === 'tutorial' || item.id === 'contato' || item.id === 'termos') ? 'Acessar' : 'Editar'}
+                            </Button>
+                          )}
+                        </div>
                       </div>
-                      <div className="flex items-center justify-end gap-2 sm:justify-normal">
-                        {item.tipo === 'toggle' && (
-                          <Switch checked={item.valor} aria-label={item.titulo} />
-                        )}
-                        {item.tipo === 'navegacao' && (
-                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                        )}
-                        {item.tipo === 'acao' && (
-                          <Button variant="ghost" className="tap-target h-11">
-                            Configurar
-                          </Button>
-                        )}
-                      </div>
+                      {index < secao.items.length - 1 && <Separator />}
                     </div>
-                    {index < secao.items.length - 1 && <Separator />}
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          );
-        })}
+                  ))}
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+
+        {/* Informações do app */}
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <p className="font-medium text-foreground">ResidenceApp</p>
+                <p className="text-sm text-muted-foreground">Versão 2.1.0</p>
+              </div>
+              <Button variant="outline" className="tap-target h-11 w-full sm:w-auto">
+                <Download className="h-4 w-4 mr-2" />
+                Exportar Dados
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Informações do app */}
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <p className="font-medium text-foreground">ResidenceApp</p>
-              <p className="text-sm text-muted-foreground">Versão 2.1.0</p>
-            </div>
-            <Button variant="outline" className="tap-target h-11 w-full sm:w-auto">
-              <Download className="h-4 w-4 mr-2" />
-              Exportar Dados
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+      {mostrarModalEditarPerfil && (
+        <ModalEditarPerfil
+          usuario={usuarioLogado}
+          onClose={() => setMostrarModalEditarPerfil(false)}
+          onSave={async (dados) => {
+            if (atualizarUsuario) {
+              await atualizarUsuario({ ...usuarioLogado, ...dados });
+            }
+          }}
+        />
+      )}
+
+      {mostrarModalDadosPerfil && (
+        <ModalDadosPerfil
+          usuario={usuarioLogado}
+          onClose={() => setMostrarModalDadosPerfil(false)}
+          onSave={async (dados) => {
+            if (atualizarUsuario) {
+              await atualizarUsuario({ ...usuarioLogado, ...dados });
+            }
+          }}
+        />
+      )}
+
+      {mostrarModalAlterarSenha && (
+        <ModalAlterarSenha
+          onClose={() => setMostrarModalAlterarSenha(false)}
+          onSave={async (senhas) => {
+            // Implementar lógica de alteração de senha
+            console.log('Alterar senha:', senhas);
+          }}
+        />
+      )}
+
+      {mostrarModalPrivacidade && (
+        <ModalPrivacidade
+          configuracoes={usuarioLogado?.configuracoes}
+          onClose={() => setMostrarModalPrivacidade(false)}
+          onSave={async (config) => {
+            await atualizarUsuario({ 
+              ...usuarioLogado, 
+              configuracoes: config 
+            });
+          }}
+        />
+      )}
+
+      {mostrarModalTutorial && (
+        <ModalTutorial
+          onClose={() => setMostrarModalTutorial(false)}
+        />
+      )}
+    </>
   );
 }

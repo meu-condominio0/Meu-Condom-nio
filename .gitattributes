@@ -1,0 +1,27 @@
+# ======================================================
+# 🚀 Padronização de quebras de linha (EOL)
+# ======================================================
+
+# Define comportamento padrão para texto
+* text=auto
+
+# Força LF (Unix) em arquivos críticos
+*.sh text eol=lf
+*.py text eol=lf
+*.env text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+
+# Mantém arquivos binários intactos (sem conversão)
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.exe binary
+*.dll binary
+*.pkl binary

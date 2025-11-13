@@ -11,7 +11,7 @@ export default function App() {
         <ProvedorLancamentos>
           <div className="size-full">
             <AplicativoCondominio />
-            <Toaster />
+             <Toaster richColors position="top-center" />
           </div>
         </ProvedorLancamentos>
       </ProvedorPlanoContas>

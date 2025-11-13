@@ -104,17 +104,17 @@ export function PaginaPlanoContas() {
               <SelectItem value="despesa">Despesa</SelectItem>
             </SelectContent>
           </Select>
-          <Select value={paiId} onValueChange={setPaiId}>
-            <SelectTrigger className="w-full sm:w-48">
-              <SelectValue placeholder="Categoria pai" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="">Nenhuma</SelectItem>
-              {categorias.map(c => (
-                <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Select value={paiId || 'nenhuma'} onValueChange={v => setPaiId(v === 'nenhuma' ? '' : v)}>
+  <SelectTrigger className="w-full sm:w-48">
+    <SelectValue placeholder="Categoria pai" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem value="nenhuma">Nenhuma</SelectItem>
+    {categorias.map(c => (
+      <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>
+    ))}
+  </SelectContent>
+</Select>
           <Button onClick={handleAdicionar} className="gap-2 w-full sm:w-auto">
             <Plus className="h-4 w-4" />
             Adicionar

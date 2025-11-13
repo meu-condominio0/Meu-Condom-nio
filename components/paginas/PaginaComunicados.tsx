@@ -5,6 +5,8 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { ModalFiltrarComunicados } from '../modais/ModalFiltrarComunicados';
+import { ModalVerComunicado } from '../modais/ModalVerComunicado';
 
 interface Comunicado {
   id: string;
@@ -51,7 +53,7 @@ const comunicadosMock: Comunicado[] = [
   {
     id: '4',
     titulo: 'Uso da área comum pets',
-    conteudo: 'Recolha sempre as fezes dos animais e mantenha-os sempre na coleira dentro das dependências.',
+    conteudo: 'Recolha sempre as fezes dos animais e mantenha-os sempre na coleira nas áreas comuns.',
     autor: 'Administração',
     data: '3 d',
     categoria: 'regras',
@@ -80,18 +82,47 @@ const comunicadosMock: Comunicado[] = [
   }
 ];
 
+interface FiltrosComunicados {
+  prioridade: string[];
+  lidos: 'todos' | 'lidos' | 'naoLidos';
+  periodo: 'todos' | 'hoje' | 'semana' | 'mes';
+}
+
 export function PaginaComunicados() {
+  // Estados existentes
   const [termoBusca, setTermoBusca] = useState('');
   const [categoriaAtiva, setCategoriaAtiva] = useState('todos');
   const [comunicados, setComunicados] = useState<Comunicado[]>(comunicadosMock);
+  
+  // Novos estados para filtros
+  const [mostrarModalFiltro, setMostrarModalFiltro] = useState(false);
+  const [filtros, setFiltros] = useState<FiltrosComunicados>({
+    prioridade: [],
+    lidos: 'todos',
+    periodo: 'todos'
+  });
+  const [comunicadoSelecionado, setComunicadoSelecionado] = useState<Comunicado | null>(null);
 
   const comunicadosFiltrados = comunicados.filter((comunicado) => {
     const correspondeTermo = comunicado.titulo.toLowerCase().includes(termoBusca.toLowerCase()) ||
                            comunicado.conteudo.toLowerCase().includes(termoBusca.toLowerCase());
     const correspondeCategoria = categoriaAtiva === 'todos' || comunicado.categoria === categoriaAtiva;
+    
+    // Aplicar filtros adicionais
+    const correspondePrioridade = filtros.prioridade.length === 0 || 
+                                filtros.prioridade.includes(comunicado.prioridade);
+    
+    const correspondeLido = filtros.lidos === 'todos' ||
+                          (filtros.lidos === 'lidos' && comunicado.lido) ||
+                          (filtros.lidos === 'naoLidos' && !comunicado.lido);
 
-    return correspondeTermo && correspondeCategoria;
+    return correspondeTermo && correspondeCategoria && correspondePrioridade && correspondeLido;
   });
+
+  const handleAplicarFiltros = (novosFiltros: any) => {
+    setFiltros(novosFiltros);
+    setMostrarModalFiltro(false);
+  };
 
   const handleConfirmarLeitura = (id: string) => {
     setComunicados(prev => prev.map(c => c.id === id ? { ...c, lido: true } : c));
@@ -137,11 +168,24 @@ export function PaginaComunicados() {
             className="pl-12 h-12 text-base"
           />
         </div>
-        <Button variant="outline" className="gap-2 h-12 px-6">
+        <Button 
+          variant="outline" 
+          className="gap-2 h-12 px-6"
+          onClick={() => setMostrarModalFiltro(true)}
+        >
           <Filter className="h-5 w-5" />
           Filtrar
         </Button>
       </div>
+
+      {/* Modal de Filtros */}
+      {mostrarModalFiltro && (
+        <ModalFiltrarComunicados
+          filtrosAtuais={filtros}
+          onAplicar={handleAplicarFiltros}
+          onFechar={() => setMostrarModalFiltro(false)}
+        />
+      )}
 
       {/* Abas de categorias */}
       <Tabs value={categoriaAtiva} onValueChange={setCategoriaAtiva}>
@@ -214,6 +258,7 @@ export function PaginaComunicados() {
                         variant="ghost"
                         size="sm"
                         className="gap-2 text-muted-foreground hover:text-foreground"
+                        onClick={() => setComunicadoSelecionado(comunicado)}
                       >
                         Ver mais
                         <ChevronRight className="h-4 w-4" />
@@ -241,6 +286,20 @@ export function PaginaComunicados() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Adicionar modal de visualização */}
+      {comunicadoSelecionado && (
+        <ModalVerComunicado
+          comunicado={comunicadoSelecionado}
+          onClose={() => setComunicadoSelecionado(null)}
+          onConfirmarLeitura={() => {
+            handleConfirmarLeitura(comunicadoSelecionado.id);
+            setComunicadoSelecionado(prev => prev ? { ...prev, lido: true } : null);
+          }}
+          getPrioridadeBadge={getPrioridadeBadge}
+          getCategoriaNome={getCategoriaNome}
+        />
+      )}
     </div>
   );
 }

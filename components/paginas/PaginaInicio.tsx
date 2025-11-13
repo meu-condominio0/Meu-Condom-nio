@@ -1,6 +1,7 @@
 import { ComponenteFeed } from '../ComponenteFeed';
 import { CardsInformativos } from '../CardsInformativos';
 import { usarContextoApp } from '../../contexts/AppContext';
+import { LucideIcon } from "lucide-react";
 import { 
   Bell, 
   Calendar, 
@@ -27,7 +28,7 @@ interface PaginaInicioProps {
 interface AcaoRapida {
   id: string;
   titulo: string;
-  icone: React.ComponentType<{ className?: string }>;
+  icone: LucideIcon;
   badge?: number;
   cor: string;
   pagina: string;

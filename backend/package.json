@@ -11,11 +11,12 @@
     "axios": "^1.6.8",
     "express": "^4.19.2",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.12"
+    "nodemailer": "^7.0.10"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.25",
+    "@types/nodemailer": "^7.0.3",
     "typescript": "^5.6.3"
   }
 }

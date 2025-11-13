@@ -1,6 +1,7 @@
 import { TrendingUp, TrendingDown, Users, Calendar, AlertTriangle, CreditCard, Home, CheckCircle } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
+import { LucideIcon } from "lucide-react";
 import { Progress } from '../ui/progress';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from 'recharts';
 
@@ -31,7 +32,7 @@ interface IndicadorProps {
   titulo: string;
   valor: string;
   descricao: string;
-  icone: React.ComponentType<{ className?: string }>;
+  icone:LucideIcon;
   tendencia?: 'alta' | 'baixa' | 'estavel';
   percentualMudanca?: string;
 }

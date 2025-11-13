@@ -49,6 +49,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'inicio', label: 'Início', icone: Home },
     { id: 'comunicados', label: 'Comunicados', icone: MessageSquare, badge: 3 },
     { id: 'reservas', label: 'Reservas', icone: Calendar },
+    { id: 'assembleias', label: 'Assembleias', icone: FileText },
     { id: 'boletos', label: 'Boletos', icone: CreditCard, badge: 2 },
     { id: 'consumo', label: 'Consumo', icone: Gauge },
     { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle },
@@ -57,7 +58,8 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'colaboradores', label: 'Colaboradores', icone: User },
     { id: 'pets', label: 'Pets', icone: PawPrint },
     { id: 'veiculos', label: 'Veículos', icone: Car },
-    { id: 'marketplace', label: 'Marketplace', icone: ShoppingBag }
+    { id: 'marketplace', label: 'Marketplace', icone: ShoppingBag },
+    { id: 'faq', label: 'FAQ', icone: FileText },
   ];
 
   const menuSindico = [
@@ -65,6 +67,7 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'paineis', label: 'Painéis', icone: BarChart3 },
     { id: 'anexos', label: 'Anexos', icone: FileText },
     { id: 'relatorios', label: 'Relatórios', icone: TrendingUp },
+    { id: 'assembleias', label: 'Assembleias', icone: FileText },
     { id: 'planoContas', label: 'Plano de Contas', icone: FileSpreadsheet },
     { id: 'importarLancamentos', label: 'Importar Lançamentos', icone: Upload },
     { id: 'extrato', label: 'Extrato', icone: ReceiptText },
@@ -79,7 +82,8 @@ export function LayoutPrincipal({ children, paginaAtiva, onMudarPagina }: Layout
     { id: 'veiculos', label: 'Veículos', icone: Car },
     { id: 'comunicados', label: 'Comunicados', icone: MessageSquare },
     { id: 'reservas', label: 'Reservas', icone: Calendar },
-    { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle, badge: 5 }
+    { id: 'ocorrencias', label: 'Ocorrências', icone: AlertTriangle, badge: 5 },
+    { id: 'faqSindico', label: 'FAQ', icone: FileText },
   ];
 
   const menuItens = usuarioLogado?.tipo === 'sindico' ? menuSindico : menuMorador;

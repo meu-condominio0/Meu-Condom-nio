@@ -1,31 +1,27 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "useDefineForClassFields": true,
-    "lib": [
-      "ES2023",
-      "DOM"
-    ],
+    "lib": ["ES2023", "DOM"],
     "module": "ESNext",
-    "skipLibCheck": true,
     "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "useDefineForClassFields": true,
     "noEmit": true,
-    "jsx": "react-jsx",
     "types": [
+      "@types/react",
+      "@types/react-dom",
       "@testing-library/jest-dom",
       "vite/client",
       "vitest"
     ]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "backend"
-  ]
+  "include": ["src", "components", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", "backend", ]
 }

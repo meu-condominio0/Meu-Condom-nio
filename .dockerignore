@@ -1,7 +1,25 @@
+# Ignora dependências e temporários
 node_modules
 dist
+build
+__pycache__
+*.pyc
+*.log
+*.db
+
+# Ignora repositório git e configs locais
 .git
 .gitignore
-Dockerfile
-docker-compose.yml
-README.md
+.env
+.DS_Store
+
+# Ignora banco local
+mysql_data/
+
+# Mantém arquivos do backend importantes
+!backendpy/start.sh
+!backendpy/requirements.txt
+!backendpy/app/**
+!backendpy/Dockerfile
+
+Marketing Screens Package/

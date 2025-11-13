@@ -1,8 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
 import os
-from dotenv import load_dotenv
 
 # Importações principais
 from .database import engine, Base
@@ -14,8 +12,6 @@ from .routers import marketplace as marketplace_router
 from fastapi.staticfiles import StaticFiles
 
 
-# Carrega variáveis de ambiente
-load_dotenv()
 
 # Instância da aplicação FastAPI
 app = FastAPI(
@@ -24,9 +20,20 @@ app = FastAPI(
 )
 
 # Configuração de CORS para o frontend React (localhost:5173)
+# Configuração de CORS para o frontend React (localhost e Docker)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=[
+        "http://localhost",
+        "http://localhost:80",
+        "http://localhost:5173",
+        "http://127.0.0.1",
+        "http://127.0.0.1:80",
+        "http://127.0.0.1:5173",
+        "http://frontend",  # nome do container do frontend (Docker)
+        "http://frontend:80",
+        "http://backend",   # pra permitir chamadas internas entre containers
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -53,3 +60,6 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Servir arquivos estáticos (PDFs, imagens, etc.)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+
+

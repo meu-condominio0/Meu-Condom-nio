@@ -4,6 +4,7 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { Label } from '../ui/label';
+import { LucideIcon } from "lucide-react";
 import { Badge } from '../ui/badge';
 import { Separator } from '../ui/separator';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
@@ -46,7 +47,7 @@ interface TipoRelatorio {
   id: string;
   titulo: string;
   descricao: string;
-  icone: React.ComponentType<{ className?: string }>;
+  icone: LucideIcon;
   categoria: 'financeiro' | 'operacional' | 'administrativo';
   dados: any[];
   tipoGrafico: 'bar' | 'line' | 'pie';
