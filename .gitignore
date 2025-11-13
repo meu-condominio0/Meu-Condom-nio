@@ -55,3 +55,8 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+__pycache__/
+*.pyc
+mysql_data/
+*.sock
+
