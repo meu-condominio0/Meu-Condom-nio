@@ -1,34 +1,49 @@
-from sqlalchemy import Column, Integer, String, Enum, ForeignKey
-from sqlalchemy.orm import validates
-from app.database import Base
+from sqlalchemy import Column, Integer, String, Float, Text, DateTime, Enum
+from sqlalchemy.sql import func
+from ..database import Base
 import enum
+from datetime import datetime
 
-class CategoriaEnum (str, enum.Enum):
-    troca = 'troca'
-    venda = 'venda'
-    servico = 'serviço'
+class CategoriaEnum(str, enum.Enum):
+    servicos = "servicos"
+    vendas = "vendas"
+    trocas = "trocas"
+
+class StatusEnum(str, enum.Enum):
+    ativo = "ativo"
+    vendido = "vendido"
+    pausado = "pausado"
 
 class Marketplace(Base):
-    __tablename__ = 'marketplace'
+    __tablename__ = "marketplace"
 
     id_anuncio = Column(Integer, primary_key=True, index=True)
-    fk_morador = Column(Integer, ForeignKey('morador.id'), nullable=False)
-    titulo = Column(String(100), nullable=False)
-    descricao = Column(String(500), nullable=False)
+    titulo = Column(String(255), nullable=False)
+    descricao = Column(Text, nullable=False)
+    preco = Column(Float, nullable=True)
     categoria = Column(Enum(CategoriaEnum), nullable=False)
+    subcategoria = Column(String(100))
 
-    @validates('titulo', 'descricao', 'categoria')
-    def validar_campos(self, key, value):
-        if not value:
-            raise ValueError(f"O campo '{key}'é obrigatorio.")
-        
-        if key == 'titulo' and len(value) > 100:
-            raise ValueError ('O titulo deve ter no máximo 100 caracteres.')
-        
-        if key == 'descricao' and len(value) > 500:
-            raise ValueError('A descricao deve conter no maximo 500 caracteres')
-        
-        if key == 'categoria' and value not in [c.value for c in CategoriaEnum]:
-            raise ValueError("categoria invalida. Use: 'troca', 'venda', ou 'servico'.")
-        
-        return value
+    nome_vendedor = Column(String(255), nullable=False)
+    apartamento_vendedor = Column(String(20), nullable=False)
+
+    avaliacao = Column(Float, default=5.0)
+    total_avaliacoes = Column(Integer, default=0)
+
+    imagem_principal = Column(String(500), nullable=True)
+
+    # 🔥 Aqui agora é CERTO: uma coluna STRING com vários arquivos separados por vírgula
+    imagens = Column(Text, nullable=True)
+
+    data_publicacao = Column(DateTime, default=datetime.utcnow)
+    favoritos = Column(Integer, default=0)
+    telefone = Column(String(20))
+    whatsapp = Column(String(20))
+    status = Column(Enum(StatusEnum), default=StatusEnum.ativo)
+
+    # 🔥 propriedade que transforma string -> lista
+    @property
+    def imagens_lista(self):
+        if not self.imagens:
+            return []
+        return self.imagens.split(",")

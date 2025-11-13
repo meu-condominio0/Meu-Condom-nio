@@ -39,6 +39,8 @@ import { MarketingMarketplacePage } from './marketing/MarketplacePage';
 import { PaginaFaq } from './paginas/PaginaFaq';
 import { PaginaFaqSindico } from './paginas/PaginaFaqSindico';
 import { PaginaAssembleias } from './paginas/PaginaAssembleias';
+import { PaginaMarketplaceDetalhes } from "./paginas/PaginaMarketplaceDetalhes";
+
 
 
 
@@ -105,6 +107,7 @@ function normalizarCaminhoPublico(pathname: string): PublicPath {
 export function AplicativoCondominio() {
   const { usuarioLogado, estaCarregando } = usarContextoApp();
   const [paginaAtiva, setPaginaAtiva] = useState('inicio');
+  const [anuncioSelecionado, setAnuncioSelecionado] = useState<any>(null);
   const [publicPath, setPublicPath] = useState<PublicPath>(() => {
     if (typeof window === 'undefined') {
       return '/';
@@ -210,7 +213,15 @@ export function AplicativoCondominio() {
       case 'chat':
         return <PaginaChat />;
       case 'marketplace':
-        return <PaginaMarketplace />;
+  return (
+    <PaginaMarketplace 
+      onAbrirDetalhes={(item) => {
+        setAnuncioSelecionado(item);
+        setPaginaAtiva("marketplaceDetalhes");
+      }}
+    />
+  );
+
       case 'paineis':
         return <PaginaPaineis />;
       case 'anexos':
@@ -247,6 +258,15 @@ export function AplicativoCondominio() {
         return <PaginaFaqSindico />;
       case 'assembleias':
         return <PaginaAssembleias />;
+     case "marketplaceDetalhes":
+  return (
+    <PaginaMarketplaceDetalhes
+      anuncio={anuncioSelecionado}
+      onVoltar={() => setPaginaAtiva("marketplace")}
+    />
+  );
+
+
 
 
       default:
