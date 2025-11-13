@@ -59,4 +59,6 @@ __pycache__/
 *.pyc
 mysql_data/
 *.sock
+backendpy/uploads/
+*.pdf
 
