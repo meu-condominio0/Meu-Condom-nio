@@ -8,9 +8,12 @@ from .routers import usuario as usuario_router
 from .routers import visitante as visitante_router
 from .routers import anexo as anexo_router  # Importação do novo router
 from fastapi.staticfiles import StaticFiles
+from .routers import marketplace as marketplace_router
+from fastapi.staticfiles import StaticFiles
 
-# Importa o model de anexo para garantir criação da tabela
-from .models import anexo as modelo_anexo
+
+
+
 
 
 # Instância da aplicação FastAPI
@@ -47,18 +50,17 @@ Base.metadata.create_all(bind=engine)
 app.include_router(usuario_router.router, prefix="/api", tags=["Usuarios"])
 app.include_router(visitante_router.router, prefix="/api", tags=["Visitante"])
 app.include_router(anexo_router.router, prefix="/api", tags=["Anexos"])
+app.include_router(marketplace_router.router)
+app.mount("/uploads", StaticFiles(directory="backendpy/uploads"), name="uploads")
+
 
 # Rota raiz
 @app.get("/")
 def read_root():
     return {"message": "Backend Condomínio rodando! Acesse /docs para Swagger."}
 
-# Pasta de uploads — garante que existe
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-# Servir arquivos estáticos (PDFs, imagens, etc.)
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
 
 
 
