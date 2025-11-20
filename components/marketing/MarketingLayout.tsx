@@ -491,8 +491,87 @@ export function MarketingLayout({
         }
 
         .marketing-card-featured {
-          background: linear-gradient(140deg, rgba(15, 61, 46, 0.08), rgba(32, 201, 151, 0.12));
-          border-color: rgba(15, 61, 46, 0.16);
+          background: linear-gradient(150deg, rgba(15, 61, 46, 0.08), rgba(32, 201, 151, 0.2));
+          border-color: rgba(15, 61, 46, 0.18);
+        }
+
+        .pricing-plan-card {
+          position: relative;
+          padding: 24px;
+          gap: 16px;
+        }
+
+        .pricing-plan-card-featured {
+          transform: translateY(-4px) scale(1.02);
+          box-shadow: 0 20px 36px rgba(15, 61, 46, 0.16);
+          border-width: 1.5px;
+        }
+
+        .pricing-badge {
+          position: absolute;
+          top: 14px;
+          right: 14px;
+          background: linear-gradient(120deg, rgba(32, 201, 151, 0.18), rgba(15, 61, 46, 0.12));
+          color: var(--text);
+          border-radius: 999px;
+          padding: 6px 12px;
+          font-size: 12px;
+          font-weight: 700;
+          border: 1px solid rgba(15, 61, 46, 0.18);
+        }
+
+        .pricing-toggle {
+          display: inline-flex;
+          align-items: center;
+          background: var(--bg-soft);
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          padding: 4px;
+          gap: 6px;
+          margin: 12px 0 22px;
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .pricing-toggle-option {
+          border: none;
+          background: transparent;
+          padding: 8px 14px;
+          border-radius: 999px;
+          font-weight: 600;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+
+        .pricing-toggle-option.active {
+          background: var(--card);
+          color: var(--text);
+          box-shadow: 0 10px 20px rgba(15, 61, 46, 0.08);
+        }
+
+        .pricing-toggle-badge {
+          color: var(--brand);
+          font-weight: 700;
+          margin-left: 6px;
+        }
+
+        .pricing-addon-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .pricing-addon-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: var(--bg-soft);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          border: 1px solid var(--border);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
         }
 
         .marketing-card h3 {
@@ -646,6 +725,8 @@ export function MarketingLayout({
           text-align: left;
           border-bottom: 1px solid var(--border);
           color: var(--text-dim);
+          position: relative;
+          transition: background 0.2s ease, color 0.2s ease;
         }
 
         .marketing-table tbody tr:last-child td {
@@ -654,6 +735,42 @@ export function MarketingLayout({
 
         .marketing-table tbody tr:nth-child(even) {
           background: rgba(15, 61, 46, 0.04);
+        }
+
+        .marketing-table .is-hovered {
+          background: rgba(32, 201, 151, 0.12);
+          color: var(--text);
+        }
+
+        .pricing-resource-col {
+          position: sticky;
+          left: 0;
+          background: var(--card);
+          z-index: 2;
+          font-weight: 700;
+          box-shadow: 10px 0 16px rgba(15, 61, 46, 0.05);
+        }
+
+        .marketing-table tbody tr:nth-child(even) .pricing-resource-col {
+          background: rgba(15, 61, 46, 0.04);
+        }
+
+        .pricing-unavailable span {
+          color: var(--text-muted);
+          font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+          .marketing-table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+
+          .pricing-resource-col {
+            position: static;
+            box-shadow: none;
+          }
         }
 
         .marketing-tagline {
