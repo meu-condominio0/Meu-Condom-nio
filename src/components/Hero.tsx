@@ -50,7 +50,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="button"
               data-cta="primary"
@@ -59,7 +59,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
                 dispatchCtaEvent('primary');
                 onPrimaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center rounded-full bg-emerald-900 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-900/10 transition hover:bg-emerald-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900/10 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-emerald-900 px-10 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-900/10 transition-transform transition-shadow duration-200 hover:scale-[1.03] hover:bg-emerald-800 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900/10 sm:w-auto sm:min-w-[260px] sm:text-lg"
             >
               Começar agora — 14 dias grátis
             </button>
@@ -71,12 +71,17 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
                 dispatchCtaEvent('demo');
                 onSecondaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center rounded-full border border-transparent px-6 py-3 text-base font-semibold text-emerald-900 transition hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:text-emerald-200 dark:hover:text-emerald-100 dark:focus-visible:ring-offset-slate-950 sm:w-auto"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-emerald-200 bg-white/80 px-7 py-3 text-base font-semibold text-emerald-900 transition duration-200 hover:border-emerald-600 hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-400/40 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50 dark:border-emerald-500/40 dark:bg-emerald-900/40 dark:text-emerald-200 dark:hover:border-emerald-300 dark:hover:text-emerald-100 dark:focus-visible:ring-offset-slate-950 sm:w-auto sm:min-w-[220px]"
             >
+              <svg
+                aria-hidden="true"
+                className="h-5 w-5 fill-current"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M5 3.75c0-1.04 1.16-1.67 2.03-1.1l8.1 5.47c.78.52.78 1.63 0 2.15l-8.1 5.47C6.16 16.32 5 15.7 5 14.66V3.75Z" />
+              </svg>
               <span>Ver demonstração em 3 min</span>
-              <span aria-hidden="true" className="ml-2 text-lg">
-                →
-              </span>
             </button>
           </div>
 
