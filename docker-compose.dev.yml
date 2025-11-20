@@ -6,7 +6,7 @@ services:
     container_name: condominio_db_dev
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 253122
+      MYSQL_ROOT_PASSWORD: "010598"
       MYSQL_DATABASE: condominio_system
     ports:
       - "3308:3306"
@@ -26,7 +26,7 @@ services:
     command: >
       sh -c "
         echo '🔧 Aguardando MySQL...';
-        sleep 5;
+        sleep 20;
         uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
       "
     ports:

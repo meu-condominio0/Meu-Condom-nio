@@ -4,7 +4,7 @@ services:
     container_name: condominio_db_container
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 253122
+      MYSQL_ROOT_PASSWORD: "010598"
       MYSQL_DATABASE: condominio_system
     ports:
       - "3308:3306"
