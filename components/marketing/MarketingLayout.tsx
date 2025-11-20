@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode } from 'react';
+import { useEffect, useState, type MouseEvent, type ReactNode } from 'react';
 
 export type MarketingPath =
   | '/'
@@ -35,24 +35,44 @@ export function MarketingLayout({
   onNavigate,
   onLogin,
 }: MarketingLayoutProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
     if (currentPath === path) {
+      setIsMenuOpen(false);
       return;
     }
 
     onNavigate(path);
+    setIsMenuOpen(false);
   };
 
   const handleLogin = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     onLogin();
+    setIsMenuOpen(false);
   };
 
   const handlePrimaryCta = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     onNavigate('/comece');
+    setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -111,18 +131,36 @@ export function MarketingLayout({
           position: sticky;
           top: 0;
           z-index: 20;
-          backdrop-filter: saturate(160%) blur(12px);
-          background: rgba(255, 255, 255, 0.92);
-          border-bottom: 1px solid var(--border);
-          box-shadow: 0 12px 30px rgba(15, 61, 46, 0.08);
+          backdrop-filter: saturate(160%) blur(14px);
+          background: rgba(255, 255, 255, 0.9);
+          border-bottom: 1px solid transparent;
+          box-shadow: 0 10px 30px rgba(15, 61, 46, 0.06);
+          transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+
+        .marketing-header[data-scrolled='true'] {
+          background: rgba(255, 255, 255, 0.96);
+          border-color: var(--border);
+          box-shadow: 0 18px 45px rgba(15, 61, 46, 0.12);
+        }
+
+        :where(.dark) .marketing-header {
+          background: rgba(15, 23, 42, 0.85);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        :where(.dark) .marketing-header[data-scrolled='true'] {
+          background: rgba(15, 23, 42, 0.92);
+          border-color: rgba(148, 163, 184, 0.16);
+          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
         }
 
         .marketing-nav {
           display: flex;
           align-items: center;
-          justify-content: space-between;
           gap: 16px;
-          height: 72px;
+          height: 76px;
+          position: relative;
         }
 
         .marketing-logo {
@@ -159,21 +197,29 @@ export function MarketingLayout({
 
         .marketing-menu {
           display: flex;
-          gap: 14px;
           align-items: center;
-          flex-wrap: wrap;
+          gap: 16px;
+          margin-left: auto;
+        }
+
+        .marketing-menu__links {
+          display: flex;
+          align-items: center;
+          gap: 12px;
         }
 
         .marketing-menu a {
-          padding: 8px 12px;
+          padding: 9px 13px;
           border-radius: 12px;
           color: var(--text-dim);
           transition: transform 0.15s, background 0.15s, color 0.15s;
+          border: 1px solid transparent;
         }
 
         .marketing-menu a[data-active="true"] {
           background: rgba(32, 201, 151, 0.12);
           color: var(--brand);
+          border-color: rgba(32, 201, 151, 0.14);
         }
 
         .marketing-menu a:hover {
@@ -184,9 +230,70 @@ export function MarketingLayout({
 
         .marketing-actions {
           display: flex;
-          gap: 12px;
+          gap: 10px;
           align-items: center;
-          flex-wrap: wrap;
+        }
+
+        .marketing-menu-toggle {
+          display: none;
+          align-items: center;
+          justify-content: center;
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          border: 1px solid var(--border);
+          background: rgba(255, 255, 255, 0.8);
+          box-shadow: 0 12px 30px rgba(15, 61, 46, 0.1);
+          cursor: pointer;
+          transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+          margin-left: auto;
+        }
+
+        .marketing-menu-toggle:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 16px 32px rgba(15, 61, 46, 0.12);
+          background: rgba(255, 255, 255, 0.92);
+        }
+
+        .marketing-menu-toggle__bar {
+          display: block;
+          width: 18px;
+          height: 2px;
+          background: var(--text);
+          border-radius: 999px;
+          position: relative;
+        }
+
+        .marketing-menu-toggle__bar::before,
+        .marketing-menu-toggle__bar::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          width: 18px;
+          height: 2px;
+          background: var(--text);
+          border-radius: 999px;
+          transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .marketing-menu-toggle__bar::before {
+          top: -6px;
+        }
+
+        .marketing-menu-toggle__bar::after {
+          top: 6px;
+        }
+
+        .marketing-menu-toggle[data-open='true'] .marketing-menu-toggle__bar {
+          background: transparent;
+        }
+
+        .marketing-menu-toggle[data-open='true'] .marketing-menu-toggle__bar::before {
+          transform: translateY(6px) rotate(45deg);
+        }
+
+        .marketing-menu-toggle[data-open='true'] .marketing-menu-toggle__bar::after {
+          transform: translateY(-6px) rotate(-45deg);
         }
 
         .marketing-hero-actions {
@@ -232,7 +339,7 @@ export function MarketingLayout({
           padding: 10px 16px;
           border-radius: 14px;
           border: 1px solid transparent;
-          font-weight: 600;
+          font-weight: 700;
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -242,15 +349,16 @@ export function MarketingLayout({
         }
 
         .marketing-cta {
-          background: var(--brand);
+          background: linear-gradient(120deg, var(--brand) 0%, var(--brand-2) 100%);
           color: #ffffff;
-          border-color: var(--brand);
+          border-color: var(--brand-2);
         }
 
         .marketing-cta-secondary {
-          background: #ffffff;
-          color: var(--brand);
-          border-color: var(--brand);
+          background: transparent;
+          color: var(--text);
+          border-color: var(--border);
+          box-shadow: 0 12px 24px rgba(15, 61, 46, 0.08);
         }
 
         .marketing-cta:hover,
@@ -260,7 +368,9 @@ export function MarketingLayout({
         }
 
         .marketing-cta-secondary:hover {
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(32, 201, 151, 0.08);
+          color: var(--brand);
+          border-color: rgba(32, 201, 151, 0.25);
         }
 
         .marketing-main {
@@ -601,15 +711,61 @@ export function MarketingLayout({
 
         @media (max-width: 960px) {
           .marketing-nav {
+            height: auto;
+            padding: 14px 0;
+          }
+
+          .marketing-menu-toggle {
+            display: inline-flex;
+          }
+
+          .marketing-menu {
+            position: absolute;
+            inset: calc(100% + 12px) 0 auto 0;
+            padding: 16px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid var(--border);
+            box-shadow: 0 22px 50px rgba(15, 61, 46, 0.16);
             flex-direction: column;
             align-items: flex-start;
-            height: auto;
-            padding: 18px 0;
+            gap: 12px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-8px);
+            transition: opacity 0.18s ease, transform 0.18s ease;
+          }
+
+          .marketing-menu[data-open='true'] {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+          }
+
+          .marketing-menu__links {
+            flex-direction: column;
+            width: 100%;
+          }
+
+          .marketing-menu a {
+            width: 100%;
           }
 
           .marketing-actions {
             width: 100%;
-            justify-content: flex-start;
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .marketing-cta,
+          .marketing-cta-secondary {
+            width: 100%;
+          }
+
+          :where(.dark) .marketing-menu {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(148, 163, 184, 0.2);
+            box-shadow: 0 24px 52px rgba(0, 0, 0, 0.4);
           }
         }
 
@@ -622,7 +778,11 @@ export function MarketingLayout({
       `}</style>
 
       <div className="marketing-wrap">
-        <header className="marketing-header" role="banner">
+        <header
+          className="marketing-header"
+          role="banner"
+          data-scrolled={isScrolled ? 'true' : undefined}
+        >
           <div className="marketing-container marketing-nav">
             <a
               href="/"
@@ -633,41 +793,58 @@ export function MarketingLayout({
               MeuCondomínio
             </a>
 
-            <nav className="marketing-menu" aria-label="Navegação principal">
-              {NAVIGATION_LINKS.map((link) => {
-                const isActive = currentPath === link.href;
+            <nav
+              className="marketing-menu"
+              aria-label="Navegação principal"
+              data-open={isMenuOpen ? 'true' : undefined}
+            >
+              <div className="marketing-menu__links">
+                {NAVIGATION_LINKS.map((link) => {
+                  const isActive = currentPath === link.href;
 
-                return (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    data-active={isActive ? 'true' : undefined}
-                    aria-current={isActive ? 'page' : undefined}
-                    onClick={(event) => handleNavigate(event, link.href)}
-                  >
-                    {link.label}
-                  </a>
-                );
-              })}
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      data-active={isActive ? 'true' : undefined}
+                      aria-current={isActive ? 'page' : undefined}
+                      onClick={(event) => handleNavigate(event, link.href)}
+                    >
+                      {link.label}
+                    </a>
+                  );
+                })}
+              </div>
+
+              <div className="marketing-actions">
+                <a
+                  href="/comece"
+                  className="marketing-cta"
+                  onClick={handlePrimaryCta}
+                >
+                  Começar agora
+                </a>
+
+                <a
+                  href="/entrar"
+                  className="marketing-cta-secondary"
+                  onClick={handleLogin}
+                >
+                  Entrar
+                </a>
+              </div>
             </nav>
 
-            <div className="marketing-actions">
-              <a
-                href="/comece"
-                className="marketing-cta-secondary"
-                onClick={handlePrimaryCta}
-              >
-                Começar agora
-              </a>
-
-              <a
-                href="/entrar"
-                className="marketing-cta"
-                onClick={handleLogin}
-              >
-                Entrar
-              </a>
-            </div>
+            <button
+              type="button"
+              className="marketing-menu-toggle"
+              aria-expanded={isMenuOpen}
+              aria-label={isMenuOpen ? 'Fechar menu de navegação' : 'Abrir menu de navegação'}
+              onClick={() => setIsMenuOpen((prev) => !prev)}
+              data-open={isMenuOpen ? 'true' : undefined}
+            >
+              <span className="marketing-menu-toggle__bar" aria-hidden />
+            </button>
           </div>
         </header>
 
