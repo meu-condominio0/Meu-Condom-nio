@@ -17,6 +17,14 @@ class StatusUsuario(str, PyEnum):
     inativo = "inativo"
     bloqueado = "bloqueado"
 
+    # ---------------------------------------
+# LOGIN
+# ---------------------------------------
+class UsuarioLogin(BaseModel):
+    email: EmailStr
+    senha: str
+
+
 
 # ---------------------------------------
 # FUNÇÃO DE VALIDAÇÃO DE CPF
@@ -51,7 +59,7 @@ def validar_cpf(cpf: str) -> str:
 
 
 # ---------------------------------------
-# SCHEMAS
+# SCHEMAS BASE
 # ---------------------------------------
 class UsuarioBase(BaseModel):
     nome: str
@@ -74,9 +82,8 @@ class UsuarioBase(BaseModel):
 class UsuarioCreate(UsuarioBase):
     pass
 
-
 # ---------------------------------------
-# ATUALIZAÇÃO (para PUT /usuarios/{id})
+# ATUALIZAÇÃO
 # ---------------------------------------
 class UsuarioUpdate(BaseModel):
     nome: Optional[str] = None
@@ -92,7 +99,7 @@ class UsuarioUpdate(BaseModel):
 
 
 # ---------------------------------------
-# RESPOSTA
+# RESPOSTA DO USUÁRIO
 # ---------------------------------------
 class UsuarioResponse(BaseModel):
     id: int
@@ -107,5 +114,16 @@ class UsuarioResponse(BaseModel):
     dataUltimoAcesso: Optional[datetime]
     dataCadastro: datetime
     observacoes: Optional[str]
+
+    model_config = {"from_attributes": True}
+
+
+# ---------------------------------------
+# TOKEN RESPONSE (DEVE FICAR APÓS UsuarioResponse)
+# ---------------------------------------
+class TokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    usuario: UsuarioResponse
 
     model_config = {"from_attributes": True}

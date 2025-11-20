@@ -10,6 +10,7 @@ from .routers import anexo as anexo_router  # Importação do novo router
 from fastapi.staticfiles import StaticFiles
 from .routers import marketplace as marketplace_router
 from fastapi.staticfiles import StaticFiles
+from .core.auth_router import router as auth_router
 
 
 
@@ -52,6 +53,7 @@ app.include_router(visitante_router.router, prefix="/api", tags=["Visitante"])
 app.include_router(anexo_router.router, prefix="/api", tags=["Anexos"])
 app.include_router(marketplace_router.router)
 app.mount("/uploads", StaticFiles(directory="backendpy/uploads"), name="uploads")
+app.include_router(auth_router)
 
 
 # Rota raiz

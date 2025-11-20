@@ -13,6 +13,10 @@ class Usuario(Base):
     telefone = Column(String(20))
     apartamento = Column(String(10), nullable=False)
     bloco = Column(String(10), nullable=False)
+
+    # 🔑 NOVO CAMPO:
+    senha_hash = Column(String(255), nullable=False)
+
     tipo = Column(
         Enum('morador', 'sindico', 'subsindico', name="tipo_usuario"),
         nullable=False,
@@ -26,4 +30,4 @@ class Usuario(Base):
     data_ultimo_acesso = Column(Date)
     data_cadastro = Column(DateTime(timezone=True), server_default=func.now())
     observacoes = Column(Text)
-    created_by = Column(Integer)  # ID do síndico que cadastrou
+    created_by = Column(Integer)

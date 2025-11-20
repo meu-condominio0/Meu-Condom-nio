@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: condominio_db_dev
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 253122
+      MYSQL_DATABASE: condominio_system
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    container_name: backend_dev
+    build:
+      context: ./backendpy
+      dockerfile: Dockerfile
+    command: >
+      sh -c "
+        echo '🔧 Aguardando MySQL...';
+        sleep 5;
+        uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - ./backendpy/.env.docker   # <-- AQUI AGORA ESTÁ CORRETO
+
+    environment:
+      - DOCKER_ENV=true
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    volumes:
+      - ./backendpy/app:/app/app
+      - ./backendpy:/app
+
+  frontend:
+    container_name: frontend_dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "dev"]
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    depends_on:
+      - backend

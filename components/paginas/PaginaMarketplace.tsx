@@ -37,7 +37,8 @@ interface ItemMarketplace {
 }
 
 // ✅ URL base da API do backend
-const API_URL = '/api/marketplace';
+const API_URL = `${import.meta.env.VITE_API_URL}/api/marketplace`;
+
 
 // ✅ Função que converte o objeto vindo do backend → ItemMarketplace do front
 const mapFromApi = (item: any): ItemMarketplace => {
@@ -308,10 +309,11 @@ const handleNovoItem = async () => {
 
         <Dialog open={modalNovoItem} onOpenChange={setModalNovoItem}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" />
-              Novo Anúncio
-            </Button>
+            <Button className="gap-2 bg-green-600 hover:bg-green-700 text-white">
+  <Plus className="h-4 w-4" />
+  Novo Anúncio
+</Button>
+
           </DialogTrigger>
           <DialogContent className="sm:max-w-2xl">
             <DialogHeader>

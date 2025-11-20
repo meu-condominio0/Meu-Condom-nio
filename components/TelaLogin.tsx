@@ -32,7 +32,12 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
         setErro('Email ou senha incorretos. Tente novamente.');
       }
     } catch (error) {
-      setErro('Erro ao fazer login. Tente novamente.');
+      if (error.response?.data?.detail) {
+    setErro(error.response.data.detail);
+} else {
+    setErro('Erro ao conectar ao servidor.');
+}
+
     } finally {
       setEstaCarregando(false);
     }

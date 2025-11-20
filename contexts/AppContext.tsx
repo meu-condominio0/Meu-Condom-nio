@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+// src/Contexts/AppContext.tsx
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { api } from "../components/src/services/api"; // AGORA O CAMINHO ESTÁ CORRETO
 
-type TipoUsuario = 'morador' | 'sindico' | null;
+type TipoUsuario = "morador" | "sindico" | null;
 
 interface ConfiguracoesNotificacao {
   push: boolean;
@@ -22,176 +24,159 @@ interface DadosUsuario {
 }
 
 interface ContextoApp {
-  // Tema
   temaDark: boolean;
   alternarTema: () => void;
-  
-  // Autenticação
+
   usuarioLogado: DadosUsuario | null;
-  fazerLogin: (email: string, senha: string) => boolean;
+  fazerLogin: (email: string, senha: string) => Promise<boolean>;
   fazerLogout: () => void;
   estaCarregando: boolean;
 
-  // Adicionar função de atualização
-  atualizarUsuario: (dadosAtualizados: Partial<DadosUsuario>) => Promise<void>;
-  atualizarConfiguracoes: (novasConfiguracoes: Partial<ConfiguracoesNotificacao>) => Promise<void>;
+  atualizarUsuario: (dados: Partial<DadosUsuario>) => Promise<void>;
+  atualizarConfiguracoes: (
+    novas: Partial<ConfiguracoesNotificacao>
+  ) => Promise<void>;
 }
 
 const ContextoApp = createContext<ContextoApp | undefined>(undefined);
 
-// Dados mockados para demonstração
-export const usuariosMock: (DadosUsuario & { senha: string })[] = [
-  {
-    id: '1',
-    nome: 'João Silva',
-    email: 'morador@email.com',
-    senha: '123456',
-    tipo: 'morador' as TipoUsuario,
-    apartamento: '302',
-    fracaoIdeal: 80,
-    isentoTaxaCondominial: false,
-    configuracoes: {
-      notificacoes: {
-        push: true,
-        email: true,
-        sms: false
-      }
-    }
-  },
-  {
-    id: '2',
-    nome: 'Ana Souza',
-    email: 'ana@email.com',
-    senha: '123456',
-    tipo: 'morador' as TipoUsuario,
-    apartamento: '402',
-    fracaoIdeal: 70,
-    isentoTaxaCondominial: false,
-    configuracoes: {
-      notificacoes: {
-        push: true,
-        email: true,
-        sms: false
-      }
-    }
-  },
-  {
-    id: '3',
-    nome: 'Maria Santos',
-    email: 'sindico@email.com',
-    senha: '123456',
-    tipo: 'sindico' as TipoUsuario,
-    fracaoIdeal: 100,
-    isentoTaxaCondominial: true,
-    configuracoes: {
-      notificacoes: {
-        push: true,
-        email: true,
-        sms: false
-      }
-    }
-  }
-];
-
-export function ProvedorContextoApp({ children }: { children: React.ReactNode }) {
+export function ProvedorContextoApp({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [temaDark, setTemaDark] = useState(false);
   const [usuarioLogado, setUsuarioLogado] = useState<DadosUsuario | null>(null);
   const [estaCarregando, setEstaCarregando] = useState(true);
 
-  // Carregar tema salvo
+  // ==========================
+  // 1) Carregar tema salvo
+  // ==========================
   useEffect(() => {
-    const temaSalvo = localStorage.getItem('condominioTema');
-    if (temaSalvo === 'dark') {
+    const temaSalvo = localStorage.getItem("condominioTema");
+    if (temaSalvo === "dark") {
       setTemaDark(true);
-      document.documentElement.classList.add('dark');
+      document.documentElement.classList.add("dark");
     }
-    
-    // Simular carregamento inicial
-    setTimeout(() => setEstaCarregando(false), 1000);
+
+    carregarUsuarioLogado();
   }, []);
 
+  // ==========================
+  // 2) Alternar tema
+  // ==========================
   const alternarTema = () => {
     const novoTema = !temaDark;
     setTemaDark(novoTema);
-    
+
     if (novoTema) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('condominioTema', 'dark');
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("condominioTema", "dark");
     } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('condominioTema', 'light');
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("condominioTema", "light");
     }
   };
 
-  const fazerLogin = (email: string, senha: string): boolean => {
-    const usuario = usuariosMock.find(u => u.email === email && u.senha === senha);
-    
-    if (usuario) {
-      const { senha: _, ...dadosUsuario } = usuario;
-      setUsuarioLogado(dadosUsuario);
+  // ==========================
+  // 3) Carregar usuário via /auth/me
+  // ==========================
+  const carregarUsuarioLogado = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setEstaCarregando(false);
+      return;
+    }
+
+    try {
+      const resp = await api.get("/auth/me");
+      setUsuarioLogado(resp.data);
+    } catch {
+      // token inválido → força logout
+      localStorage.removeItem("token");
+    } finally {
+      setEstaCarregando(false);
+    }
+  };
+
+  // ==========================
+  // 4) Login REAL
+  // ==========================
+  const fazerLogin = async (email: string, senha: string): Promise<boolean> => {
+    try {
+      const resp = await api.post("/auth/login", {
+        email,
+        senha,
+      });
+
+      // Salva token
+      localStorage.setItem("token", resp.data.access_token);
+
+      // Salva usuário no contexto
+      setUsuarioLogado(resp.data.usuario);
+
       return true;
+    } catch (error: any) {
+      return false;
     }
-    
-    return false;
   };
 
+  // ==========================
+  // 5) Logout REAL
+  // ==========================
   const fazerLogout = () => {
+    localStorage.removeItem("token");
     setUsuarioLogado(null);
   };
 
-  const atualizarUsuario = async (dadosAtualizados: Partial<DadosUsuario>) => {
+  // ==========================
+  // 6) Atualizar dados do usuário
+  // ==========================
+  const atualizarUsuario = async (dados: Partial<DadosUsuario>) => {
     if (!usuarioLogado) return;
-    
-    // Atualizar usuário no estado
-    const novosDados = { ...usuarioLogado, ...dadosAtualizados };
-    setUsuarioLogado(novosDados);
-    
-    // Atualizar na "base de dados" mock
-    const index = usuariosMock.findIndex(u => u.id === usuarioLogado.id);
-    if (index !== -1) {
-      usuariosMock[index] = { ...usuariosMock[index], ...dadosAtualizados };
-    }
 
-    // Simular delay de API
-    await new Promise(resolve => setTimeout(resolve, 500));
+    const novosDados = { ...usuarioLogado, ...dados };
+    setUsuarioLogado(novosDados);
+
+    // Aqui você pode depois fazer PUT /usuarios/{id}
   };
 
-  const atualizarConfiguracoes = async (novasConfiguracoes: Partial<ConfiguracoesNotificacao>) => {
+  // ==========================
+  // 7) Atualizar notificações
+  // ==========================
+  const atualizarConfiguracoes = async (
+    novas: Partial<ConfiguracoesNotificacao>
+  ) => {
     if (!usuarioLogado) return;
 
-    const configuracoesAtualizadas = {
+    const atualizadas = {
       ...usuarioLogado.configuracoes?.notificacoes,
-      ...novasConfiguracoes
+      ...novas,
     };
 
     const novoUsuario = {
       ...usuarioLogado,
       configuracoes: {
-        ...usuarioLogado.configuracoes,
-        notificacoes: configuracoesAtualizadas
-      }
+        notificacoes: atualizadas,
+      },
     };
 
     setUsuarioLogado(novoUsuario);
-
-    // Atualizar mock
-    const index = usuariosMock.findIndex(u => u.id === usuarioLogado.id);
-    if (index !== -1) {
-      usuariosMock[index] = { ...usuariosMock[index], ...novoUsuario };
-    }
   };
 
   return (
-    <ContextoApp.Provider value={{
-      temaDark,
-      alternarTema,
-      usuarioLogado,
-      fazerLogin,
-      fazerLogout,
-      estaCarregando,
-      atualizarUsuario, // Adicionar ao provider
-      atualizarConfiguracoes
-    }}>
+    <ContextoApp.Provider
+      value={{
+        temaDark,
+        alternarTema,
+        usuarioLogado,
+        fazerLogin,
+        fazerLogout,
+        estaCarregando,
+        atualizarUsuario,
+        atualizarConfiguracoes,
+      }}
+    >
       {children}
     </ContextoApp.Provider>
   );
@@ -200,7 +185,9 @@ export function ProvedorContextoApp({ children }: { children: React.ReactNode })
 export function usarContextoApp() {
   const contexto = useContext(ContextoApp);
   if (!contexto) {
-    throw new Error('usarContextoApp deve ser usado dentro de ProvedorContextoApp');
+    throw new Error(
+      "usarContextoApp deve ser usado dentro de ProvedorContextoApp"
+    );
   }
   return contexto;
 }
