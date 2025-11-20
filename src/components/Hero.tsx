@@ -14,9 +14,10 @@ const HEADLINES: Record<HeroVariant, string> = {
 };
 
 const KPI_CARDS = [
-  { label: 'Inadimplência', value: '−35%', trend: 'bg-rose-500/20 text-rose-600 dark:text-rose-300' },
-  { label: 'Caixa', value: '+18%', trend: 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-300' },
-  { label: 'Chamados resolvidos', value: '92%', trend: 'bg-sky-500/20 text-sky-600 dark:text-sky-300' },
+  { label: 'Inadimplência', value: '−35%', direction: 'down' as const, progress: 35 },
+  { label: 'Caixa', value: '+18%', direction: 'up' as const, progress: 18 },
+  { label: 'Chamados resolvidos', value: '92%', direction: 'up' as const, progress: 92 },
+  { label: 'Taxa de resolução', value: '88%', direction: 'up' as const, progress: 88 },
 ];
 
 const PROOF_COPY = '+450 condomínios • NPS 86 • Suporte 7x12';
@@ -118,20 +119,61 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
-                {KPI_CARDS.map((kpi) => (
-                  <div key={kpi.label} className="flex flex-col gap-2 rounded-xl bg-white/90 p-4 text-left shadow-sm shadow-emerald-900/5 backdrop-blur-sm dark:bg-emerald-950/60">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-slate-600 dark:text-slate-200">{kpi.label}</span>
-                      <span className={`rounded-full px-3 py-1 text-sm font-semibold ${kpi.trend}`}>
-                        {kpi.value}
-                      </span>
-                    </div>
-                    <div className="h-2 rounded-full bg-emerald-100 dark:bg-emerald-800/50">
-                      <div className="h-full w-[75%] rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600" aria-hidden="true" />
-                    </div>
-                    <p className="text-xs text-slate-500 dark:text-slate-300">Comparativo mensal com metas do síndico.</p>
-                  </div>
-                ))}
+                {KPI_CARDS.map((kpi, index) => {
+                  const isPositive = kpi.direction === 'up';
+                  const chipClass = isPositive
+                    ? 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                    : 'bg-rose-100 text-rose-800 border border-rose-200';
+
+                  return (
+                    <article
+                      key={kpi.label}
+                      className="flex flex-col gap-3 rounded-xl border border-white/40 bg-white/90 p-4 text-left shadow-sm shadow-emerald-900/10 backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-within:ring-2 focus-within:ring-emerald-300 dark:border-emerald-500/20 dark:bg-emerald-950/60"
+                      aria-label={`Resumo de ${kpi.label}`}
+                    >
+                      <div className="flex items-start gap-3">
+                        <span
+                          aria-hidden
+                          className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-50 text-emerald-700 shadow-inner shadow-emerald-900/5 dark:bg-emerald-800/50 dark:text-emerald-50"
+                        >
+                          <span className="h-3 w-3 rounded-full bg-current" />
+                        </span>
+                        <div className="flex-1 space-y-1">
+                          <p className="text-sm font-semibold text-slate-700 dark:text-slate-100">{kpi.label}</p>
+                          <p className="text-xs text-slate-500 dark:text-slate-300">Mensal</p>
+                          <p className="text-[0.72rem] text-slate-500 dark:text-slate-400">Comparado ao mês anterior</p>
+                        </div>
+                        <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-semibold ${chipClass}`}>
+                          {kpi.value}
+                        </span>
+                      </div>
+
+                      {index === KPI_CARDS.length - 1 ? (
+                        <div className="flex items-center gap-3" aria-label="Progresso da taxa de resolução">
+                          <div className="relative h-2 flex-1 rounded-full bg-slate-100 dark:bg-emerald-800/40">
+                            <div
+                              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600"
+                              style={{ width: `${kpi.progress}%` }}
+                              role="presentation"
+                            />
+                          </div>
+                          <span className="text-sm font-semibold text-slate-700 dark:text-emerald-100">{kpi.value}</span>
+                        </div>
+                      ) : (
+                        <div className="h-2 rounded-full bg-slate-100 dark:bg-emerald-800/50" aria-hidden="true">
+                          <div
+                            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600"
+                            style={{ width: `${kpi.progress}%` }}
+                          />
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+
+              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-900 shadow-sm shadow-emerald-900/10 dark:border-emerald-500/30 dark:bg-emerald-800/60 dark:text-emerald-50">
+                SLA 7x12 com resposta em até 30 minutos
               </div>
 
               <div className="flex flex-col gap-3 rounded-xl bg-emerald-900/90 p-4 text-emerald-50 shadow-inner shadow-emerald-900/40">
