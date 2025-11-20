@@ -1,13 +1,15 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   BarChart3,
   Building2,
   CheckCircle2,
+  Menu,
   MessageSquare,
   ShieldCheck,
   Sparkles,
   Star,
+  X,
 } from 'lucide-react';
 import ThemeToggle from '../components/home/ThemeToggle';
 import type { MarketingPageProps, MarketingPath } from '../../components/marketing/MarketingLayout';
@@ -111,9 +113,18 @@ const TESTIMONIALS = [
 ];
 
 export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [activePath, setActivePath] = useState<MarketingPath>('/solucoes'); // Estado do item ativo do menu
+
   useEffect(() => {
     document.title = 'MeuCondomínio — Gestão completa para condomínios';
   }, []);
+
+  const handleNavigate = (href: MarketingPath) => {
+    setActivePath(href);
+    onNavigate(href);
+    setIsNavOpen(false);
+  };
 
   return (
     <div className="home-new">
@@ -186,74 +197,130 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
         }
 
         .home-header {
-          display: flex;
-          align-items: center;
-          gap: 2rem;
-          padding: 1.25rem 1.5rem;
-          border-radius: 999px;
-          background: linear-gradient(120deg, rgba(255, 255, 255, 0.65), rgba(255, 255, 255, 0.35));
-          backdrop-filter: blur(14px);
-          border: 1px solid var(--home-border);
-          box-shadow: var(--home-shadow-sm);
-          position: sticky;
-          top: 1.5rem;
-          z-index: 10;
+          position: sticky; /* Sticky do header aplicado aqui */
+          top: 1.25rem;
+          z-index: 20;
         }
 
-        :where(.dark) .home-header {
-          background: linear-gradient(120deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.65));
+        .home-header__bar {
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          align-items: center;
+          gap: 1.25rem;
+          padding: 1rem 1.25rem;
+          border-radius: 18px;
+          background: linear-gradient(120deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+          backdrop-filter: blur(14px);
+          border: 1px solid var(--home-border);
+          box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        :where(.dark) .home-header__bar {
+          background: linear-gradient(120deg, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.7));
+          box-shadow: 0 18px 40px rgba(2, 6, 23, 0.5);
         }
 
         .home-logo {
           display: flex;
           flex-direction: column;
           line-height: 1.1;
+          gap: 0.15rem;
         }
 
         .home-logo__brand {
           font-size: 1rem;
-          font-weight: 700;
+          font-weight: 800;
           letter-spacing: -0.02em;
         }
 
         .home-logo__tagline {
-          font-size: 0.75rem;
+          font-size: 0.78rem;
           color: var(--home-ink-muted);
         }
 
         .home-nav {
           display: flex;
-          gap: 1.25rem;
-          margin-left: auto;
-          margin-right: auto;
-          font-size: 0.95rem;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          margin-inline: auto;
+          position: relative;
         }
 
-        .home-nav button {
-          background: none;
-          border: none;
-          color: inherit;
-          font: inherit;
-          padding: 0.4rem 0.65rem;
+        .home-nav__list {
+          display: flex;
+          gap: 0.35rem;
+          align-items: center;
+        }
+
+        .home-nav__item {
+          padding: 0.45rem 0.9rem;
           border-radius: 999px;
+          border: 1px solid transparent;
+          background: transparent;
+          color: var(--home-ink-muted);
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: all 0.22s ease;
           cursor: pointer;
-          transition: background 0.2s ease, color 0.2s ease;
         }
 
-        .home-nav button:focus-visible {
+        .home-nav__item:hover {
+          color: var(--home-ink);
+          transform: translateY(-1px);
+          border-color: var(--home-border);
+          background: var(--home-primary-soft);
+        }
+
+        .home-nav__item.is-active {
+          color: var(--home-primary-strong);
+          background: var(--home-primary-soft);
+          border-color: rgba(22, 163, 74, 0.18);
+          box-shadow: 0 12px 28px rgba(22, 163, 74, 0.12);
+        }
+
+        .home-nav__item:focus-visible {
           outline: 2px solid var(--home-primary);
           outline-offset: 2px;
         }
 
-        .home-nav button:hover {
-          background: var(--home-primary-soft);
-          color: var(--home-primary-strong);
+        .home-nav__toggle {
+          width: 2.75rem;
+          height: 2.75rem;
+          border-radius: 12px;
+          border: 1px solid var(--home-border);
+          background: var(--home-surface);
+          color: var(--home-ink);
+          display: none;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
-        .home-actions {
+        .home-nav__toggle:hover {
+          transform: translateY(-1px) scale(1.02);
+          box-shadow: var(--home-shadow-sm);
+          border-color: var(--home-border-strong);
+        }
+
+        .home-nav__panel {
           display: flex;
           align-items: center;
           gap: 0.75rem;
+          position: relative;
+        }
+
+        .home-nav__drawer-actions {
+          display: none;
+          flex-direction: column;
+          gap: 0.65rem;
+        }
+
+        .home-actions {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          justify-content: flex-end;
         }
 
         .home-theme-toggle {
@@ -261,19 +328,20 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           align-items: center;
           gap: 0.45rem;
           padding: 0.55rem 0.85rem;
-          border-radius: 999px;
+          border-radius: 14px;
           border: 1px solid var(--home-border);
           background: var(--home-surface);
           color: var(--home-ink-muted);
           font-size: 0.9rem;
           font-weight: 600;
-          transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+          transition: background 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.2s ease;
         }
 
         .home-theme-toggle:hover {
           background: var(--home-primary-soft);
           color: var(--home-primary-strong);
           box-shadow: var(--home-shadow-sm);
+          transform: translateY(-1px);
         }
 
         .home-theme-toggle__icon svg {
@@ -285,18 +353,42 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           white-space: nowrap;
         }
 
-        .home-actions__login {
-          padding: 0.55rem 1rem;
-          border-radius: 999px;
-          border: 1px solid var(--home-border-strong);
-          background: var(--home-surface);
-          color: var(--home-ink-soft);
-          font-weight: 600;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        .home-actions__cta-group {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
         }
 
-        .home-actions__login:hover {
-          transform: translateY(-1px);
+        .home-actions__cta {
+          padding: 0.6rem 1.1rem;
+          border-radius: 999px;
+          font-weight: 700;
+          border: 1px solid transparent;
+          transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease, color 0.22s ease,
+            border-color 0.22s ease;
+          cursor: pointer;
+        }
+
+        .home-actions__cta--primary {
+          background: linear-gradient(120deg, var(--home-primary), var(--home-primary-strong));
+          color: #ecfeff;
+          box-shadow: 0 16px 40px rgba(34, 197, 94, 0.35);
+        }
+
+        .home-actions__cta--primary:hover {
+          transform: translateY(-2px) scale(1.01);
+          box-shadow: 0 20px 46px rgba(34, 197, 94, 0.42);
+        }
+
+        .home-actions__cta--ghost {
+          background: transparent;
+          border-color: var(--home-border-strong);
+          color: var(--home-ink);
+        }
+
+        .home-actions__cta--ghost:hover {
+          transform: translateY(-2px);
+          background: var(--home-surface);
           box-shadow: var(--home-shadow-sm);
         }
 
@@ -308,16 +400,70 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
         }
 
         @media (max-width: 960px) {
-          .home-header {
-            flex-wrap: wrap;
-            justify-content: center;
-            border-radius: 24px;
+          .home-header__bar {
+            grid-template-columns: auto auto;
+            grid-template-areas:
+              'logo actions'
+              'menu menu';
+            gap: 0.85rem;
+            padding: 0.95rem 1.05rem;
+          }
+
+          .home-logo {
+            grid-area: logo;
+          }
+
+          .home-actions {
+            grid-area: actions;
+            justify-self: end;
           }
 
           .home-nav {
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-inline: 0;
+            grid-area: menu;
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .home-nav__toggle {
+            display: inline-flex;
+          }
+
+          .home-nav__panel {
+            display: none;
+            position: absolute;
+            top: calc(100% + 0.75rem);
+            left: 0;
+            right: 0;
+            z-index: 5;
+          }
+
+          .home-nav.is-open .home-nav__panel {
+            display: grid;
+            gap: 0.75rem;
+            grid-template-columns: 1fr;
+            padding: 0.9rem;
+            border-radius: 16px;
+            background: var(--home-surface);
+            border: 1px solid var(--home-border);
+            box-shadow: var(--home-shadow-md);
+          }
+
+          .home-nav__list {
+            flex-direction: column;
+            align-items: stretch;
+          }
+
+          .home-nav__item {
+            width: 100%;
+            text-align: left;
+          }
+
+          .home-nav__drawer-actions {
+            display: flex;
+          }
+
+          .home-actions {
+            display: none;
           }
 
           .home-hero {
@@ -728,13 +874,16 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
         }
 
         @media (max-width: 720px) {
-          .home-header {
-            padding: 1rem;
+          .home-header__bar {
+            border-radius: 14px;
           }
 
-          .home-actions {
-            width: 100%;
-            justify-content: center;
+          .home-nav.is-open .home-nav__panel {
+            padding: 0.85rem;
+          }
+
+          .home-nav__drawer-actions {
+            gap: 0.8rem;
           }
 
           .home-theme-toggle__label {
@@ -754,24 +903,79 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
 
       <div className="home-shell">
         <header className="home-header" aria-label="Navegação principal">
-          <div className="home-logo">
-            <span className="home-logo__brand">MeuCondomínio</span>
-            <span className="home-logo__tagline">Gestão completa para condomínios</span>
-          </div>
+          <div className="home-header__bar">
+            <div className="home-logo">
+              <span className="home-logo__brand">MeuCondomínio</span>
+              <span className="home-logo__tagline">Gestão completa para condomínios</span>
+            </div>
 
-          <nav className="home-nav" aria-label="Seções do site">
-            {NAVIGATION_LINKS.map(({ href, label }) => (
-              <button key={href} type="button" onClick={() => onNavigate(href)}>
-                {label}
+            <nav className={`home-nav ${isNavOpen ? 'is-open' : ''}`} aria-label="Seções do site">
+              <button
+                type="button"
+                className="home-nav__toggle"
+                aria-expanded={isNavOpen}
+                aria-label={isNavOpen ? 'Fechar menu' : 'Abrir menu'}
+                onClick={() => setIsNavOpen((state) => !state)}
+              >
+                {isNavOpen ? <X size={18} /> : <Menu size={18} />}
               </button>
-            ))}
-          </nav>
 
-          <div className="home-actions">
-            <ThemeToggle className="home-actions__toggle" />
-            <button type="button" className="home-actions__login" onClick={onLogin}>
-              Entrar
-            </button>
+              <div className="home-nav__panel">
+                <div className="home-nav__list">
+                  {NAVIGATION_LINKS.map(({ href, label }) => (
+                    <button
+                      key={href}
+                      type="button"
+                      className={`home-nav__item ${activePath === href ? 'is-active' : ''}`}
+                      aria-current={activePath === href ? 'page' : undefined}
+                      onClick={() => handleNavigate(href)}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="home-nav__drawer-actions">
+                  <ThemeToggle className="home-actions__toggle" />
+                  <div className="home-actions__cta-group">
+                    <button
+                      type="button"
+                      className="home-actions__cta home-actions__cta--primary"
+                      onClick={() => handleNavigate('/solucoes')}
+                    >
+                      Começar agora
+                    </button>
+                    <button
+                      type="button"
+                      className="home-actions__cta home-actions__cta--ghost"
+                      onClick={onLogin}
+                    >
+                      Entrar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            <div className="home-actions">
+              <ThemeToggle className="home-actions__toggle" />
+              <div className="home-actions__cta-group">
+                <button
+                  type="button"
+                  className="home-actions__cta home-actions__cta--primary"
+                  onClick={() => handleNavigate('/solucoes')}
+                >
+                  Começar agora
+                </button>
+                <button
+                  type="button"
+                  className="home-actions__cta home-actions__cta--ghost"
+                  onClick={onLogin}
+                >
+                  Entrar
+                </button>
+              </div>
+            </div>
           </div>
         </header>
 
