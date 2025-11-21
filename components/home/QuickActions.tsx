@@ -41,18 +41,18 @@ export const QuickActions = memo(function QuickActions({
           </span>
         )}
       </div>
-      <div
+      <ul
         className="grid grid-flow-col auto-cols-[minmax(11rem,1fr)] gap-4 overflow-x-auto rounded-2xl bg-[rgba(255,255,255,0.04)] p-4 sm:grid-flow-row sm:grid-cols-2 sm:overflow-visible"
         role="list"
         aria-live="polite"
       >
         {status === 'loading' && (
-          <div className="col-span-full flex h-28 items-center justify-center">
+          <li className="col-span-full flex h-28 items-center justify-center">
             <span className="text-sm text-card/70">Carregando...</span>
-          </div>
+          </li>
         )}
         {status === 'error' && (
-          <div className="col-span-full flex flex-col items-center justify-center gap-2 text-center">
+          <li className="col-span-full flex flex-col items-center justify-center gap-2 text-center">
             <span className="text-sm text-card/80">Não foi possível carregar.</span>
             <button
               type="button"
@@ -61,31 +61,31 @@ export const QuickActions = memo(function QuickActions({
             >
               Tentar novamente
             </button>
-          </div>
+          </li>
         )}
         {status === 'empty' && (
-          <div className="col-span-full flex h-28 items-center justify-center">
+          <li className="col-span-full flex h-28 items-center justify-center">
             <span className="text-sm text-card/70">Sem atalhos disponíveis.</span>
-          </div>
+          </li>
         )}
         {status === 'ready' &&
           actions.map((action) => (
-            <a
-              key={action.id}
-              href={action.href}
-              role="listitem"
-              className="group flex flex-col justify-between rounded-2xl bg-card p-4 shadow-lg shadow-black/10 transition-all duration-250 hover:-translate-y-1 hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
-            >
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand transition group-hover:bg-brand group-hover:text-white">
-                {iconMap[action.icon] ?? <SparkPlaceholder />}
-              </span>
-              <div className="mt-4 space-y-1">
-                <p className="text-sm font-semibold text-neutral-900">{action.title}</p>
-                <p className="text-xs text-neutral-900/70">{action.description}</p>
-              </div>
-            </a>
+            <li key={action.id} role="listitem" className="h-full">
+              <a
+                href={action.href}
+                className="group flex h-full flex-col justify-between rounded-2xl bg-card p-4 shadow-lg shadow-black/10 transition-all duration-250 hover:-translate-y-1 hover:shadow-black/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-light"
+              >
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand/10 text-brand transition group-hover:bg-brand group-hover:text-white">
+                  {iconMap[action.icon] ?? <SparkPlaceholder />}
+                </span>
+                <div className="mt-4 space-y-1">
+                  <p className="text-sm font-semibold text-neutral-900">{action.title}</p>
+                  <p className="text-xs text-neutral-900/70">{action.description}</p>
+                </div>
+              </a>
+            </li>
           ))}
-      </div>
+      </ul>
     </section>
   );
 });
