@@ -3,24 +3,50 @@ import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
 
+import { useSidebarContext } from "./sidebar";
 import { cn } from "./utils";
 
 function NavigationMenu({
   className,
   children,
   viewport = true,
+  style,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Root> & {
   viewport?: boolean;
 }) {
+  const sidebarContext = useSidebarContext();
+  const isMobileSidebarOpen = Boolean(
+    sidebarContext?.isMobile && sidebarContext.openMobile,
+  );
+
+  const navigationStyle = React.useMemo(() => {
+    if (!isMobileSidebarOpen) {
+      return style;
+    }
+
+    const sidebarWidth = sidebarContext?.isMobile
+      ? "18rem"
+      : "var(--sidebar-width)";
+
+    return {
+      ...style,
+      "--dashboard-nav-width": sidebarWidth,
+    } as React.CSSProperties;
+  }, [isMobileSidebarOpen, sidebarContext?.isMobile, style]);
+
   return (
     <NavigationMenuPrimitive.Root
       data-slot="navigation-menu"
       data-viewport={viewport}
+      data-sidebar-mobile-open={isMobileSidebarOpen}
       className={cn(
         "group/navigation-menu relative flex max-w-max flex-1 items-center justify-center",
+        isMobileSidebarOpen &&
+          "w-[var(--dashboard-nav-width)] justify-start",
         className,
       )}
+      style={navigationStyle}
       {...props}
     >
       {children}
@@ -33,11 +59,18 @@ function NavigationMenuList({
   className,
   ...props
 }: React.ComponentProps<typeof NavigationMenuPrimitive.List>) {
+  const sidebarContext = useSidebarContext();
+  const isMobileSidebarOpen = Boolean(
+    sidebarContext?.isMobile && sidebarContext.openMobile,
+  );
+
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
       className={cn(
         "group flex flex-1 list-none items-center justify-center gap-1",
+        isMobileSidebarOpen &&
+          "w-full max-w-[var(--dashboard-nav-width)] flex-col items-stretch justify-start px-1 pb-4",
         className,
       )}
       {...props}
