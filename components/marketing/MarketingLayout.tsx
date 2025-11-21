@@ -334,6 +334,103 @@ export function MarketingLayout({
           color: var(--brand);
         }
 
+        .marketing-hero-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+          gap: 20px;
+          align-items: stretch;
+        }
+
+        .marketing-hero-card {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .marketing-hero-card__header {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .marketing-card-title {
+          margin: 10px 0 0;
+          font-size: 16px;
+          color: var(--text);
+        }
+
+        .marketing-hero-card__metrics {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+          gap: 12px;
+        }
+
+        .marketing-hero-card__metric {
+          background: var(--bg-soft);
+          border: 1px solid var(--border);
+          border-radius: 12px;
+          padding: 12px;
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .marketing-hero-card__metric-value {
+          font-weight: 800;
+          font-size: 18px;
+          color: var(--brand);
+        }
+
+        .marketing-hero-card__metric-label {
+          font-weight: 700;
+          color: var(--text);
+        }
+
+        .marketing-hero-card__metric-detail {
+          margin: 6px 0 0;
+          color: var(--text-muted);
+          font-size: 13px;
+        }
+
+        .marketing-chip-row {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+        }
+
+        .marketing-chip {
+          display: inline-flex;
+          align-items: center;
+          padding: 6px 10px;
+          border-radius: 999px;
+          background: rgba(32, 201, 151, 0.12);
+          color: var(--text);
+          font-weight: 600;
+          border: 1px solid var(--border);
+          font-size: 13px;
+        }
+
+        .marketing-status-row {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 700;
+          color: var(--text);
+        }
+
+        .marketing-status-dot {
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          background: linear-gradient(135deg, #22c55e, #16a34a);
+          box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.12);
+        }
+
+        .marketing-status-label {
+          color: var(--text-muted);
+          font-weight: 600;
+        }
+
         .marketing-cta,
         .marketing-cta-secondary {
           padding: 10px 16px;
