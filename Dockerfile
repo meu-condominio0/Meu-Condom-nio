@@ -8,11 +8,12 @@ WORKDIR /app
 # Copia arquivos de dependências para aproveitar cache
 COPY package.json package-lock.json* yarn.lock* ./
 
-# Primeiro tenta usar npm, se não existir lock tenta yarn
-RUN if [ -f package-lock.json ]; then \
-        npm ci --omit=dev; \
-    elif [ -f yarn.lock ]; then \
+# Instala TODAS as dependências (incluindo devDependencies)
+# (precisamos do typescript / tsc para rodar o build)
+RUN if [ -f yarn.lock ]; then \
         yarn install --frozen-lockfile; \
+    elif [ -f package-lock.json ]; then \
+        npm ci; \
     else \
         npm install; \
     fi
@@ -20,7 +21,7 @@ RUN if [ -f package-lock.json ]; then \
 # Copia o restante do projeto
 COPY . .
 
-# Faz o build
+# Faz o build (usa o script "build": "tsc -b && vite build")
 RUN npm run build || yarn build
 
 
@@ -29,18 +30,17 @@ RUN npm run build || yarn build
 # ============================
 FROM nginx:alpine AS production
 
-# Remove arquivos default
+# Limpa os arquivos default do Nginx
 RUN rm -rf /usr/share/nginx/html/*
 
-# Copia o build do React para a pasta do Nginx
+# Copia o build gerado pelo Vite
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copia a configuração customizada do Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Define usuário non-root (melhor segurança)
-USER nginx
-
+# Expõe a porta padrão HTTP
 EXPOSE 80
 
+# Sobe o Nginx
 CMD ["nginx", "-g", "daemon off;"]
