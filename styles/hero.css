@@ -1,0 +1,79 @@
+.hero-with-bg {
+  position: relative;
+  isolation: isolate;
+  background-image: url("/assets/marketing/fundo.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #f8fafc;
+}
+
+.hero-with-bg .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(15, 23, 42, 0.85),
+    rgba(15, 23, 42, 0.4),
+    rgba(15, 23, 42, 0.15)
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-with-bg .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-with-bg .hero-body {
+  gap: 1.75rem;
+}
+
+.hero-with-bg .hero-headline {
+  max-width: 38rem;
+}
+
+.hero-with-bg .hero-cta-group button {
+  min-height: 3.25rem;
+}
+
+@media (max-width: 767px) {
+  .hero-with-bg {
+    padding: 3.75rem 1.25rem;
+    background-position: center top;
+  }
+
+  .hero-with-bg .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 23, 42, 0.98),
+      rgba(15, 23, 42, 0.82),
+      rgba(15, 23, 42, 0.6)
+    );
+  }
+
+  .hero-with-bg .hero-content {
+    gap: 2.75rem;
+    padding-inline: 1.25rem;
+  }
+
+  .hero-with-bg .hero-body {
+    gap: 1.5rem;
+  }
+
+  .hero-with-bg .hero-headline {
+    font-size: 1.85rem;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+
+  .hero-with-bg .hero-cta-group {
+    gap: 0.85rem;
+  }
+
+  .hero-with-bg .hero-cta-group button {
+    min-height: 3.4rem;
+    width: 100%;
+  }
+}

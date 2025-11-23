@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 
+import '../../styles/hero.css';
+
 type HeroVariant = 'A' | 'B';
 
 type HeroProps = {
@@ -63,9 +65,14 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
   const summaryTitle = useMemo(() => `Resumo do condomínio — ${activeTab}`, [activeTab]);
 
   return (
-    <section className="bg-slate-50 py-16 text-slate-900 dark:bg-slate-950 dark:text-slate-100" aria-labelledby="hero-heading">
-      <div className="mx-auto grid max-w-6xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-8">
-        <div className="mx-auto flex w-full max-w-2xl flex-col gap-8 lg:mx-0">
+    <section
+      className="hero-with-bg relative overflow-hidden py-16 text-slate-900 dark:text-slate-100"
+      aria-labelledby="hero-heading"
+    >
+      <div className="hero-overlay" aria-hidden />
+
+      <div className="hero-content relative z-10 mx-auto grid max-w-6xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-8">
+        <div className="hero-body mx-auto flex w-full max-w-2xl flex-col gap-8 lg:mx-0">
           <header className="flex flex-col gap-4">
             <span className="text-sm font-medium uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-300">
               {PROOF_COPY}
@@ -73,7 +80,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
             <div className="space-y-2">
               <h1
                 id="hero-heading"
-                className="text-4xl font-black leading-tight tracking-tight text-emerald-950 transition-colors duration-200 dark:text-emerald-100 sm:text-5xl"
+                className="hero-headline text-3xl font-black leading-tight tracking-tight text-emerald-950 transition-colors duration-200 dark:text-emerald-100 sm:text-4xl lg:text-5xl"
               >
                 {headline}
               </h1>
@@ -91,7 +98,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
             </p>
           </header>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+          <div className="hero-cta-group flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="button"
               data-cta="primary"
