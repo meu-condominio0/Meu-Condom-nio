@@ -126,21 +126,112 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
 
   return (
     <MarketingLayout currentPath="/solucoes" onNavigate={onNavigate} onLogin={onLogin}>
-      <section className="marketing-section" aria-labelledby="solucoes-intro">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Plataforma completa
-          </span>
-          <h1 id="solucoes-intro" className="marketing-title">
-            O MeuCondomínio combina software, serviços e inteligência para encantar moradores e reduzir custos operacionais.
-          </h1>
-          <p className="marketing-lead">
-            Cada módulo foi construído com administradoras e síndicos profissionais para resolver dores reais, do boleto ao
-            pós-venda.
-          </p>
+      <section
+        className="bg-gradient-to-b from-emerald-50/60 via-white to-white dark:from-emerald-950/40 dark:via-slate-950 dark:to-slate-950"
+        aria-labelledby="solucoes-intro"
+      >
+        <div className="max-w-6xl mx-auto px-6 py-16 lg:py-20">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-100 px-4 py-2 text-sm font-semibold uppercase tracking-wide text-emerald-800 shadow-sm ring-1 ring-emerald-200">
+                Plataforma completa
+              </span>
+              <h1
+                id="solucoes-intro"
+                className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight text-slate-900 dark:text-white"
+              >
+                O MeuCondomínio combina software, serviços e inteligência para encantar moradores e reduzir custos operacionais.
+              </h1>
+              <p className="text-lg text-slate-600 dark:text-slate-200">
+                Única plataforma de gestão condominial com marketplace integrado, fluxos automatizados e integrações com bancos
+                e ERPs para tirar o peso da operação da administradora.
+              </p>
 
-          <div className="marketing-card" style={{ gap: 16 }} aria-label="Benefícios por persona">
-            <div className="marketing-pill-list" role="tablist" aria-label="Personas atendidas">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:-translate-y-0.5 hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500"
+                >
+                  Começar agora
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center justify-center rounded-xl border border-emerald-300 bg-white/70 px-6 py-3 text-base font-semibold text-emerald-700 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-400 hover:text-emerald-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 dark:bg-slate-900/60 dark:text-emerald-200 dark:border-emerald-800"
+                >
+                  Ver o produto em ação
+                </button>
+              </div>
+              <p className="text-sm text-slate-500 dark:text-slate-300">
+                Sem compromisso, ideal para administradoras, síndicos profissionais e condomínios-clube.
+              </p>
+            </div>
+
+            <div className="relative">
+              <div
+                className="relative overflow-hidden rounded-3xl bg-slate-900/80 shadow-2xl ring-1 ring-emerald-100/70 dark:ring-emerald-900/40"
+                style={{ backgroundImage: 'url(/assets/marketing/fachada-condominio.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}
+              >
+                <div className="absolute inset-0 bg-emerald-900/70 mix-blend-multiply" aria-hidden />
+                <div className="relative m-5 rounded-2xl border border-emerald-100/70 bg-white/90 p-6 shadow-xl backdrop-blur lg:m-7 lg:p-7 dark:border-emerald-900/40 dark:bg-slate-950/70">
+                  <div className="flex items-center justify-between border-b border-emerald-50 pb-4 dark:border-emerald-900/50">
+                    <div className="flex items-center gap-2">
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+                      <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+                    </div>
+                    <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase text-emerald-800 ring-1 ring-emerald-100 dark:bg-emerald-900/50 dark:text-emerald-100 dark:ring-emerald-800">
+                      Operação ao vivo
+                    </span>
+                  </div>
+
+                  <div className="mt-5 space-y-4">
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="col-span-2 rounded-xl bg-emerald-50 px-4 py-5 shadow-sm ring-1 ring-emerald-100 dark:bg-emerald-950/40 dark:ring-emerald-800">
+                        <p className="text-xs font-semibold uppercase text-emerald-700 dark:text-emerald-200">Inadimplência</p>
+                        <p className="mt-2 text-2xl font-bold text-emerald-900 dark:text-emerald-50">-18%</p>
+                        <p className="text-sm text-emerald-700 dark:text-emerald-200">vs último mês</p>
+                      </div>
+                      <div className="rounded-xl bg-white px-4 py-5 shadow-sm ring-1 ring-emerald-100 dark:bg-slate-900/70 dark:ring-emerald-800">
+                        <p className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-300">Chamados</p>
+                        <p className="mt-2 text-lg font-bold text-slate-900 dark:text-white">42 abertos</p>
+                      </div>
+                    </div>
+
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-xl border border-emerald-100 bg-white px-4 py-4 shadow-sm dark:border-emerald-900/50 dark:bg-slate-900/70">
+                        <p className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-300">Assembleias</p>
+                        <div className="mt-3 flex items-center justify-between">
+                          <span className="text-sm font-medium text-slate-900 dark:text-white">Engajamento</span>
+                          <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100">
+                            78%
+                          </span>
+                        </div>
+                        <div className="mt-3 h-2 rounded-full bg-emerald-100">
+                          <div className="h-full w-[78%] rounded-full bg-emerald-500" />
+                        </div>
+                      </div>
+                      <div className="rounded-xl border border-emerald-100 bg-white px-4 py-4 shadow-sm dark:border-emerald-900/50 dark:bg-slate-900/70">
+                        <p className="text-xs font-semibold uppercase text-slate-500 dark:text-slate-300">Reservas</p>
+                        <div className="mt-3 space-y-2">
+                          <div className="flex items-center justify-between text-sm font-medium text-slate-900 dark:text-white">
+                            <span>Áreas confirmadas</span>
+                            <span className="text-emerald-600 dark:text-emerald-300">32</span>
+                          </div>
+                          <div className="flex items-center justify-between text-sm font-medium text-slate-900 dark:text-white">
+                            <span>Em aprovação</span>
+                            <span className="text-amber-500">6</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-emerald-100 bg-white/80 p-6 shadow-lg backdrop-blur-sm dark:border-emerald-900/50 dark:bg-slate-950/60">
+            <div className="flex flex-wrap gap-3" role="tablist" aria-label="Personas atendidas">
               {PERSONAS.map((item) => {
                 const isActive = item.id === activePersona;
 
@@ -149,16 +240,12 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
                     key={item.id}
                     role="tab"
                     aria-selected={isActive}
-                    className="marketing-pill"
+                    className={`rounded-full border px-4 py-2 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500 ${
+                      isActive
+                        ? 'border-emerald-300 bg-emerald-50 text-emerald-700 shadow-md shadow-emerald-100 dark:border-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-100'
+                        : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-200 hover:text-emerald-700 dark:border-slate-800 dark:bg-slate-900/60 dark:text-slate-300'
+                    }`}
                     onClick={() => setActivePersona(item.id)}
-                    style={{
-                      cursor: 'pointer',
-                      borderColor: isActive ? 'rgba(32, 201, 151, 0.4)' : 'var(--border)',
-                      color: isActive ? 'var(--brand)' : 'var(--text-dim)',
-                      background: isActive ? 'rgba(32, 201, 151, 0.14)' : 'var(--bg-soft)',
-                      boxShadow: isActive ? '0 8px 16px rgba(32, 201, 151, 0.18)' : 'none',
-                      transition: 'all 0.18s ease',
-                    }}
                   >
                     {item.label}
                   </button>
@@ -166,12 +253,12 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
               })}
             </div>
 
-            <div role="tabpanel" aria-label={`Benefícios para ${persona.label}`}>
-              <p style={{ color: 'var(--text-muted)', marginBottom: 12 }}>{persona.description}</p>
-              <ul className="marketing-list" style={{ margin: 0 }}>
+            <div className="mt-6" role="tabpanel" aria-label={`Benefícios para ${persona.label}`}>
+              <p className="mb-4 text-slate-600 dark:text-slate-200">{persona.description}</p>
+              <ul className="space-y-3 text-slate-700 dark:text-slate-100">
                 {persona.benefits.map((benefit) => (
-                  <li key={benefit}>
-                    <strong>•</strong>
+                  <li key={benefit} className="flex items-start gap-2">
+                    <strong className="text-emerald-600 dark:text-emerald-300">•</strong>
                     <span>{benefit}</span>
                   </li>
                 ))}
