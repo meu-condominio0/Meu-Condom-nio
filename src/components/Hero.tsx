@@ -33,15 +33,15 @@ function dispatchCtaEvent(id: 'primary' | 'demo') {
 export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
   return (
     <section
-      className="hero-with-bg relative w-full overflow-hidden py-20 text-white lg:min-h-[calc(100vh-96px)] lg:py-24"
+      className="hero-with-bg relative w-full overflow-hidden py-16 text-white md:py-20 lg:py-24"
       aria-labelledby="hero-heading"
     >
       <div className="hero-overlay" aria-hidden />
 
-      <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-16 lg:px-8">
+      <div className="hero-content relative z-10 mx-auto grid max-w-6xl items-start gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-14 lg:px-8">
         <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-8 lg:mx-0">
-          <header className="space-y-4 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
-            <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/80 ring-1 ring-white/20">
+          <header className="space-y-5 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+            <p className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] text-white/80 ring-1 ring-white/20">
               Mais de 140 condomínios • NPS alto • Suporte próximo da rotina
             </p>
             <div className="space-y-3">
@@ -55,12 +55,9 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
                 Centralize comunicação, pagamentos, portaria e compras em uma plataforma pensada para síndicos, administradoras e moradores.
               </p>
             </div>
-            <div className="flex flex-wrap gap-2 text-sm font-semibold text-white/80">
+            <div className="flex flex-wrap gap-3 text-sm font-semibold text-white/85">
               {['Gestão completa', 'Marketplace integrado', 'Comunicação, financeiro e portaria'].map((pill) => (
-                <span
-                  key={pill}
-                  className="rounded-full bg-white/10 px-3 py-2 ring-1 ring-white/20"
-                >
+                <span key={pill} className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 ring-1 ring-white/15">
                   {pill}
                 </span>
               ))}
@@ -76,7 +73,7 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
                 dispatchCtaEvent('primary');
                 onPrimaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#2f4b3d] px-8 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#3a5a4a] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#a3b18a] sm:w-auto sm:min-w-[230px] sm:text-lg"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-emerald-500 px-8 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:translate-y-[1px] hover:bg-emerald-600 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald-200/70 sm:w-auto sm:min-w-[230px] sm:text-lg"
             >
               Agendar demonstração
             </button>
@@ -90,11 +87,9 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 onSecondaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/60 bg-white/5 px-7 py-3 text-base font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60 sm:w-auto sm:min-w-[220px]"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/60 bg-white/5 px-7 py-3 text-base font-semibold text-white shadow-md transition duration-200 hover:translate-y-[1px] hover:border-white hover:bg-white/10 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60 sm:w-auto sm:min-w-[220px]"
             >
-              <svg aria-hidden="true" className="h-5 w-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 3.75c0-1.04 1.16-1.67 2.03-1.1l8.1 5.47c.78.52.78 1.63 0 2.15l-8.1 5.47C6.16 16.32 5 15.7 5 14.66V3.75Z" />
-              </svg>
+              <span aria-hidden className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-bold">▶</span>
               <span>Ver o sistema na prática</span>
             </button>
           </div>
@@ -111,8 +106,8 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
 
 function HeroVisual() {
   return (
-    <div className="hero-visual-stack relative mx-auto flex w-full max-w-xl flex-col gap-6">
-      <div className="relative overflow-hidden rounded-[28px] border border-[rgba(52,78,65,0.16)] bg-white/90 p-5 shadow-[0_24px_55px_rgba(12,24,18,0.32)] backdrop-blur-sm">
+    <div className="hero-visual-stack relative mx-auto flex w-full max-w-md flex-col gap-6 lg:max-w-lg">
+      <div className="relative overflow-hidden rounded-[28px] border border-[rgba(52,78,65,0.16)] bg-white/95 p-5 shadow-[0_26px_60px_rgba(12,24,18,0.36)] backdrop-blur-sm">
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#f0f5f2] via-white to-[#e7efe8]" aria-hidden />
 
         <div className="relative flex flex-col gap-4">
@@ -163,19 +158,20 @@ function HeroVisual() {
 
 function TestimonialCard() {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1c3026] via-[#1f382d] to-[#254434] p-6 text-white shadow-[0_18px_35px_rgba(12,24,18,0.35)] ring-1 ring-white/10">
-      <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-white/10 blur-3xl" aria-hidden />
-      <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-[#a3b18a]/20 blur-2xl" aria-hidden />
+    <div className="relative overflow-hidden rounded-2xl bg-white/10 p-6 text-white shadow-[0_16px_32px_rgba(12,24,18,0.32)] ring-1 ring-white/10">
+      <div className="absolute -left-14 -top-14 h-32 w-32 rounded-full bg-white/10 blur-3xl" aria-hidden />
+      <div className="absolute -right-10 -bottom-12 h-28 w-28 rounded-full bg-[#a3b18a]/25 blur-2xl" aria-hidden />
       <div className="relative flex flex-col gap-3">
-        <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Depoimento real</span>
+        <span className="inline-flex w-fit items-center rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/80 ring-1 ring-white/20">
+          Depoimento real
+        </span>
         <p className="text-lg font-semibold leading-relaxed text-white">
-          “Reduzimos o volume de chamados em poucos meses e centralizamos as compras em um único lugar.”
+          Reduzimos o volume de chamados em poucos meses e centralizamos as compras em um único lugar.
         </p>
-        <div className="flex items-center gap-3 text-sm font-semibold text-white/80">
+        <div className="flex items-center gap-3 text-sm font-semibold text-white/85">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-base font-bold">C</div>
           <div className="flex flex-col leading-tight">
-            <span>Carolina Mota</span>
-            <span className="text-xs font-medium text-white/70">Síndica profissional na Harmonia Gestão</span>
+            <span>Carolina Mota — Síndica profissional na Harmonia Gestão</span>
           </div>
         </div>
       </div>
