@@ -54,7 +54,7 @@ function dispatchCtaEvent(id: 'primary' | 'demo') {
 
 export default function Hero({ variant: _variant = 'A', onPrimaryClick, onSecondaryClick }: HeroProps) {
   const [activeTab, setActiveTab] = useState<(typeof SUMMARY_TABS)[number]>('Mensal');
-  const summaryTitle = useMemo(() => `Resumo do condomínio — ${activeTab}`, [activeTab]);
+  const summaryTitle = useMemo(() => `Resumo do condomínio · ${activeTab}`, [activeTab]);
 
   return (
     <section

@@ -141,9 +141,9 @@ export function MarketingLayout({
         }
 
         .marketing-container {
-          width: min(1100px, 92%);
+          width: min(1120px, 92%);
           margin: 0 auto;
-          padding: 0 1.5rem;
+          padding: 0 1.75rem;
         }
 
         .marketing-header {
@@ -187,7 +187,7 @@ export function MarketingLayout({
         .marketing-logo {
           display: inline-flex;
           align-items: center;
-          gap: 12px;
+          gap: 14px;
           font-weight: 800;
           letter-spacing: 0.15px;
           color: var(--text);
@@ -196,8 +196,8 @@ export function MarketingLayout({
         .mc-logo-link {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 8px 12px;
+          gap: 12px;
+          padding: 10px 16px;
           border-radius: 14px;
           background: rgba(52, 78, 65, 0.06);
           border: 1px solid rgba(52, 78, 65, 0.12);
@@ -213,7 +213,7 @@ export function MarketingLayout({
         }
 
         .mc-logo-image {
-          height: clamp(32px, 4.8vw, 48px); /* mobile ~h-8, desktop ~h-12 para leitura mais nítida */
+          height: clamp(40px, 5.6vw, 60px); /* mobile ~h-10, desktop ~h-15 para leitura mais nítida */
           width: auto;
           display: block;
         }
