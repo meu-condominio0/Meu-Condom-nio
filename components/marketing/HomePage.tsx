@@ -2,24 +2,7 @@ import { useEffect } from 'react';
 import Hero from '@/src/components/Hero';
 import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
-
-const SOLUTION_CARDS = [
-  {
-    title: 'Financeiro',
-    description: 'Boletos registrados, conciliação automática, fluxo de caixa em tempo real e inadimplência sob controle.',
-    points: ['Prestação de contas em um clique', 'Dashboard de inadimplência e acordos', 'Integração bancária e PIX copiado automático'],
-  },
-  {
-    title: 'Comunicação',
-    description: 'Envios segmentados, recibos digitais e automações para avisos, assembleias e comunicados urgentes.',
-    points: ['Avisos com confirmação de leitura', 'Assembleias digitais com votação segura', 'Feed comunitário para engajar moradores'],
-  },
-  {
-    title: 'Operações',
-    description: 'Portaria digital, reservas de espaços, ocorrências e marketplace integrados em um único painel.',
-    points: ['Controle de acessos e visitantes com QR Code', 'Checklists e planos de manutenção', 'Marketplace interno conciliado ao caixa'],
-  },
-];
+import { SolutionsSection } from './SolutionsSection';
 
 const MARKETPLACE_CHIPS = [
   'Moradores vendem produtos e oferecem serviços',
@@ -78,49 +61,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         onSecondaryClick={() => onNavigate('/demo')}
       />
 
-      <section id="como-funciona" className="bg-[#f4f5f3] py-16">
-        <div className="marketing-container space-y-10">
-          <div className="flex flex-col gap-3 text-center">
-            <span className="marketing-badge self-center" aria-hidden="true">
-              Feito para administradoras modernas
-            </span>
-            <h2 className="marketing-tagline text-3xl font-semibold leading-tight text-[#15291f] sm:text-4xl">
-              Tudo o que você precisa para comandar um condomínio impecável.
-            </h2>
-            <p className="marketing-subtitle max-w-3xl self-center text-lg text-[#344e41]">
-              Financeiro, comunicação, segurança e marketplace em uma mesma experiência para síndicos, conselhos e moradores.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {SOLUTION_CARDS.map((card) => (
-              <article
-                key={card.title}
-                className="flex h-full flex-col gap-4 rounded-3xl bg-white/90 p-6 shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#d6dbd4]"
-                aria-label={card.title}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-xl font-semibold text-[#15291f]">{card.title}</h3>
-                    <p className="text-sm leading-relaxed text-[#475e52]">{card.description}</p>
-                  </div>
-                  <div className="rounded-2xl bg-[#e9ede6] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#344e41]">
-                    Pronto para uso
-                  </div>
-                </div>
-                <ul className="flex flex-col gap-3 text-sm text-[#344e41]">
-                  {card.points.map((point) => (
-                    <li key={point} className="flex items-start gap-3">
-                      <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
-                      <span className="leading-relaxed">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SolutionsSection onNavigate={onNavigate} />
 
       <section className="py-16">
         <div className="marketing-container">
