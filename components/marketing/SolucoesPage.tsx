@@ -84,6 +84,7 @@ const SOLUTIONS = [
 const WORKFLOWS = [
   {
     title: 'Assistente de inadimplência',
+    benefit: 'Automatize a cobrança e reduza o tempo de recebimento.',
     steps: [
       'Detecta atrasos e envia lembretes personalizados',
       'Gera acordos com assinatura eletrônica integrada',
@@ -92,6 +93,7 @@ const WORKFLOWS = [
   },
   {
     title: 'Onboarding guiado do condomínio',
+    benefit: 'Coloque um novo condomínio em operação em poucos dias.',
     steps: [
       'Importação assistida de moradores, unidades e histórico',
       'Checklist colaborativo com responsáveis e prazos',
@@ -317,76 +319,62 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
         </div>
       </section>
 
-      <section className="marketing-section" aria-labelledby="workflows-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Workflows automatizados
-          </span>
-          <h2 id="workflows-heading" className="marketing-tagline">
-            Fluxos prontos para acelerar sua operação.
-          </h2>
-        </div>
+        <section className="marketing-section" aria-labelledby="workflows-heading">
+          <div className="marketing-section-header">
+            <span className="marketing-badge" aria-hidden="true">
+              Workflows automatizados
+            </span>
+            <h2 id="workflows-heading" className="marketing-tagline">
+              Fluxos prontos para acelerar sua operação.
+            </h2>
+          </div>
 
-        <div className="marketing-grid-2">
-          {WORKFLOWS.map((workflow) => (
-            <article key={workflow.title} className="marketing-card" aria-label={workflow.title}>
-              <h3>{workflow.title}</h3>
-              <div
-                className="workflow-steps"
-                aria-label={`Passos do fluxo ${workflow.title}`}
-                style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}
-              >
-                {workflow.steps.map((step, index) => (
-                  <div key={step} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="max-w-6xl mx-auto px-4">
+            <div className="grid gap-6 md:grid-cols-2">
+              {WORKFLOWS.map((workflow) => (
+                <article
+                  key={workflow.title}
+                  className="marketing-card group flex h-full flex-col gap-5 transition hover:-translate-y-1 hover:shadow-lg"
+                  aria-label={workflow.title}
+                >
+                  <div className="flex h-full flex-col gap-5">
+                    <div className="space-y-2">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{workflow.title}</h3>
+                      <p className="text-sm font-medium text-slate-600 dark:text-slate-200/90">{workflow.benefit}</p>
+                    </div>
+
                     <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        padding: '10px 14px',
-                        borderRadius: 999,
-                        background: 'rgba(32, 201, 151, 0.12)',
-                        border: '1px solid rgba(32, 201, 151, 0.16)',
-                        boxShadow: '0 10px 18px rgba(15, 61, 46, 0.12)',
-                        minWidth: 220,
-                      }}
+                      className="relative flex flex-col gap-4 pl-4 md:pl-5"
+                      aria-label={`Passos do fluxo ${workflow.title}`}
                     >
                       <span
                         aria-hidden
-                        style={{
-                          width: 32,
-                          height: 32,
-                          borderRadius: 10,
-                          background: 'var(--brand)',
-                          color: '#fff',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          fontWeight: 700,
-                        }}
-                      >
-                        {index + 1}
-                      </span>
-                      <span style={{ color: 'var(--text)', fontWeight: 600 }}>{step}</span>
-                    </div>
-                    {index < workflow.steps.length - 1 ? (
-                      <span
-                        aria-hidden
-                        style={{
-                          width: 24,
-                          height: 2,
-                          background: 'linear-gradient(90deg, rgba(15, 61, 46, 0.08), rgba(32, 201, 151, 0.4))',
-                          display: 'inline-block',
-                        }}
+                        className="absolute left-[6px] top-1 h-[calc(100%-0.5rem)] w-px rounded-full bg-emerald-100 transition group-hover:bg-emerald-200 dark:bg-slate-700 dark:group-hover:bg-slate-600 md:left-[7px]"
                       />
-                    ) : null}
+                      {workflow.steps.map((step, index) => (
+                        <div key={step} className="relative flex items-start gap-3">
+                          {index !== workflow.steps.length - 1 ? (
+                            <span
+                              aria-hidden
+                              className="absolute left-[7px] top-9 h-[calc(100%-1.75rem)] w-px bg-emerald-100 transition group-hover:bg-emerald-200 dark:bg-slate-700 dark:group-hover:bg-slate-600"
+                            />
+                          ) : null}
+                          <span
+                            aria-hidden
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white shadow-sm"
+                          >
+                            {index + 1}
+                          </span>
+                          <span className="text-sm leading-relaxed text-slate-700 dark:text-slate-100">{step}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
       <section className="marketing-section" aria-labelledby="integracoes-heading">
         <div className="marketing-section-header">
