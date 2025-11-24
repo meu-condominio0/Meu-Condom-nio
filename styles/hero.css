@@ -7,24 +7,21 @@
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding-inline: 0;
-  background-image: url("/assets/marketing/fachada-condominio.png");
+  /* usar os assets de hero — usamos SVG placeholders quando PNG não existentes */
+  background-image: url("/assets/marketing/hero-desktop.svg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   color: var(--mc-white);
-  min-height: 640px;
+  /* ocupar primeira dobra considerando header (~96px) */
+  min-height: calc(100vh - 96px);
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(15, 35, 26, 1) 0%,
-    rgba(15, 35, 26, 0.9) 35%,
-    rgba(15, 35, 26, 0.35) 70%,
-    rgba(15, 35, 26, 0.05) 100%
-  );
+  /* gradiente escuro à esquerda para contraste do texto */
+  background: linear-gradient(90deg, rgba(11,23,18,0.92) 0%, rgba(11,23,18,0.72) 30%, rgba(11,23,18,0.42) 55%, transparent 100%);
   backdrop-filter: blur(2px);
   pointer-events: none;
   z-index: 0;
@@ -87,24 +84,22 @@
 
 @media (max-width: 1023px) {
   .hero-with-bg {
-    /* mobile uses the in-repo SVG hero as fallback for small devices */
-    background-image: url('/assets/marketing/hero.svg');
-    min-height: 520px;
+    /* mobile placeholder */
+    background-image: url('/assets/marketing/hero-mobile.svg');
+    min-height: auto;
+    padding-top: 48px;
+    padding-bottom: 48px;
   }
 
   .hero-with-bg .hero-overlay {
-    background: linear-gradient(
-      to bottom,
-      rgba(15, 35, 26, 0.96),
-      rgba(15, 35, 26, 0.88)
-    );
+    background: linear-gradient(to bottom, rgba(11,23,18,0.96), rgba(11,23,18,0.9));
     backdrop-filter: blur(3px);
   }
 }
 
 @media (max-width: 1023px) {
   .hero-with-bg {
-    background-image: url("/assets/marketing/fachada-condominio.png");
+    background-image: url("/assets/marketing/hero-mobile.svg");
     background-size: cover;
     background-position: center;
   }

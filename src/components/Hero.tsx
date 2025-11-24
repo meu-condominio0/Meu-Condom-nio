@@ -74,33 +74,67 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
       <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-16 lg:px-8">
         <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-9 lg:mx-0">
           <header className="flex flex-col gap-4">
-            <span className="text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--mc-primary)]">
-              {PROOF_COPY}
+            <span className="text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--mc-white)]">
+              +450 condomínios • NPS 86 • Suporte 7×12
             </span>
             <div className="space-y-2">
               <h1
                 id="hero-heading"
                 className="hero-headline text-3xl font-bold leading-tight tracking-tight text-[color:var(--mc-white)] transition-colors duration-200 sm:text-4xl lg:text-5xl"
               >
-                {headline}
+                Gestão completa do condomínio em um único lugar.
               </h1>
-              <p className="inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--mc-white-soft)] transition-transform duration-200 hover:translate-x-0.5">
-                <span
-                  className="flex h-2.5 w-2.5 items-center justify-center rounded-full bg-[color:var(--mc-success)] shadow-inner shadow-[color:rgba(21,41,31,0.25)]"
-                  aria-hidden
-                />
-                Marketplace integrado ao financeiro para monetizar o condomínio.
+              <p className="text-base font-medium text-[color:var(--mc-white)] opacity-95 max-w-3xl">
+                Comunicação, financeiro, portaria e marketplace interno em uma plataforma pensada para síndicos e administradoras modernas.
               </p>
             </div>
-            <p className="text-lg leading-relaxed text-[color:var(--mc-white)] opacity-90">
-              Redução real da inadimplência, financeiro automatizado, assembleia digital sem dor de cabeça e marketplace pronto
-              para serviços.
-            </p>
+
+            <div className="grid gap-3 mt-3 sm:grid-cols-2">
+              <div className="flex items-start gap-3">
+                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 20V10M5 13l7-7 7 7" />
+                </svg>
+                <div>
+                  <strong>Comunicação fluida:</strong>
+                  <div className="text-sm">avisos, assembleias online e feed comunitário em tempo real.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M3 6h18M3 18h18" />
+                </svg>
+                <div>
+                  <strong>Financeiro sob controle:</strong>
+                  <div className="text-sm">relatórios, inadimplência e conciliação bancária em um só painel.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v4M6 7h12M6 21h12a1 1 0 0 0 1-1v-7H5v7a1 1 0 0 0 1 1z" />
+                </svg>
+                <div>
+                  <strong>Segurança e acesso:</strong>
+                  <div className="text-sm">visitantes, veículos, pets e portaria remota com histórico centralizado.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7h18M3 12h12M3 17h18" />
+                </svg>
+                <div>
+                  <strong>Marketplace interno:</strong>
+                  <div className="text-sm">moradores vendem, compram e contratam serviços dentro do próprio condomínio.</div>
+                </div>
+              </div>
+            </div>
           </header>
 
           <div className="block w-full max-w-2xl lg:hidden">
             <img
-              src="/assets/marketing/hero.svg"
+              src="/assets/marketing/hero-mobile.svg"
               alt="Resumo visual do condomínio em versão mobile"
               className="w-full max-h-80 rounded-xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-cover shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
               loading="lazy"
@@ -116,24 +150,28 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
                 dispatchCtaEvent('primary');
                 onPrimaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[color:var(--mc-secondary-dark)] px-10 py-4 text-base font-semibold text-[color:var(--mc-white)] shadow-lg shadow-[color:rgba(21,41,31,0.28)] transition duration-200 hover:-translate-y-0.5 hover:bg-[color:var(--mc-secondary)] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color:rgba(163,177,138,0.55)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:rgba(21,41,31,0.3)] sm:w-auto sm:min-w-[260px] sm:text-lg"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-semibold text-[color:var(--mc-white)] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 sm:w-auto sm:min-w-[260px] sm:text-lg"
+              style={{ background: 'var(--brand)', borderColor: 'var(--brand)' }}
             >
               Começar agora — 14 dias grátis
             </button>
             <button
               type="button"
               data-cta="demo"
-              aria-label="Ver demonstração do MeuCondomínio em 3 minutos"
+              aria-label="Ver como funciona"
               onClick={() => {
                 dispatchCtaEvent('demo');
+                const el = document.getElementById('destaques-heading');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 onSecondaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[color:rgba(233,233,233,0.65)] bg-[color:var(--mc-white-soft)] px-7 py-3 text-base font-semibold text-[color:var(--mc-secondary-dark)] shadow-sm shadow-[color:rgba(21,41,31,0.14)] transition duration-200 hover:-translate-y-0.5 hover:border-[color:rgba(52,78,65,0.35)] hover:text-[color:var(--mc-secondary)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[color:rgba(163,177,138,0.45)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--mc-secondary-dark)] sm:w-auto sm:min-w-[220px]"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 px-7 py-3 text-base font-semibold text-[color:var(--brand)] shadow-sm transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none sm:w-auto sm:min-w-[220px]"
+              style={{ background: 'transparent', borderColor: 'rgba(52,78,65,0.12)' }}
             >
               <svg aria-hidden="true" className="h-5 w-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 3.75c0-1.04 1.16-1.67 2.03-1.1l8.1 5.47c.78.52.78 1.63 0 2.15l-8.1 5.47C6.16 16.32 5 15.7 5 14.66V3.75Z" />
               </svg>
-              <span>Ver demonstração em 3 min</span>
+              <span>Ver como funciona</span>
             </button>
           </div>
 
@@ -145,7 +183,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
 
           <div className="hidden lg:block">
             <img
-              src="/assets/marketing/hero.svg"
+              src="/assets/marketing/hero-desktop.svg"
               alt="Resumo visual do condomínio com métricas"
               className="w-full max-h-[520px] rounded-2xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-contain shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
               loading="lazy"

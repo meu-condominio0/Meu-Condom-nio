@@ -213,7 +213,7 @@ export function MarketingLayout({
         }
 
         .mc-logo-image {
-          height: clamp(42px, 6.5vw, 64px); /* Aumentada ~30-40%: mobile ~42px, desktop até 64px */
+          height: clamp(32px, 4.5vw, 48px); /* mobile ~32px (h-8), desktop até 48px (h-12) */
           width: auto;
           display: block;
         }
@@ -917,7 +917,7 @@ export function MarketingLayout({
 
         @media (max-width: 768px) {
           .marketing-logo img {
-            height: 23px; /* Ajuste responsivo da marca no header */
+            height: 32px; /* Ajuste responsivo da marca no header (h-8) */
           }
 
           .marketing-table {
