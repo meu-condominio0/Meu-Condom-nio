@@ -3,12 +3,17 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import { ThemeProvider } from 'next-themes';
 import './styles/globals.css';
+
 const container = document.getElementById('root')!;
 createRoot(container).render(
   <React.StrictMode>
-    <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+    <ThemeProvider 
+      attribute="class" 
+      defaultTheme="light" 
+      enableSystem 
+      storageKey="meucondominio-theme"
+    >
       <App />
     </ThemeProvider>
   </React.StrictMode>
 );
-

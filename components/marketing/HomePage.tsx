@@ -102,7 +102,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
       </section>
 
       <section className="marketing-section" aria-labelledby="marketplace-heading">
-        <div className="marketing-highlight-card marketing-card marketplace-visual-card">
+        <div className="marketing-card marketplace-visual-card">
           <span className="marketing-badge" aria-hidden="true">
             Diferencial exclusivo
           </span>
@@ -110,18 +110,19 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
             Marketplace do condomínio conectado ao financeiro.
           </h2>
           <p className="marketing-subtitle">
-            Moradores vendem produtos, oferecem serviços e contratam especialistas com a segurança da portaria.
-            Todos os repasses e taxas são conciliados automaticamente com o caixa do condomínio.
+            Moradores vendem produtos e serviços dentro do condomínio, contratam prestadores da própria comunidade 
+            e tudo é financeiramente integrado e conciliado automaticamente com o caixa.
           </p>
           <div className="marketing-pill-list">
-            <span className="marketing-pill">Classificados com aprovação em 1 clique</span>
-            <span className="marketing-pill">Pagamentos via PIX e cartão</span>
-            <span className="marketing-pill">Histórico de reputação e avaliações</span>
+            <span className="marketing-pill">Moradores vendem produtos e oferecem serviços</span>
+            <span className="marketing-pill">Contratação de prestadores da comunidade</span>
+            <span className="marketing-pill">Financeiro integrado e conciliado automaticamente</span>
             <span className="marketing-pill">Cupons para fornecedores parceiros</span>
           </div>
           <div className="marketing-hero-actions" role="group" aria-label="Ações do marketplace">
             <a
               href="/marketplace"
+              aria-label="Explorar marketplace interno do condomínio"
               onClick={(event) => {
                 event.preventDefault();
                 onNavigate('/marketplace');
@@ -132,6 +133,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
             <a
               className="secondary"
               href="/entrar"
+              aria-label="Entrar para anunciar produtos ou serviços"
               onClick={(event) => {
                 event.preventDefault();
                 onLogin();
@@ -215,6 +217,38 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
               <span>{metric.label}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="marketing-section" aria-labelledby="comunidade-heading">
+        <div className="marketing-section-header">
+          <span className="marketing-badge" aria-hidden="true">
+            Comunidade engajada
+          </span>
+          <h2 id="comunidade-heading" className="marketing-tagline">
+            Moradores colaborando e gerando oportunidades.
+          </h2>
+        </div>
+
+        <div className="marketing-grid-community">
+          <figure className="marketing-card community-card">
+            <img
+              src="/assets/marketing/pessoas.png"
+              alt="Moradores colaborando e se engajando no condomínio"
+              className="community-image"
+              loading="lazy"
+            />
+            <figcaption>Engajamento e colaboração dos moradores</figcaption>
+          </figure>
+          <figure className="marketing-card community-card">
+            <img
+              src="/assets/marketing/vendas.png"
+              alt="Oportunidades de monetização no marketplace interno"
+              className="community-image"
+              loading="lazy"
+            />
+            <figcaption>Oportunidades de monetização e renda</figcaption>
+          </figure>
         </div>
       </section>
 

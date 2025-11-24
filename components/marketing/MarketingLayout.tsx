@@ -1,4 +1,5 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 
 export type MarketingPath =
   | '/'
@@ -37,6 +38,21 @@ export function MarketingLayout({
 }: MarketingLayoutProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { setTheme, theme } = useTheme();
+  const [previousTheme, setPreviousTheme] = useState<string | undefined>();
+
+  // Força tema claro na landing marketing
+  useEffect(() => {
+    setPreviousTheme(theme);
+    setTheme('light');
+
+    return () => {
+      // Restaura o tema anterior ao sair da landing
+      if (previousTheme) {
+        setTheme(previousTheme);
+      }
+    };
+  }, []);
 
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
@@ -196,13 +212,13 @@ export function MarketingLayout({
         }
 
         .mc-logo-image {
-          height: clamp(24px, 4vw, 32px); /* Logo oficial aplicada no header */
+          height: clamp(36px, 5vw, 48px); /* Logo aumentada para melhor legibilidade */
           width: auto;
           display: block;
         }
 
         .marketing-logo__text {
-          display: inline-flex;
+          display: none; /* Texto duplicado removido - logo é suficiente */
           flex-direction: column;
           gap: 2px;
           color: var(--text);

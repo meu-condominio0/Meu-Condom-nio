@@ -100,7 +100,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
 
           <div className="block w-full max-w-2xl lg:hidden">
             <img
-              src="/assets/marketing/hero-mobile.png"
+              src="/assets/marketing/hero.svg"
               alt="Resumo visual do condomínio em versão mobile"
               className="w-full max-h-80 rounded-xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-cover shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
               loading="lazy"
@@ -145,7 +145,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
 
           <div className="hidden lg:block">
             <img
-              src="/assets/marketing/hero-desktop.png"
+              src="/assets/marketing/hero.svg"
               alt="Resumo visual do condomínio com métricas"
               className="w-full max-h-[520px] rounded-2xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-contain shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
               loading="lazy"

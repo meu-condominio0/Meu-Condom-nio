@@ -43,6 +43,11 @@
   min-height: 3.25rem;
 }
 
+.hero-with-bg .hero-cta-group button:focus-visible {
+  outline: 2px solid var(--mc-primary);
+  outline-offset: 2px;
+}
+
 .hero-copy-panel {
   background: linear-gradient(
     145deg,
