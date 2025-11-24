@@ -1,23 +1,28 @@
 .hero-with-bg {
   position: relative;
   isolation: isolate;
-  background-image: url("/assets/marketing/fundo.png");
-  background-size: cover;
-  background-position: center;
+  background-color: #15291f;
+  background-image: linear-gradient(
+      115deg,
+      rgba(21, 41, 31, 0.96) 0%,
+      rgba(21, 41, 31, 0.92) 28%,
+      rgba(52, 78, 65, 0.85) 58%,
+      rgba(52, 78, 65, 0.8) 72%,
+      rgba(52, 78, 65, 0.7) 100%
+    ),
+    url("/assets/marketing/fundo.png"),
+    url("/assets/marketing/fachada-condominio.png");
+  background-size: 170% 170%, 120% 100%, cover;
+  background-position: left center, center, right center;
   background-repeat: no-repeat;
-  background-color: var(--mc-secondary-dark);
   color: var(--mc-white);
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    110deg,
-    rgba(21, 41, 31, 0.9),
-    rgba(52, 78, 65, 0.78),
-    rgba(119, 138, 87, 0.58)
-  );
+  background: linear-gradient(100deg, rgba(21, 41, 31, 0.92) 0%, rgba(21, 41, 31, 0.82) 34%, rgba(52, 78, 65, 0.62) 62%, rgba(52, 78, 65, 0.2) 100%);
+  backdrop-filter: blur(1px);
   pointer-events: none;
   z-index: 0;
 }
@@ -25,6 +30,7 @@
 .hero-with-bg .hero-content {
   position: relative;
   z-index: 1;
+  max-width: 76rem;
 }
 
 .hero-with-bg .hero-body {
@@ -39,18 +45,74 @@
   min-height: 3.25rem;
 }
 
+.hero-copy-panel {
+  background: linear-gradient(145deg, rgba(21, 41, 31, 0.9), rgba(21, 41, 31, 0.82));
+  border: 1px solid rgba(233, 233, 233, 0.08);
+  border-radius: 1.75rem;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(21, 41, 31, 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.hero-visual-stack {
+  border-radius: 1.75rem;
+  backdrop-filter: blur(2px);
+  background: radial-gradient(circle at 20% 20%, rgba(233, 233, 233, 0.1), transparent 30%);
+  padding: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-copy-panel {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-with-bg {
+    background-image: linear-gradient(
+        170deg,
+        rgba(21, 41, 31, 0.98) 0%,
+        rgba(21, 41, 31, 0.92) 32%,
+        rgba(52, 78, 65, 0.78) 70%,
+        rgba(52, 78, 65, 0.68) 100%
+      ),
+      url("/assets/marketing/fundo.png");
+    background-size: 210% 170%, 170% 120%;
+    background-position: center top, center top;
+  }
+
+  .hero-with-bg .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(21, 41, 31, 0.96),
+      rgba(21, 41, 31, 0.92),
+      rgba(52, 78, 65, 0.85)
+    );
+    backdrop-filter: blur(2px);
+  }
+
+  .hero-copy-panel {
+    padding: 1.9rem 1.4rem;
+    gap: 1.5rem;
+  }
+}
+
 @media (max-width: 767px) {
   .hero-with-bg {
-    padding: 4.5rem 1.5rem;
+    padding: 4.75rem 1.5rem;
     background-position: center top;
   }
 
   .hero-with-bg .hero-overlay {
     background: linear-gradient(
       to bottom,
-      rgba(21, 41, 31, 0.94),
-      rgba(52, 78, 65, 0.82),
-      rgba(119, 138, 87, 0.7)
+      rgba(21, 41, 31, 0.98),
+      rgba(21, 41, 31, 0.95),
+      rgba(52, 78, 65, 0.85)
     );
   }
 
@@ -76,5 +138,9 @@
   .hero-with-bg .hero-cta-group button {
     min-height: 3.4rem;
     width: 100%;
+  }
+
+  .hero-copy-panel {
+    margin: 0 auto;
   }
 }
