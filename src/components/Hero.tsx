@@ -144,7 +144,7 @@ export default function Hero({ variant: _variant = 'A', onPrimaryClick, onSecond
               }}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#344e41] px-10 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#3f5b4c] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#a3b18a] sm:w-auto sm:min-w-[260px] sm:text-lg"
             >
-              Começar agora — 14 dias grátis
+              Começar agora, 14 dias grátis
             </button>
             <button
               type="button"

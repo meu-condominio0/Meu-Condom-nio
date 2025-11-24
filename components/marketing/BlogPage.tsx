@@ -37,7 +37,7 @@ const NEWSLETTER_POINTS = [
 
 export function MarketingBlogPage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Blog — MeuCondomínio';
+    document.title = 'Blog | MeuCondomínio';
   }, []);
 
   return (

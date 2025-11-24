@@ -38,22 +38,21 @@ export function MarketingLayout({
 }: MarketingLayoutProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const { setTheme, theme } = useTheme();
-    const [previousTheme, setPreviousTheme] = useState<string | undefined>();
+  const { setTheme, theme } = useTheme();
 
-    // Força tema claro na landing marketing e restaura o tema anterior ao desmontar
-    useEffect(() => {
-      const prev = theme;
-      // força light enquanto o layout de marketing estiver montado
-      setTheme('light');
+  // Força tema claro na landing marketing e restaura o tema anterior ao desmontar
+  useEffect(() => {
+    const prev = theme;
+    // força light enquanto o layout de marketing estiver montado
+    setTheme('light');
 
-      return () => {
-        // restaura o tema anterior (pode ser undefined — next-themes tratará)
-        if (prev) setTheme(prev);
-      };
-      // observamos apenas setTheme e theme no mount
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    return () => {
+      // restaura o tema anterior (pode ser undefined — next-themes tratará)
+      if (prev) setTheme(prev);
+    };
+    // observamos apenas setTheme e theme no mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
