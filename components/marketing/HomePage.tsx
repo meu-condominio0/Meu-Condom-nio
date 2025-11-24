@@ -81,7 +81,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         onSecondaryClick={() => onNavigate('/demo')}
       />
 
-      <section className="marketing-section" aria-labelledby="destaques-heading">
+      <section id="como-funciona" className="marketing-section" aria-labelledby="destaques-heading">
         <div className="marketing-section-header">
           <span className="marketing-badge" aria-hidden="true">
             Feito para administradoras modernas

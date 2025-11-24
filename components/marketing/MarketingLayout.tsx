@@ -213,7 +213,7 @@ export function MarketingLayout({
         }
 
         .mc-logo-image {
-          height: clamp(32px, 4.5vw, 48px); /* mobile ~32px (h-8), desktop até 48px (h-12) */
+          height: clamp(32px, 4.8vw, 48px); /* mobile ~h-8, desktop ~h-12 para leitura mais nítida */
           width: auto;
           display: block;
         }

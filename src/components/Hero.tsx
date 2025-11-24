@@ -10,11 +10,6 @@ type HeroProps = {
   onSecondaryClick?: () => void;
 };
 
-const HEADLINES: Record<HeroVariant, string> = {
-  A: 'Menos inadimplência, mais controle e síndico em paz.',
-  B: 'Menos inadimplência, mais controle e síndico em paz.',
-};
-
 const SUMMARY_TABS = ['Mensal', 'Trimestral', 'Anual'] as const;
 
 const SUMMARY_METRICS = [
@@ -51,47 +46,44 @@ const RESOLUTION_RATE = {
   insight: 'Você está melhor que 86% dos condomínios da base.',
 };
 
-const PROOF_COPY = '+450 condomínios • NPS 86 • Suporte 7x12';
-
 function dispatchCtaEvent(id: 'primary' | 'demo') {
   if (typeof window === 'undefined') return;
 
   window.dispatchEvent(new CustomEvent('cta:click', { detail: { id } }));
 }
 
-export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }: HeroProps) {
+export default function Hero({ variant: _variant = 'A', onPrimaryClick, onSecondaryClick }: HeroProps) {
   const [activeTab, setActiveTab] = useState<(typeof SUMMARY_TABS)[number]>('Mensal');
-  const headline = HEADLINES[variant];
   const summaryTitle = useMemo(() => `Resumo do condomínio — ${activeTab}`, [activeTab]);
 
   return (
     <section
-      className="hero-with-bg relative overflow-hidden py-20 text-[color:var(--mc-white)] lg:py-24"
+      className="hero-with-bg relative w-full overflow-hidden py-16 text-white lg:min-h-[calc(100vh-96px)] lg:py-24"
       aria-labelledby="hero-heading"
     >
       <div className="hero-overlay" aria-hidden />
 
       <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-16 lg:px-8">
         <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-9 lg:mx-0">
-          <header className="flex flex-col gap-4">
-            <span className="text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--mc-white)]">
+          <header className="flex flex-col gap-5 text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.35)]">
+            <span className="text-sm font-semibold uppercase tracking-[0.24em] text-white/80">
               +450 condomínios • NPS 86 • Suporte 7×12
             </span>
-            <div className="space-y-2">
+            <div className="space-y-3">
               <h1
                 id="hero-heading"
-                className="hero-headline text-3xl font-bold leading-tight tracking-tight text-[color:var(--mc-white)] transition-colors duration-200 sm:text-4xl lg:text-5xl"
+                className="hero-headline text-3xl font-bold leading-tight tracking-tight text-white transition-colors duration-200 sm:text-4xl lg:text-5xl"
               >
                 Gestão completa do condomínio em um único lugar.
               </h1>
-              <p className="text-base font-medium text-[color:var(--mc-white)] opacity-95 max-w-3xl">
+              <p className="max-w-3xl text-base font-medium text-white/90">
                 Comunicação, financeiro, portaria e marketplace interno em uma plataforma pensada para síndicos e administradoras modernas.
               </p>
             </div>
 
-            <div className="grid gap-3 mt-3 sm:grid-cols-2">
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
               <div className="flex items-start gap-3">
-                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 20V10M5 13l7-7 7 7" />
                 </svg>
                 <div>
@@ -101,7 +93,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
               </div>
 
               <div className="flex items-start gap-3">
-                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M3 6h18M3 18h18" />
                 </svg>
                 <div>
@@ -111,7 +103,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
               </div>
 
               <div className="flex items-start gap-3">
-                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v4M6 7h12M6 21h12a1 1 0 0 0 1-1v-7H5v7a1 1 0 0 0 1 1z" />
                 </svg>
                 <div>
@@ -121,7 +113,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
               </div>
 
               <div className="flex items-start gap-3">
-                <svg aria-hidden className="h-5 w-5 text-[color:var(--brand)] mt-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 7h18M3 12h12M3 17h18" />
                 </svg>
                 <div>
@@ -150,8 +142,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
                 dispatchCtaEvent('primary');
                 onPrimaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full px-10 py-4 text-base font-semibold text-[color:var(--mc-white)] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 sm:w-auto sm:min-w-[260px] sm:text-lg"
-              style={{ background: 'var(--brand)', borderColor: 'var(--brand)' }}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#344e41] px-10 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#3f5b4c] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#a3b18a] sm:w-auto sm:min-w-[260px] sm:text-lg"
             >
               Começar agora — 14 dias grátis
             </button>
@@ -161,12 +152,11 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
               aria-label="Ver como funciona"
               onClick={() => {
                 dispatchCtaEvent('demo');
-                const el = document.getElementById('destaques-heading');
+                const el = document.getElementById('como-funciona');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 onSecondaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 px-7 py-3 text-base font-semibold text-[color:var(--brand)] shadow-sm transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none sm:w-auto sm:min-w-[220px]"
-              style={{ background: 'transparent', borderColor: 'rgba(52,78,65,0.12)' }}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/60 bg-white/5 px-7 py-3 text-base font-semibold text-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-white hover:bg-white/10 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60 sm:w-auto sm:min-w-[220px]"
             >
               <svg aria-hidden="true" className="h-5 w-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 3.75c0-1.04 1.16-1.67 2.03-1.1l8.1 5.47c.78.52.78 1.63 0 2.15l-8.1 5.47C6.16 16.32 5 15.7 5 14.66V3.75Z" />
