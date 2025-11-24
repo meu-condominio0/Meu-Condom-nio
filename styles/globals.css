@@ -140,7 +140,15 @@
   }
 
   body {
-    @apply bg-[color:var(--bg)] text-foreground antialiased;
+    @apply antialiased;
+    background-color: #020817; /* Landing permanece escura por padrão */
+    color: #e2e8f0;
+  }
+
+  /* Aplica tokens de tema apenas nas áreas autenticadas/"entrar" */
+  .app-shell {
+    /* Tokens de tema aplicados apenas para login/dashboard */
+    @apply bg-background text-foreground;
   }
 }
 
