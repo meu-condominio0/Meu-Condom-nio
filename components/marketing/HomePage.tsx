@@ -3,30 +3,13 @@ import Hero from '@/src/components/Hero';
 import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 import { SolutionsSection } from './SolutionsSection';
+import { OperationsSection } from './OperationsSection';
 
 const MARKETPLACE_CHIPS = [
   'Moradores vendem produtos e oferecem serviços',
   'Contratação de prestadores da comunidade',
   'Financeiro integrado e conciliado automaticamente',
   'Cupons e combos para fornecedores parceiros',
-];
-
-const OPERATIONS_FEATURES = [
-  {
-    title: 'Portaria digital e acesso seguro',
-    description: 'Controle visitantes, entregas e prestadores com QR Code, autorização instantânea e histórico centralizado.',
-    image: '/assets/marketing/portariadigital.png',
-  },
-  {
-    title: 'Comunidade conectada',
-    description: 'Engajamento com eventos, comunicados segmentados e serviços entre vizinhos para fortalecer o convívio.',
-    image: '/assets/marketing/pessoas.png',
-  },
-  {
-    title: 'Bem-estar e áreas comuns',
-    description: 'Reservas inteligentes de piscina, academia e salão de festas com regras claras e monitoramento.',
-    image: '/assets/marketing/piscina.png',
-  },
 ];
 
 const TESTIMONIALS = [
@@ -150,46 +133,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#f9faf8] py-16" aria-labelledby="operacoes-heading">
-        <div className="marketing-container space-y-10">
-          <div className="flex flex-col gap-3">
-            <span className="marketing-badge w-fit" aria-hidden>
-              Segurança, comunidade e bem-estar
-            </span>
-            <h2 id="operacoes-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
-              Operações que conectam portaria, convivência e lazer.
-            </h2>
-            <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
-              Portaria digital com QR Code, controle de visitantes, reservas de áreas comuns e um feed para engajar moradores e colaboradores.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {OPERATIONS_FEATURES.map((feature) => (
-              <article
-                key={feature.title}
-                className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#dce3dc]"
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col gap-3 p-6">
-                  <h3 className="text-xl font-semibold text-[#15291f]">{feature.title}</h3>
-                  <p className="text-sm leading-relaxed text-[#475e52]">{feature.description}</p>
-                  <div className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-[#e8f0ea] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#2f4b3d]">
-                    Proteção contínua
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <OperationsSection onNavigate={onNavigate} />
 
       <section className="py-16" aria-labelledby="gestao-tecnologia-heading">
         <div className="marketing-container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
