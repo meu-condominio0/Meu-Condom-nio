@@ -40,6 +40,7 @@ import { PaginaFaq } from './paginas/PaginaFaq';
 import { PaginaFaqSindico } from './paginas/PaginaFaqSindico';
 import { PaginaAssembleias } from './paginas/PaginaAssembleias';
 import { PaginaMarketplaceDetalhes } from "./paginas/PaginaMarketplaceDetalhes";
+import { AppLayout } from './layouts/AppLayout';
 
 
 
@@ -175,15 +176,21 @@ export function AplicativoCondominio() {
 
   if (estaCarregando) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
+      <AppLayout>
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-primary"></div>
+        </div>
+      </AppLayout>
     );
   }
 
   if (!usuarioLogado) {
     if (publicPath === '/entrar') {
-      return <TelaLogin onVoltarInicio={() => navegarPublico('/')} />;
+      return (
+        <AppLayout>
+          <TelaLogin onVoltarInicio={() => navegarPublico('/')} />
+        </AppLayout>
+      );
     }
 
     const MarketingComponent = MARKETING_ROUTES[publicPath] ?? MARKETING_ROUTES['/'];
@@ -275,11 +282,13 @@ export function AplicativoCondominio() {
   };
 
   return (
-    <LayoutPrincipal 
-      paginaAtiva={paginaAtiva} 
-      onMudarPagina={setPaginaAtiva}
-    >
-      {renderizarPagina()}
-    </LayoutPrincipal>
+    <AppLayout>
+      <LayoutPrincipal
+        paginaAtiva={paginaAtiva}
+        onMudarPagina={setPaginaAtiva}
+      >
+        {renderizarPagina()}
+      </LayoutPrincipal>
+    </AppLayout>
   );
 }
