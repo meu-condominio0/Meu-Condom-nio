@@ -1,5 +1,4 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from 'react';
-import { useTheme } from 'next-themes';
 
 export type MarketingPath =
   | '/'
@@ -38,21 +37,6 @@ export function MarketingLayout({
 }: MarketingLayoutProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme, theme } = useTheme();
-
-  // Força tema claro na landing marketing e restaura o tema anterior ao desmontar
-  useEffect(() => {
-    const prev = theme;
-    // força light enquanto o layout de marketing estiver montado
-    setTheme('light');
-
-    return () => {
-      // restaura o tema anterior (pode ser undefined — next-themes tratará)
-      if (prev) setTheme(prev);
-    };
-    // observamos apenas setTheme e theme no mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
@@ -161,17 +145,6 @@ export function MarketingLayout({
           background: #f4f5f3; /* Tom ainda claro quando a página rola */
           border-color: rgba(52, 78, 65, 0.16);
           box-shadow: 0 10px 20px rgba(21, 41, 31, 0.14);
-        }
-
-        :where(.dark) .marketing-header {
-          background: rgba(15, 23, 42, 0.85);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        :where(.dark) .marketing-header[data-scrolled='true'] {
-          background: rgba(15, 23, 42, 0.92);
-          border-color: rgba(148, 163, 184, 0.16);
-          box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
         }
 
         .marketing-nav {
@@ -1078,11 +1051,6 @@ export function MarketingLayout({
             width: 100%;
           }
 
-          :where(.dark) .marketing-menu {
-            background: rgba(15, 23, 42, 0.95);
-            border-color: rgba(148, 163, 184, 0.2);
-            box-shadow: 0 24px 52px rgba(0, 0, 0, 0.4);
-          }
         }
 
         @media (max-width: 768px) {

@@ -12,6 +12,7 @@ import {
   X,
 } from 'lucide-react';
 import ThemeToggle from '../components/home/ThemeToggle';
+import { FinancialMarketplaceSection } from '../components/FinancialMarketplaceSection';
 import type { MarketingPageProps, MarketingPath } from '../../components/marketing/MarketingLayout';
 
 const NAVIGATION_LINKS: Array<{ href: MarketingPath; label: string }> = [
@@ -41,13 +42,6 @@ const HERO_FEATURES = [
       'Reservas, ocorrências, assembleias digitais e marketplace funcionando de ponta a ponta em uma só plataforma.',
     icon: Building2,
   },
-];
-
-const MARKETPLACE_PILLS = [
-  'Classificados com aprovação em 1 clique',
-  'Pagamentos via PIX e cartão',
-  'Histórico de reputação e avaliações',
-  'Cupons para fornecedores parceiros',
 ];
 
 const MODULES = [
@@ -670,96 +664,6 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           line-height: 1.45;
         }
 
-        .home-marketplace {
-          position: relative;
-          display: grid;
-          gap: 2rem;
-          grid-template-columns: minmax(0, 1fr);
-          align-items: center;
-          padding: clamp(2rem, 3vw, 2.8rem);
-          border-radius: 32px;
-          background: linear-gradient(135deg, #0f172a, rgba(16, 185, 129, 0.65), #0f172a);
-          color: #e2e8f0;
-          overflow: hidden;
-          box-shadow: 0 28px 60px rgba(15, 23, 42, 0.35);
-          max-width: 1150px;
-          margin-inline: auto;
-        }
-
-        @media (max-width: 900px) {
-          .home-marketplace {
-            grid-template-columns: 1fr;
-            gap: 2.5rem;
-          }
-        }
-
-        .home-marketplace__media {
-          position: absolute;
-          inset: auto 1.5rem 1.5rem auto;
-          width: 13rem;
-          display: none;
-        }
-
-        @media (min-width: 1024px) {
-          .home-marketplace__media {
-            display: block;
-          }
-        }
-
-        .home-marketplace__media img {
-          width: 100%;
-          height: auto;
-          display: block;
-          opacity: 0.92;
-        }
-
-        .home-marketplace__heading {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-weight: 600;
-          color: #a7f3d0;
-          background: rgba(16, 185, 129, 0.16);
-          padding: 0.35rem 0.8rem;
-          border-radius: 999px;
-          font-size: 0.95rem;
-          border: 1px solid rgba(16, 185, 129, 0.28);
-        }
-
-        .home-marketplace__title {
-          font-size: clamp(2rem, 1.8rem + 1vw, 2.6rem);
-          letter-spacing: -0.03em;
-          margin-top: 1rem;
-          font-weight: 700;
-        }
-
-        .home-marketplace__description {
-          margin-top: 1rem;
-          color: rgba(241, 245, 249, 0.78);
-          line-height: 1.6;
-          max-width: 42rem;
-        }
-
-        .home-marketplace__pills {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.6rem;
-          margin-top: 1.5rem;
-        }
-
-        .home-marketplace__pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.55rem 0.9rem;
-          border-radius: 999px;
-          border: 1px solid rgba(226, 232, 240, 0.35);
-          background: rgba(15, 23, 42, 0.35);
-          font-size: 0.9rem;
-          font-weight: 500;
-          color: #e2e8f0;
-        }
-
         .home-commons {
           position: relative;
           border-radius: 32px;
@@ -1367,41 +1271,7 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           ))}
         </section>
 
-        <section className="home-marketplace">
-          <div>
-            <span className="home-marketplace__heading">
-              <ShieldCheck size={18} strokeWidth={1.8} />
-              Marketplace do condomínio conectado ao financeiro
-            </span>
-            <h2 className="home-marketplace__title">
-              Vendas entre moradores com conciliação automática no caixa.
-            </h2>
-            <p className="home-marketplace__description">
-              Moradores vendem produtos e serviços dentro do condomínio, contratam prestadores da própria comunidade e tudo é automaticamente conciliado com o caixa do condomínio.
-            </p>
-            <div className="home-marketplace__pills">
-              {MARKETPLACE_PILLS.map((pill) => (
-                <span key={pill} className="home-marketplace__pill">
-                  <CheckCircle2 size={16} strokeWidth={1.8} />
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="home-marketplace__media">
-            <img
-              src="/assets/marketing/market-illus.svg"
-              alt="Ilustração de marketplace conectado ao financeiro"
-              width={260}
-              height={220}
-              loading="lazy"
-              decoding="async"
-              srcSet="/assets/marketing/market-illus.svg 260w"
-              sizes="260px"
-            />
-          </div>
-        </section>
+        <FinancialMarketplaceSection onNavigate={onNavigate} />
 
         <section className="home-operations" aria-labelledby="operacoes-titulo">
           <div className="home-operations__content">

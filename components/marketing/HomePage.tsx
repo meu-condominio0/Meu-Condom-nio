@@ -2,48 +2,14 @@ import { useEffect } from 'react';
 import Hero from '@/src/components/Hero';
 import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
-
-const SOLUTION_CARDS = [
-  {
-    title: 'Financeiro',
-    description: 'Boletos registrados, conciliação automática, fluxo de caixa em tempo real e inadimplência sob controle.',
-    points: ['Prestação de contas em um clique', 'Dashboard de inadimplência e acordos', 'Integração bancária e PIX copiado automático'],
-  },
-  {
-    title: 'Comunicação',
-    description: 'Envios segmentados, recibos digitais e automações para avisos, assembleias e comunicados urgentes.',
-    points: ['Avisos com confirmação de leitura', 'Assembleias digitais com votação segura', 'Feed comunitário para engajar moradores'],
-  },
-  {
-    title: 'Operações',
-    description: 'Portaria digital, reservas de espaços, ocorrências e marketplace integrados em um único painel.',
-    points: ['Controle de acessos e visitantes com QR Code', 'Checklists e planos de manutenção', 'Marketplace interno conciliado ao caixa'],
-  },
-];
+import { SolutionsSection } from './SolutionsSection';
+import { OperationsSection } from './OperationsSection';
 
 const MARKETPLACE_CHIPS = [
   'Moradores vendem produtos e oferecem serviços',
   'Contratação de prestadores da comunidade',
   'Financeiro integrado e conciliado automaticamente',
   'Cupons e combos para fornecedores parceiros',
-];
-
-const OPERATIONS_FEATURES = [
-  {
-    title: 'Portaria digital e acesso seguro',
-    description: 'Controle visitantes, entregas e prestadores com QR Code, autorização instantânea e histórico centralizado.',
-    image: '/assets/marketing/portariadigital.png',
-  },
-  {
-    title: 'Comunidade conectada',
-    description: 'Engajamento com eventos, comunicados segmentados e serviços entre vizinhos para fortalecer o convívio.',
-    image: '/assets/marketing/pessoas.png',
-  },
-  {
-    title: 'Bem-estar e áreas comuns',
-    description: 'Reservas inteligentes de piscina, academia e salão de festas com regras claras e monitoramento.',
-    image: '/assets/marketing/piscina.png',
-  },
 ];
 
 const TESTIMONIALS = [
@@ -78,49 +44,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         onSecondaryClick={() => onNavigate('/demo')}
       />
 
-      <section id="como-funciona" className="bg-[#f4f5f3] py-16">
-        <div className="marketing-container space-y-10">
-          <div className="flex flex-col gap-3 text-center">
-            <span className="marketing-badge self-center" aria-hidden="true">
-              Feito para administradoras modernas
-            </span>
-            <h2 className="marketing-tagline text-3xl font-semibold leading-tight text-[#15291f] sm:text-4xl">
-              Tudo o que você precisa para comandar um condomínio impecável.
-            </h2>
-            <p className="marketing-subtitle max-w-3xl self-center text-lg text-[#344e41]">
-              Financeiro, comunicação, segurança e marketplace em uma mesma experiência para síndicos, conselhos e moradores.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {SOLUTION_CARDS.map((card) => (
-              <article
-                key={card.title}
-                className="flex h-full flex-col gap-4 rounded-3xl bg-white/90 p-6 shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#d6dbd4]"
-                aria-label={card.title}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-xl font-semibold text-[#15291f]">{card.title}</h3>
-                    <p className="text-sm leading-relaxed text-[#475e52]">{card.description}</p>
-                  </div>
-                  <div className="rounded-2xl bg-[#e9ede6] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#344e41]">
-                    Pronto para uso
-                  </div>
-                </div>
-                <ul className="flex flex-col gap-3 text-sm text-[#344e41]">
-                  {card.points.map((point) => (
-                    <li key={point} className="flex items-start gap-3">
-                      <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
-                      <span className="leading-relaxed">{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SolutionsSection onNavigate={onNavigate} />
 
       <section className="py-16">
         <div className="marketing-container">
@@ -209,46 +133,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#f9faf8] py-16" aria-labelledby="operacoes-heading">
-        <div className="marketing-container space-y-10">
-          <div className="flex flex-col gap-3">
-            <span className="marketing-badge w-fit" aria-hidden>
-              Segurança, comunidade e bem-estar
-            </span>
-            <h2 id="operacoes-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
-              Operações que conectam portaria, convivência e lazer.
-            </h2>
-            <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
-              Portaria digital com QR Code, controle de visitantes, reservas de áreas comuns e um feed para engajar moradores e colaboradores.
-            </p>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-3">
-            {OPERATIONS_FEATURES.map((feature) => (
-              <article
-                key={feature.title}
-                className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#dce3dc]"
-              >
-                <div className="aspect-[4/3] overflow-hidden">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col gap-3 p-6">
-                  <h3 className="text-xl font-semibold text-[#15291f]">{feature.title}</h3>
-                  <p className="text-sm leading-relaxed text-[#475e52]">{feature.description}</p>
-                  <div className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-[#e8f0ea] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#2f4b3d]">
-                    Proteção contínua
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <OperationsSection onNavigate={onNavigate} />
 
       <section className="py-16" aria-labelledby="gestao-tecnologia-heading">
         <div className="marketing-container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
