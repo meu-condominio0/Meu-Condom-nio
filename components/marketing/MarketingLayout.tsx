@@ -86,11 +86,11 @@ export function MarketingLayout({
           --text-dim: var(--mc-secondary);
           --text-muted: var(--mc-secondary-1);
           --brand: var(--mc-secondary);
-          --brand-2: var(--mc-primary);
+          --brand-2: var(--mc-secondary-dark);
           --accent: var(--mc-primary);
-          --muted: rgba(52, 78, 65, 0.1);
+          --muted: rgba(52, 78, 65, 0.08);
           --border: rgba(21, 41, 31, 0.12);
-          --shadow: 0 18px 35px rgba(21, 41, 31, 0.14);
+          --shadow: 0 12px 26px rgba(21, 41, 31, 0.12);
           --radius: 16px;
           --radius-lg: 24px;
         }
@@ -132,16 +132,17 @@ export function MarketingLayout({
           top: 0;
           z-index: 20;
           backdrop-filter: saturate(160%) blur(14px);
-          background: rgba(255, 255, 255, 0.9);
+          background: color-mix(in srgb, var(--mc-white) 88%, #ffffff 12%);
           border-bottom: 1px solid transparent;
-          box-shadow: 0 10px 30px rgba(21, 41, 31, 0.06);
+          box-shadow: 0 8px 22px rgba(21, 41, 31, 0.08);
+          padding: 10px 0; /* Paleta clara no topo e respiro no header */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .marketing-header[data-scrolled='true'] {
-          background: rgba(255, 255, 255, 0.96);
+          background: color-mix(in srgb, var(--mc-white-soft) 90%, #ffffff 10%);
           border-color: var(--border);
-          box-shadow: 0 18px 45px rgba(21, 41, 31, 0.12);
+          box-shadow: 0 12px 30px rgba(21, 41, 31, 0.12);
         }
 
         :where(.dark) .marketing-header {
@@ -159,8 +160,9 @@ export function MarketingLayout({
           display: flex;
           align-items: center;
           gap: 16px;
-          height: 76px;
+          min-height: 72px;
           position: relative;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-logo {
@@ -173,7 +175,7 @@ export function MarketingLayout({
         }
 
         .marketing-logo img {
-          height: 38px;
+          height: 30px; /* Logo oficial aplicada no header */
           width: auto;
           display: block;
         }
@@ -203,19 +205,21 @@ export function MarketingLayout({
         .marketing-menu a {
           padding: 9px 13px;
           border-radius: 12px;
-          color: var(--text-dim);
+          color: var(--text);
           transition: transform 0.15s, background 0.15s, color 0.15s;
           border: 1px solid transparent;
+          font-size: 15px;
+          font-weight: 500;
         }
 
         .marketing-menu a[data-active="true"] {
-          background: rgba(163, 177, 138, 0.12);
+          background: rgba(52, 78, 65, 0.12);
           color: var(--brand);
-          border-color: rgba(163, 177, 138, 0.14);
+          border-color: rgba(52, 78, 65, 0.2);
         }
 
         .marketing-menu a:hover {
-          background: rgba(163, 177, 138, 0.1);
+          background: rgba(52, 78, 65, 0.1);
           color: var(--brand);
           transform: translateY(-1px);
         }
@@ -307,6 +311,7 @@ export function MarketingLayout({
           box-shadow: var(--shadow);
           background: var(--brand);
           color: #ffffff;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-hero-actions a.secondary {
@@ -435,12 +440,14 @@ export function MarketingLayout({
           gap: 8px;
           box-shadow: var(--shadow);
           transition: transform 0.15s, box-shadow 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: 15px;
         }
 
         .marketing-cta {
-          background: linear-gradient(120deg, var(--brand) 0%, var(--brand-2) 100%);
+          background: #344E41; /* Botão principal com cor de destaque do guia */
           color: #ffffff;
-          border-color: var(--brand-2);
+          border-color: #344E41;
         }
 
         .marketing-cta-secondary {
@@ -453,13 +460,18 @@ export function MarketingLayout({
         .marketing-cta:hover,
         .marketing-cta-secondary:hover {
           transform: translateY(-1px);
-          box-shadow: 0 16px 28px rgba(21, 41, 31, 0.16);
+          box-shadow: 0 14px 24px rgba(21, 41, 31, 0.14);
         }
 
         .marketing-cta-secondary:hover {
           background: rgba(163, 177, 138, 0.08);
           color: var(--brand);
           border-color: rgba(163, 177, 138, 0.25);
+        }
+
+        .marketing-cta:hover {
+          background: #15291F;
+          border-color: #15291F;
         }
 
         .marketing-main {
@@ -850,6 +862,10 @@ export function MarketingLayout({
         }
 
         @media (max-width: 768px) {
+          .marketing-logo img {
+            height: 23px; /* Ajuste responsivo da marca no header */
+          }
+
           .marketing-table {
             display: block;
             overflow-x: auto;
@@ -930,7 +946,7 @@ export function MarketingLayout({
             inset: calc(100% + 12px) 0 auto 0;
             padding: 16px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.96);
+            background: color-mix(in srgb, var(--mc-white) 92%, #ffffff 8%);
             border: 1px solid var(--border);
             box-shadow: 0 22px 50px rgba(21, 41, 31, 0.16);
             flex-direction: column;
@@ -996,7 +1012,7 @@ export function MarketingLayout({
               aria-label="MeuCondomínio — voltar ao início"
               onClick={(event) => handleNavigate(event, '/')}
             >
-              <img src="/assets/branding/logo-meu-condominio.svg" alt="MeuCondomínio – gestão inteligente de condomínios" />
+              <img src="/assets/marketing/logo.png" alt="MeuCondomínio – gestão inteligente de condomínios" />
               <span className="marketing-logo__text">MeuCondomínio</span>
             </a>
 
