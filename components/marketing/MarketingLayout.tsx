@@ -133,17 +133,17 @@ export function MarketingLayout({
           top: 0;
           z-index: 20;
           backdrop-filter: saturate(160%) blur(14px);
-          background: #e9e9e9; /* Fundo claro do guia aplicado ao header */
-          border-bottom: 1px solid transparent;
+          background: #ffffff; /* Header claro com logo em destaque */
+          border-bottom: 1px solid rgba(52, 78, 65, 0.08);
           box-shadow: 0 6px 14px rgba(21, 41, 31, 0.08);
           padding: 16px 0; /* Mais respiro no topo seguindo o branding */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .marketing-header[data-scrolled='true'] {
-          background: #deddde; /* Tom ainda claro quando a página rola */
-          border-color: var(--border);
-          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.12);
+          background: #f4f5f3; /* Tom ainda claro quando a página rola */
+          border-color: rgba(52, 78, 65, 0.16);
+          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.14);
         }
 
         :where(.dark) .marketing-header {
@@ -175,8 +175,27 @@ export function MarketingLayout({
           color: var(--text);
         }
 
-        .marketing-logo img {
-          height: clamp(26px, 4vw, 32px); /* Logo oficial aplicada no header */
+        .mc-logo-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 12px;
+          border-radius: 14px;
+          background: rgba(52, 78, 65, 0.06);
+          border: 1px solid rgba(52, 78, 65, 0.12);
+          box-shadow: 0 10px 22px rgba(21, 41, 31, 0.08);
+          transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
+        }
+
+        .mc-logo-link:hover {
+          transform: translateY(-1px);
+          background: rgba(52, 78, 65, 0.1);
+          border-color: rgba(52, 78, 65, 0.2);
+          box-shadow: 0 16px 30px rgba(21, 41, 31, 0.12);
+        }
+
+        .mc-logo-image {
+          height: clamp(24px, 4vw, 32px); /* Logo oficial aplicada no header */
           width: auto;
           display: block;
         }
@@ -188,6 +207,7 @@ export function MarketingLayout({
           color: var(--text);
           font-weight: 800;
           line-height: 1.1;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-menu {
@@ -1007,16 +1027,21 @@ export function MarketingLayout({
           data-scrolled={isScrolled ? 'true' : undefined}
         >
           <div className="marketing-container marketing-nav">
-            <a
-              href="/"
-              className="marketing-logo"
-              aria-label="MeuCondomínio — voltar ao início"
-              onClick={(event) => handleNavigate(event, '/')}
-            >
-              {/* Logo aplicada no canto esquerdo conforme o novo branding */}
-              <img src="/assets/marketing/logo.png" alt="MeuCondomínio – gestão inteligente de condomínios" />
-              <span className="marketing-logo__text">MeuCondomínio</span>
-            </a>
+            <div className="marketing-logo">
+              <a
+                href="/"
+                className="mc-logo-link"
+                aria-label="Ir para a página inicial MeuCondomínio"
+                onClick={(event) => handleNavigate(event, '/')}
+              >
+                <img
+                  src="/assets/marketing/logo.png"
+                  alt="MeuCondomínio"
+                  className="mc-logo-image"
+                />
+                <span className="marketing-logo__text">MeuCondomínio</span>
+              </a>
+            </div>
 
             <nav
               className="marketing-menu"
