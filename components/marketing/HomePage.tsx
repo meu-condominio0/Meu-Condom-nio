@@ -4,6 +4,7 @@ import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 import { SolutionsSection } from './SolutionsSection';
 import { OperationsSection } from './OperationsSection';
+import { DemoSection } from './DemoSection';
 
 const MARKETPLACE_CHIPS = [
   'Moradores vendem produtos e oferecem serviços',
@@ -178,83 +179,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         </div>
       </section>
 
-      <section className="bg-[#f4f5f3] py-16" aria-labelledby="historia-heading">
-        <div className="marketing-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="space-y-5">
-            <span className="marketing-badge" aria-hidden>
-              Demonstração guiada
-            </span>
-            <h2 id="historia-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
-              Veja o sistema na prática em menos de 3 minutos.
-            </h2>
-            <p className="marketing-subtitle text-lg text-[#344e41]">
-              Mostramos os indicadores que importam para o conselho, o passo a passo da portaria digital e como o marketplace interno gira receita para o condomínio.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="/demo"
-                onClick={(event) => {
-                  event.preventDefault();
-                  onNavigate('/demo');
-                }}
-                className="inline-flex items-center justify-center rounded-full bg-[#344e41] px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#2a3d33]"
-                aria-label="Assistir demonstração de 3 minutos"
-              >
-                Assistir demonstração
-              </a>
-              <a
-                href="/comece"
-                onClick={(event) => {
-                  event.preventDefault();
-                  onNavigate('/comece');
-                }}
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#15291f] shadow-md ring-1 ring-[#d6dbd4] transition hover:-translate-y-0.5"
-                aria-label="Começar agora com avaliação gratuita"
-              >
-                Começar agora
-              </a>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-2xl bg-white p-4 shadow-md ring-1 ring-[#dce3dc]">
-                <p className="text-sm font-semibold text-[#2f4b3d]">Inadimplência reduzida</p>
-                <p className="text-2xl font-bold text-[#2f4b3d]">-35% em 90 dias</p>
-                <p className="text-xs text-[#4c6558]">Com cobranças automáticas e acordos digitais.</p>
-              </div>
-              <div className="rounded-2xl bg-white p-4 shadow-md ring-1 ring-[#dce3dc]">
-                <p className="text-sm font-semibold text-[#2f4b3d]">Chamados resolvidos</p>
-                <p className="text-2xl font-bold text-[#2f4b3d]">98% SLA</p>
-                <p className="text-xs text-[#4c6558]">Equipe e moradores na mesma linha do tempo.</p>
-              </div>
-            </div>
-          </div>
-          <div className="relative grid gap-4 sm:grid-cols-2">
-            <img
-              src="/assets/marketing/notebookinicial.png"
-              alt="Notebook mostrando início da plataforma"
-              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
-              loading="lazy"
-            />
-            <img
-              src="/assets/marketing/demonstração.png"
-              alt="Tela de demonstração do sistema"
-              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
-              loading="lazy"
-            />
-            <img
-              src="/assets/marketing/saibamais.png"
-              alt="Detalhe de métricas do aplicativo"
-              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
-              loading="lazy"
-            />
-            <img
-              src="/assets/marketing/vendas.png"
-              alt="Ícone de vendas do marketplace"
-              className="w-full rounded-3xl bg-white object-contain p-6 shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      </section>
+      <DemoSection onNavigate={onNavigate} />
 
       <section className="py-16" aria-labelledby="metricas-heading">
         <div className="marketing-container space-y-8">
