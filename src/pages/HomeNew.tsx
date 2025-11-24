@@ -710,6 +710,147 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
           font-weight: 500;
         }
 
+        .home-commons {
+          position: relative;
+          border-radius: 32px;
+          padding: clamp(2.5rem, 3vw, 3.5rem);
+          background: linear-gradient(135deg, rgba(163, 177, 138, 0.15), #e9e9e9);
+          border: 1px solid rgba(52, 78, 65, 0.12);
+          overflow: hidden;
+        }
+
+        .home-commons__grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          grid-template-areas: 'content media';
+          align-items: center;
+          gap: clamp(1.5rem, 3vw, 2.5rem);
+        }
+
+        .home-commons__content {
+          grid-area: content;
+          display: grid;
+          gap: 1rem;
+          color: #15291f;
+        }
+
+        .home-commons__eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.45rem 0.9rem;
+          border-radius: 999px;
+          background: rgba(52, 78, 65, 0.1);
+          color: #344e41;
+          font-weight: 600;
+          width: fit-content;
+        }
+
+        .home-commons__title {
+          font-size: clamp(2rem, 1.6rem + 1vw, 2.6rem);
+          letter-spacing: -0.03em;
+          font-weight: 700;
+          color: #15291f;
+        }
+
+        .home-commons__title strong,
+        .home-commons__highlight {
+          color: #344e41;
+        }
+
+        .home-commons__description {
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: #274534;
+          max-width: 40rem;
+        }
+
+        .home-commons__list {
+          display: grid;
+          gap: 0.75rem;
+          color: #2d4a39;
+        }
+
+        .home-commons__list-item {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          gap: 0.65rem;
+          align-items: start;
+        }
+
+        .home-commons__list-item svg {
+          color: #344e41;
+        }
+
+        .home-commons__actions {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.9rem;
+          margin-top: 0.5rem;
+        }
+
+        .home-commons__cta {
+          background: #344e41;
+          color: #f8f9f7;
+          border: 1px solid #344e41;
+          border-radius: 999px;
+          padding: 0.85rem 1.4rem;
+          font-weight: 600;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          cursor: pointer;
+          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        .home-commons__cta:hover {
+          background: #15291f;
+          border-color: #15291f;
+          transform: translateY(-1px);
+        }
+
+        .home-commons__cta:focus-visible {
+          outline: 2px solid rgba(21, 41, 31, 0.6);
+          outline-offset: 3px;
+        }
+
+        .home-commons__media {
+          grid-area: media;
+          position: relative;
+          border-radius: 28px;
+          overflow: hidden;
+          background: rgba(52, 78, 65, 0.12);
+          border: 1px solid rgba(21, 41, 31, 0.08);
+          box-shadow: 0 20px 45px rgba(52, 78, 65, 0.15);
+          aspect-ratio: 4 / 3;
+        }
+
+        .home-commons__media img {
+          display: block;
+          width: 100%;
+          max-width: 480px;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        @media (max-width: 960px) {
+          .home-commons__grid {
+            grid-template-columns: 1fr;
+            grid-template-areas:
+              'media'
+              'content';
+          }
+
+          .home-commons__media {
+            justify-self: center;
+            width: min(480px, 100%);
+          }
+
+          .home-commons {
+            padding: 2.25rem 1.5rem;
+          }
+        }
+
         .home-sections__heading {
           display: flex;
           flex-direction: column;
@@ -1077,6 +1218,54 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
                   {pill}
                 </span>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="home-commons" aria-labelledby="areas-comuns-titulo">
+          <div className="home-commons__grid">
+            <div className="home-commons__content">
+              <span className="home-commons__eyebrow">Infraestrutura impecável</span>
+              <h2 id="areas-comuns-titulo" className="home-commons__title">
+                Áreas comuns <strong>organizadas</strong> e valorizadas
+              </h2>
+              <p className="home-commons__description">
+                Do agendamento de espaços ao registro financeiro, tudo conectado em uma só plataforma. Crie rotinas modernas que
+                deixam cada ambiente pronto para receber com segurança.
+              </p>
+              <div className="home-commons__list" role="list">
+                <div className="home-commons__list-item" role="listitem">
+                  <CheckCircle2 size={18} strokeWidth={1.8} />
+                  <span>Reservas online com bloqueio automático de conflitos e notificações instantâneas.</span>
+                </div>
+                <div className="home-commons__list-item" role="listitem">
+                  <CheckCircle2 size={18} strokeWidth={1.8} />
+                  <span>Checklist de entrega e limpeza com registros financeiros integrados ao caixa.</span>
+                </div>
+                <div className="home-commons__list-item" role="listitem">
+                  <CheckCircle2 size={18} strokeWidth={1.8} />
+                  <span>Indicadores de uso para orientar investimentos em lazer, esportes e convivência.</span>
+                </div>
+              </div>
+              <div className="home-commons__actions">
+                <button type="button" className="home-commons__cta" onClick={() => onNavigate('/solucoes')}>
+                  Ver gestão de áreas comuns
+                  <ArrowRight size={18} strokeWidth={1.8} />
+                </button>
+              </div>
+            </div>
+
+            <div className="home-commons__media">
+              <img
+                src="/assets/marketing/area-comum-condominio.png"
+                alt="Área comum de condomínio moderna com mobiliário integrado e paisagismo cuidado"
+                width={960}
+                height={720}
+                loading="lazy"
+                decoding="async"
+                srcSet="/assets/marketing/area-comum-condominio.png 960w"
+                sizes="(max-width: 960px) 100vw, 480px"
+              />
             </div>
           </div>
         </section>
