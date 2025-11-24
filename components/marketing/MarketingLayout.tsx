@@ -644,8 +644,15 @@ export function MarketingLayout({
 
         .pricing-plan-card-featured {
           transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 20px 36px rgba(21, 41, 31, 0.16);
+          box-shadow: 0 28px 56px rgba(21, 41, 31, 0.18);
           border-width: 1.5px;
+          border-color: rgba(52,78,65,0.18);
+          transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+        }
+
+        .pricing-plan-card-featured:hover {
+          transform: translateY(-6px) scale(1.035);
+          box-shadow: 0 36px 68px rgba(21,41,31,0.22);
         }
 
         .pricing-badge {
@@ -659,6 +666,15 @@ export function MarketingLayout({
           font-size: 12px;
           font-weight: 700;
           border: 1px solid rgba(21, 41, 31, 0.18);
+        }
+
+        /* Destaque visual extra para o badge do plano mais escolhido */
+        .pricing-plan-card-featured .pricing-badge {
+          background: linear-gradient(120deg, rgba(163,177,138,0.22), rgba(52,78,65,0.06));
+          color: var(--text);
+          border-color: rgba(52,78,65,0.18);
+          font-size: 13px;
+          padding: 7px 14px;
         }
 
         .pricing-toggle {
@@ -882,6 +898,31 @@ export function MarketingLayout({
           color: var(--text-dim);
           position: relative;
           transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .marketing-table td .pricing-cell-content,
+        .marketing-table th .pricing-cell-content {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          min-height: 28px;
+        }
+
+        .pricing-unavailable span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-muted);
+          font-weight: 700;
+        }
+
+        .pricing-optional {
+          color: rgba(52,78,65,0.7);
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
         }
 
         .marketing-table tbody tr:last-child td {
