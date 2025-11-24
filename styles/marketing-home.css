@@ -2,19 +2,33 @@
 .marketplace-visual-card {
   gap: 20px;
   position: relative;
-  background: linear-gradient(
-      120deg,
-      rgba(var(--mc-green-2-rgb), 0.9) 0%,
-      rgba(var(--mc-green-2-rgb), 0.78) 35%,
-      rgba(var(--mc-green-1-rgb), 0.62) 60%,
-      rgba(var(--mc-primary-rgb), 0.35) 100%
-    ),
-    url('/assets/marketing/area-comum-condominio.png');
+  background-image: url('/assets/marketing/area-comum-condominio.png');
   background-size: cover;
   background-position: center;
   color: var(--mc-white);
   border-color: rgba(var(--mc-white-rgb), 0.22);
   box-shadow: 0 18px 32px rgba(var(--mc-green-2-rgb), 0.24);
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.marketplace-visual-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(15, 23, 42, 0.82),
+    rgba(15, 23, 42, 0.55),
+    rgba(163, 177, 138, 0.35)
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.marketplace-visual-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .marketplace-visual-card .marketing-badge {
@@ -36,39 +50,35 @@
   border-color: rgba(var(--mc-white-rgb), 0.24);
 }
 
+.marketplace-visual-card .marketing-hero-actions a {
+  background: rgba(52, 78, 65, 0.92);
+  border-color: rgba(52, 78, 65, 0.92);
+}
+
 .marketplace-visual-card .marketing-hero-actions a.secondary {
-  background: rgba(var(--mc-white-rgb), 0.08);
+  background: rgba(var(--mc-white-rgb), 0.12);
   border-color: rgba(var(--mc-white-rgb), 0.2);
 }
 
-.marketplace-visual-card .marketing-hero-actions a:hover,
-.marketplace-visual-card .marketing-hero-actions a.secondary:hover {
+.marketplace-visual-card .marketing-hero-actions a:hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 32px rgba(21, 41, 31, 0.28);
+  background: rgba(21, 41, 31, 1);
 }
 
-@media (max-width: 768px) {
-  .marketplace-visual-card {
-    background: linear-gradient(
-        120deg,
-        rgba(var(--mc-green-2-rgb), 0.94) 0%,
-        rgba(var(--mc-green-2-rgb), 0.88) 45%,
-        rgba(var(--mc-green-1-rgb), 0.78) 70%,
-        rgba(var(--mc-primary-rgb), 0.46) 100%
-      ),
-      url('/assets/marketing/area-comum-condominio.png');
-  }
+.marketplace-visual-card .marketing-hero-actions a.secondary:hover {
+  background: rgba(var(--mc-white-rgb), 0.18);
+  color: var(--mc-white);
 }
 
 /* Marketing Home – Métricas com vista aérea */
 .metrics-visual {
   position: relative;
-  background: linear-gradient(140deg, rgba(var(--mc-primary-rgb), 0.28), rgba(var(--mc-green-muted-rgb), 0.18)),
-    url('/assets/marketing/vista-aerea-condominio.png');
+  background-image: url('/assets/marketing/vista-aerea-condominio.png');
   background-size: cover;
   background-position: center;
-  padding: 24px;
-  border-radius: 20px;
+  padding: 40px;
+  border-radius: 32px;
   border: 1px solid rgba(var(--mc-green-2-rgb), 0.08);
   box-shadow: 0 16px 28px rgba(var(--mc-green-2-rgb), 0.12);
   overflow: hidden;
@@ -78,17 +88,32 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(var(--mc-primary-rgb), 0.28);
-  mix-blend-mode: multiply;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.85),
+    rgba(15, 23, 42, 0.70),
+    rgba(15, 23, 42, 0.60)
+  );
   pointer-events: none;
+  z-index: 1;
 }
 
 .metrics-visual .marketing-metric-card {
   position: relative;
-  z-index: 1;
-  background: rgba(var(--mc-white-rgb), 0.86);
+  z-index: 2;
+  background: rgba(249, 250, 251, 0.92);
+  backdrop-filter: blur(10px);
   border-color: rgba(var(--mc-green-2-rgb), 0.12);
+  border-radius: 24px;
   box-shadow: 0 12px 24px rgba(var(--mc-green-2-rgb), 0.14);
+}
+
+.metrics-visual .marketing-metric-card strong {
+  color: var(--mc-green-2);
+}
+
+.metrics-visual .marketing-metric-card span {
+  color: var(--mc-green-muted);
 }
 
 /* Marketing Home – Bloco de gestão e automação */
@@ -98,8 +123,8 @@
 
 .management-grid {
   display: grid;
-  gap: 24px;
-  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
 }
 
@@ -115,25 +140,21 @@
 
 .management-visual {
   width: 100%;
-  max-width: 520px;
-  justify-self: end;
-  background: linear-gradient(160deg, rgba(var(--mc-green-2-rgb), 0.75), rgba(var(--mc-green-1-rgb), 0.5)),
-    url('/assets/marketing/fundo.png');
-  background-size: cover;
-  background-position: center;
-  border-radius: 18px;
+  background-color: var(--mc-green-2);
+  border-radius: 32px;
   border: 1px solid rgba(var(--mc-green-2-rgb), 0.12);
-  padding: 10px;
+  padding: 0;
+  overflow: hidden;
   box-shadow: 0 16px 30px rgba(var(--mc-green-2-rgb), 0.14);
+  aspect-ratio: 1;
 }
 
 .management-visual img {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 14px 24px rgba(var(--mc-green-2-rgb), 0.18);
+  border-radius: 32px;
 }
 
 @media (max-width: 960px) {
@@ -144,5 +165,35 @@
   .management-visual {
     max-width: none;
     justify-self: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .marketplace-visual-card {
+    background-image: url('/assets/marketing/area-comum-condominio.png');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .marketplace-visual-card::before {
+    background: linear-gradient(
+      120deg,
+      rgba(15, 23, 42, 0.88),
+      rgba(15, 23, 42, 0.72),
+      rgba(163, 177, 138, 0.45)
+    );
+  }
+
+  .metrics-visual {
+    padding: 20px;
+  }
+
+  .metrics-visual::before {
+    background: linear-gradient(
+      90deg,
+      rgba(15, 23, 42, 0.88),
+      rgba(15, 23, 42, 0.76),
+      rgba(15, 23, 42, 0.68)
+    );
   }
 }

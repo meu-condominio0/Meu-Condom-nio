@@ -126,6 +126,7 @@ export function MarketingLayout({
         .marketing-container {
           width: min(1100px, 92%);
           margin: 0 auto;
+          padding: 0 1.5rem;
         }
 
         .marketing-header {

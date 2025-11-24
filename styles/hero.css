@@ -2,33 +2,25 @@
   position: relative;
   isolation: isolate;
   background-color: var(--mc-green-2);
-  background-image: linear-gradient(
-      115deg,
-      rgba(var(--mc-green-2-rgb), 0.96) 0%,
-      rgba(var(--mc-green-2-rgb), 0.92) 28%,
-      rgba(var(--mc-green-1-rgb), 0.85) 58%,
-      rgba(var(--mc-green-1-rgb), 0.8) 72%,
-      rgba(var(--mc-green-1-rgb), 0.7) 100%
-    ),
-    url("/assets/marketing/fundo.png"),
-    url("/assets/marketing/fachada-condominio.png");
-  background-size: 170% 170%, 120% 100%, cover;
-  background-position: left center, center, right center;
+  background-image: url("/assets/marketing/fachada-condominio.png");
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   color: var(--mc-white);
+  min-height: 640px;
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    100deg,
-    rgba(var(--mc-green-2-rgb), 0.92) 0%,
-    rgba(var(--mc-green-2-rgb), 0.82) 34%,
-    rgba(var(--mc-green-1-rgb), 0.62) 62%,
-    rgba(var(--mc-green-1-rgb), 0.2) 100%
+    90deg,
+    rgba(15, 35, 26, 1) 0%,
+    rgba(15, 35, 26, 0.9) 35%,
+    rgba(15, 35, 26, 0.35) 70%,
+    rgba(15, 35, 26, 0.05) 100%
   );
-  backdrop-filter: blur(1px);
+  backdrop-filter: blur(2px);
   pointer-events: none;
   z-index: 0;
 }
@@ -83,24 +75,17 @@
 
 @media (max-width: 1023px) {
   .hero-with-bg {
-    background-image: linear-gradient(
-        170deg,
-        rgba(var(--mc-green-2-rgb), 0.98) 0%,
-        rgba(var(--mc-green-2-rgb), 0.92) 32%,
-        rgba(var(--mc-green-1-rgb), 0.78) 70%,
-        rgba(var(--mc-green-1-rgb), 0.68) 100%
-      ),
-      url("/assets/marketing/fundo.png");
-    background-size: 210% 170%, 170% 120%;
-    background-position: center top, center top;
+    background-image: url("/assets/marketing/fachada-condominio.png");
+    background-size: cover;
+    background-position: center;
   }
 
   .hero-with-bg .hero-overlay {
     background: linear-gradient(
       to bottom,
-      rgba(var(--mc-green-2-rgb), 0.96),
-      rgba(var(--mc-green-2-rgb), 0.92),
-      rgba(var(--mc-green-1-rgb), 0.85)
+      rgba(15, 35, 26, 0.98),
+      rgba(15, 35, 26, 0.96),
+      rgba(21, 41, 31, 0.90)
     );
     backdrop-filter: blur(2px);
   }
@@ -113,16 +98,17 @@
 
 @media (max-width: 767px) {
   .hero-with-bg {
-    padding: 4.75rem 1.5rem;
-    background-position: center top;
+    padding: 3rem 1.5rem;
+    background-position: center;
+    min-height: auto;
   }
 
   .hero-with-bg .hero-overlay {
     background: linear-gradient(
       to bottom,
-      rgba(var(--mc-green-2-rgb), 0.98),
-      rgba(var(--mc-green-2-rgb), 0.95),
-      rgba(var(--mc-green-1-rgb), 0.85)
+      rgba(15, 35, 26, 0.98),
+      rgba(15, 35, 26, 0.97),
+      rgba(21, 41, 31, 0.90)
     );
   }
 
@@ -153,4 +139,23 @@
   .hero-copy-panel {
     margin: 0 auto;
   }
+}
+
+/* Estilos de glassmorphism para cards de métricas do Hero */
+.hero-visual-stack .hero-metric-card,
+.hero-visual-stack [class*="metric"] {
+  background: rgba(249, 250, 251, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 20px rgba(21, 41, 31, 0.12) !important;
+}
+
+.hero-visual-stack [class*="metric"] strong,
+.hero-visual-stack [class*="metric"] [class*="value"] {
+  color: var(--mc-green-2) !important;
+}
+
+.hero-visual-stack [class*="metric"] span,
+.hero-visual-stack [class*="metric"] [class*="label"] {
+  color: var(--mc-green-muted) !important;
 }
