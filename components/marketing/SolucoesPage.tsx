@@ -50,9 +50,9 @@ const SOLUTIONS = [
     description:
       'Boletos com registro automático, conciliação bancária inteligente e plano de contas otimizado para o condomínio.',
     highlights: [
-      'Fechamento mensal assistido com checklist guiado',
-      'Geração de relatórios em PDF ou link compartilhável',
-      'Integração com bancos, adquirentes e contabilidade',
+      { title: 'Fechamento mensal assistido', detail: 'com checklist guiado' },
+      { title: 'Geração de relatórios', detail: 'em PDF ou link compartilhável' },
+      { title: 'Integração com bancos', detail: 'adquirentes e contabilidade' },
     ],
     icon: '💳',
     badge: 'Favorito das administradoras',
@@ -62,9 +62,9 @@ const SOLUTIONS = [
     description:
       'Conecte moradores, síndicos e administradora com um feed moderno, notificações ricas e protocolos digitais.',
     highlights: [
-      'Envio segmentado por bloco, unidade ou grupo',
-      'Central de atendimento com SLA e resposta sugerida por IA',
-      'Enquetes, assembleias digitais e mural multimídia',
+      { title: 'Envio segmentado', detail: 'por bloco, unidade ou grupo' },
+      { title: 'Central de atendimento', detail: 'com SLA e resposta sugerida por IA' },
+      { title: 'Enquetes e assembleias digitais', detail: 'além de mural multimídia' },
     ],
     icon: '📣',
   },
@@ -73,9 +73,9 @@ const SOLUTIONS = [
     description:
       'Reservas, ocorrências, visitantes, pets e veículos controlados em processos automatizados com trilhas de auditoria.',
     highlights: [
-      'Fluxos aprovadores configuráveis por tipo de área',
-      'Checklist de vistoria com fotos ilimitadas',
-      'Acesso ao portal de fornecedores com contratos e garantias',
+      { title: 'Fluxos aprovadores', detail: 'configuráveis por tipo de área' },
+      { title: 'Checklist de vistoria', detail: 'com fotos ilimitadas' },
+      { title: 'Portal de fornecedores', detail: 'com contratos e garantias' },
     ],
     icon: '🛠️',
   },
@@ -269,45 +269,51 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
       </section>
 
       <section className="marketing-section" aria-labelledby="solucoes-grid">
-        <div className="marketing-grid-2">
-          {SOLUTIONS.map((solution) => (
-            <article key={solution.title} className="marketing-card" aria-label={solution.title}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span
-                    aria-hidden
-                    style={{
-                      width: 44,
-                      height: 44,
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: 14,
-                      background: 'rgba(32, 201, 151, 0.12)',
-                      fontSize: 24,
-                    }}
-                  >
-                    {solution.icon}
-                  </span>
-                  <div>
-                    <h3 style={{ margin: 0 }}>{solution.title}</h3>
-                    <p style={{ margin: '4px 0 0' }}>{solution.description}</p>
+        <div className="max-w-6xl mx-auto px-6 py-6">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {SOLUTIONS.map((solution) => (
+              <article
+                key={solution.title}
+                className="group flex h-full flex-col rounded-2xl border border-emerald-100 bg-white/80 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-emerald-900/60 dark:bg-slate-900/60"
+                aria-label={solution.title}
+              >
+                <div className="flex flex-1 flex-col gap-5">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3">
+                      <span
+                        aria-hidden
+                        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-2xl shadow-sm ring-1 ring-emerald-100 dark:bg-emerald-950/50 dark:ring-emerald-800"
+                      >
+                        {solution.icon}
+                      </span>
+                      <div className="space-y-2">
+                        <h3 className="text-xl font-semibold text-slate-900 dark:text-white">{solution.title}</h3>
+                        <p className="text-sm text-slate-600 dark:text-slate-200">{solution.description}</p>
+                      </div>
+                    </div>
+
+                    {solution.badge ? (
+                      <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 ring-1 ring-emerald-100 shadow-sm dark:bg-emerald-900/40 dark:text-emerald-100 dark:ring-emerald-800">
+                        {solution.badge}
+                      </span>
+                    ) : null}
                   </div>
+
+                  <ul className="flex flex-1 flex-col justify-start gap-3 text-sm text-slate-700 dark:text-slate-100">
+                    {solution.highlights.map((item) => (
+                      <li key={item.title} className="flex gap-2">
+                        <span className="text-emerald-600 dark:text-emerald-300">•</span>
+                        <span>
+                          <span className="font-semibold">{item.title}</span>
+                          {item.detail ? ` ${item.detail}` : null}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                {solution.badge ? <span className="marketing-badge">{solution.badge}</span> : null}
-              </div>
-
-              <ul className="marketing-list">
-                {solution.highlights.map((item) => (
-                  <li key={item}>
-                    <strong>•</strong>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
