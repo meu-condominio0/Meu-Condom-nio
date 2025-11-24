@@ -6,7 +6,6 @@ type Operation = {
   bullets: string[];
 };
 
-// Se quiser depois tipar certinho, troca `any` por `MarketingPath`
 type OperationsSectionProps = {
   onNavigate?: (path: any) => void;
 };
@@ -45,7 +44,6 @@ const operations: Operation[] = [
 ];
 
 export function OperationsSection({ onNavigate }: OperationsSectionProps) {
-  // por enquanto não usamos onNavigate, mas ele já está disponível se quiser
   return (
     <section
       id="operations"
@@ -96,4 +94,4 @@ export function OperationsSection({ onNavigate }: OperationsSectionProps) {
   );
 }
 
-export de
+export default OperationsSection;
