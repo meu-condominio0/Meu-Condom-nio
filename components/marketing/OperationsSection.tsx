@@ -31,9 +31,7 @@ type OperationsSectionProps = Pick<MarketingPageProps, 'onNavigate'>;
 
 export function OperationsSection({ onNavigate }: OperationsSectionProps) {
   return (
-    <section className="bg-[#f9faf8] py-16" aria-labelledby="operacoes-heading">
-      <div className="marketing-container space-y-10">
-        <div className="flex flex-col gap-3">
+
           <span className="marketing-badge w-fit" aria-hidden>
             Segurança, comunidade e bem-estar
           </span>
@@ -43,6 +41,7 @@ export function OperationsSection({ onNavigate }: OperationsSectionProps) {
           <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
             Integre portaria, avisos, reservas e convivência em um painel que organiza a rotina e melhora a experiência de quem mora e trabalha no condomínio.
           </p>
+
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
