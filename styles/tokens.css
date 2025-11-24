@@ -1,11 +1,17 @@
 :root {
   --mc-primary: #A3B18A;
-  --mc-secondary-1: #60756B;
-  --mc-secondary: #344E41;
-  --mc-secondary-dark: #15291F;
-  --mc-secondary-light: #778A57;
+  --mc-green-1: #344E41;
+  --mc-green-2: #15291F;
+  --mc-green-muted: #60756B;
   --mc-white: #E9E9E9;
   --mc-white-soft: #DEDDDC;
-  --mc-danger: #FF8989;
   --mc-success: #61E16E;
+  --mc-danger: #FF8989;
+
+  --mc-primary-rgb: 163, 177, 138;
+  --mc-green-1-rgb: 52, 78, 65;
+  --mc-green-2-rgb: 21, 41, 31;
+  --mc-green-muted-rgb: 96, 117, 107;
+  --mc-white-rgb: 233, 233, 233;
+  --mc-white-soft-rgb: 222, 221, 220;
 }
