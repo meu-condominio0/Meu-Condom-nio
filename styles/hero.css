@@ -1,21 +1,22 @@
 .hero-with-bg {
   position: relative;
   isolation: isolate;
-  background-image: url("/assets/marketing/fundo.jpg");
+  background-image: url("/assets/marketing/fundo.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-color: #f8fafc;
+  background-color: var(--mc-secondary-dark);
+  color: var(--mc-white);
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to right,
-    rgba(15, 23, 42, 0.85),
-    rgba(15, 23, 42, 0.4),
-    rgba(15, 23, 42, 0.15)
+    110deg,
+    rgba(21, 41, 31, 0.9),
+    rgba(52, 78, 65, 0.78),
+    rgba(119, 138, 87, 0.58)
   );
   pointer-events: none;
   z-index: 0;
@@ -40,36 +41,36 @@
 
 @media (max-width: 767px) {
   .hero-with-bg {
-    padding: 3.75rem 1.25rem;
+    padding: 4.5rem 1.5rem;
     background-position: center top;
   }
 
   .hero-with-bg .hero-overlay {
     background: linear-gradient(
       to bottom,
-      rgba(15, 23, 42, 0.98),
-      rgba(15, 23, 42, 0.82),
-      rgba(15, 23, 42, 0.6)
+      rgba(21, 41, 31, 0.94),
+      rgba(52, 78, 65, 0.82),
+      rgba(119, 138, 87, 0.7)
     );
   }
 
   .hero-with-bg .hero-content {
-    gap: 2.75rem;
-    padding-inline: 1.25rem;
+    gap: 3rem;
+    padding-inline: 1.5rem;
   }
 
   .hero-with-bg .hero-body {
-    gap: 1.5rem;
+    gap: 1.75rem;
   }
 
   .hero-with-bg .hero-headline {
-    font-size: 1.85rem;
+    font-size: 2rem;
     line-height: 1.2;
     letter-spacing: -0.01em;
   }
 
   .hero-with-bg .hero-cta-group {
-    gap: 0.85rem;
+    gap: 1rem;
   }
 
   .hero-with-bg .hero-cta-group button {

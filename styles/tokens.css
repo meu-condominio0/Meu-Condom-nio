@@ -1,0 +1,11 @@
+:root {
+  --mc-primary: #A3B18A;
+  --mc-secondary-1: #60756B;
+  --mc-secondary: #344E41;
+  --mc-secondary-dark: #15291F;
+  --mc-secondary-light: #778A57;
+  --mc-white: #E9E9E9;
+  --mc-white-soft: #DEDDDC;
+  --mc-danger: #FF8989;
+  --mc-success: #61E16E;
+}
