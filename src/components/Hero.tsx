@@ -66,13 +66,13 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
 
   return (
     <section
-      className="hero-with-bg relative overflow-hidden py-16 text-[color:var(--mc-white)]"
+      className="hero-with-bg relative overflow-hidden py-20 text-[color:var(--mc-white)] lg:py-24"
       aria-labelledby="hero-heading"
     >
       <div className="hero-overlay" aria-hidden />
 
-      <div className="hero-content relative z-10 mx-auto grid max-w-6xl items-start gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14 lg:px-8">
-        <div className="hero-body mx-auto flex w-full max-w-2xl flex-col gap-8 lg:mx-0">
+      <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-16 lg:px-8">
+        <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-9 lg:mx-0">
           <header className="flex flex-col gap-4">
             <span className="text-sm font-medium uppercase tracking-[0.2em] text-[color:var(--mc-primary)]">
               {PROOF_COPY}
@@ -140,7 +140,7 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
           <MarketplaceHighlight />
         </div>
 
-        <div className="relative mx-auto flex w-full max-w-xl flex-col gap-6">
+        <div className="hero-visual-stack relative mx-auto flex w-full max-w-xl flex-col gap-6">
           <CondoSummaryCard title={summaryTitle} activeTab={activeTab} onTabChange={setActiveTab} />
 
           <div className="hidden lg:block">
