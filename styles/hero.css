@@ -11,13 +11,13 @@
   background-position: center center;
   background-repeat: no-repeat;
   color: #fff;
-  min-height: calc(100vh - 96px);
+  min-height: clamp(620px, 78vh, 780px);
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(115deg, rgba(8, 19, 13, 0.96) 0%, rgba(14, 34, 24, 0.9) 45%, rgba(20, 46, 34, 0.82) 70%, rgba(20, 46, 34, 0.7) 100%);
+  background: linear-gradient(115deg, rgba(8, 19, 13, 0.92) 0%, rgba(14, 34, 24, 0.88) 38%, rgba(20, 46, 34, 0.78) 70%, rgba(20, 46, 34, 0.64) 100%);
   backdrop-filter: blur(4px);
   pointer-events: none;
   z-index: 0;
