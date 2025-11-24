@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Hero from '@/src/components/Hero';
+import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 
 const HERO_FEATURES = [
@@ -101,7 +102,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
       </section>
 
       <section className="marketing-section" aria-labelledby="marketplace-heading">
-        <div className="marketing-highlight-card marketing-card" style={{ gap: 20 }}>
+        <div className="marketing-highlight-card marketing-card marketplace-visual-card">
           <span className="marketing-badge" aria-hidden="true">
             Diferencial exclusivo
           </span>
@@ -169,6 +170,34 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         </div>
       </section>
 
+      <section className="marketing-section management-section" aria-labelledby="gestao-heading">
+        <div className="management-grid">
+          <div className="management-copy">
+            <span className="marketing-badge" aria-hidden="true">
+              Operações conectadas
+            </span>
+            <h2 id="gestao-heading" className="marketing-tagline">
+              {HERO_FEATURES[2].title}
+            </h2>
+            <p className="marketing-subtitle">{HERO_FEATURES[2].description}</p>
+            <ul className="marketing-list management-list">
+              {MODULES[2].points.map((point) => (
+                <li key={point}>
+                  <strong>•</strong>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="management-visual">
+            <img
+              src="/assets/marketing/gestao-tecnologia-condominio.png"
+              alt="Gestão do condomínio com tecnologia"
+            />
+          </div>
+        </div>
+      </section>
+
       <section className="marketing-section" aria-labelledby="metricas-heading">
         <div className="marketing-section-header">
           <span className="marketing-badge" aria-hidden="true">
@@ -179,7 +208,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
           </h2>
         </div>
 
-        <div className="marketing-metrics">
+        <div className="marketing-metrics metrics-visual">
           {METRICS.map((metric) => (
             <div key={metric.value} className="marketing-metric-card" aria-label={metric.label}>
               <strong>{metric.value}</strong>
