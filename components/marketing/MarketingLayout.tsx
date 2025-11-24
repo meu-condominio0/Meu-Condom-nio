@@ -38,21 +38,22 @@ export function MarketingLayout({
 }: MarketingLayoutProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme, theme } = useTheme();
-  const [previousTheme, setPreviousTheme] = useState<string | undefined>();
+    const { setTheme, theme } = useTheme();
+    const [previousTheme, setPreviousTheme] = useState<string | undefined>();
 
-  // Força tema claro na landing marketing
-  useEffect(() => {
-    setPreviousTheme(theme);
-    setTheme('light');
+    // Força tema claro na landing marketing e restaura o tema anterior ao desmontar
+    useEffect(() => {
+      const prev = theme;
+      // força light enquanto o layout de marketing estiver montado
+      setTheme('light');
 
-    return () => {
-      // Restaura o tema anterior ao sair da landing
-      if (previousTheme) {
-        setTheme(previousTheme);
-      }
-    };
-  }, []);
+      return () => {
+        // restaura o tema anterior (pode ser undefined — next-themes tratará)
+        if (prev) setTheme(prev);
+      };
+      // observamos apenas setTheme e theme no mount
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
@@ -150,10 +151,10 @@ export function MarketingLayout({
           top: 0;
           z-index: 20;
           backdrop-filter: saturate(160%) blur(14px);
-          background: #ffffff; /* Header claro com logo em destaque */
+          background: #E9E9E9; /* Header claro com logo em destaque (paleta) */
           border-bottom: 1px solid rgba(52, 78, 65, 0.08);
           box-shadow: 0 6px 14px rgba(21, 41, 31, 0.08);
-          padding: 16px 0; /* Mais respiro no topo seguindo o branding */
+          padding: 18px 0; /* Mais respiro no topo seguindo o branding */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
@@ -212,7 +213,7 @@ export function MarketingLayout({
         }
 
         .mc-logo-image {
-          height: clamp(36px, 5vw, 48px); /* Logo aumentada para melhor legibilidade */
+          height: clamp(42px, 6.5vw, 64px); /* Aumentada ~30-40%: mobile ~42px, desktop até 64px */
           width: auto;
           display: block;
         }
@@ -514,10 +515,11 @@ export function MarketingLayout({
 
         .marketing-main {
           flex: 1;
-          padding: 48px 0 72px;
+          /* Espaçamento reduzido entre header e hero para conexão visual mais forte */
+          padding: 28px 0 64px;
           display: flex;
           flex-direction: column;
-          gap: 72px;
+          gap: 56px;
         }
 
         .marketing-section {
@@ -711,6 +713,20 @@ export function MarketingLayout({
           font-size: 20px;
           border: 1px solid var(--border);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .feature-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          background: var(--bg-soft);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--brand-2);
+          flex-shrink: 0;
+          margin-right: 12px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
         }
 
         .marketing-card h3 {
@@ -1056,7 +1072,6 @@ export function MarketingLayout({
                   alt="MeuCondomínio"
                   className="mc-logo-image"
                 />
-                <span className="marketing-logo__text">MeuCondomínio</span>
               </a>
             </div>
 

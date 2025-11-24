@@ -51,6 +51,14 @@
   border-color: rgba(var(--mc-white-rgb), 0.24);
 }
 
+/* Pills mais premium no card do marketplace */
+.marketplace-visual-card .marketing-pill {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  line-height: 1.2;
+}
+
 .marketplace-visual-card .marketing-hero-actions a {
   background: rgba(52, 78, 65, 0.92);
   border-color: rgba(52, 78, 65, 0.92);
@@ -80,6 +88,12 @@
 .marketplace-visual-card .marketing-hero-actions a.secondary:focus-visible {
   outline: 2px solid var(--mc-primary);
   outline-offset: 2px;
+}
+
+@media (min-width: 960px) {
+  .marketplace-visual-card .marketing-hero-actions {
+    justify-content: flex-end;
+  }
 }
 
 /* Marketing Home – Métricas com vista aérea */

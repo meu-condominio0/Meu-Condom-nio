@@ -2,6 +2,11 @@
   position: relative;
   isolation: isolate;
   background-color: var(--mc-green-2);
+  /* full-bleed background: ocupa a largura da viewport */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-inline: 0;
   background-image: url("/assets/marketing/fachada-condominio.png");
   background-size: cover;
   background-position: center;
@@ -75,6 +80,25 @@
     box-shadow: none;
     backdrop-filter: none;
     padding: 0;
+  }
+}
+
+/* mobile: usa hero-mobile.png para background e overlay mais forte */
+
+@media (max-width: 1023px) {
+  .hero-with-bg {
+    /* mobile uses the in-repo SVG hero as fallback for small devices */
+    background-image: url('/assets/marketing/hero.svg');
+    min-height: 520px;
+  }
+
+  .hero-with-bg .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 35, 26, 0.96),
+      rgba(15, 35, 26, 0.88)
+    );
+    backdrop-filter: blur(3px);
   }
 }
 

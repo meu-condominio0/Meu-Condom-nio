@@ -92,17 +92,26 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         </div>
 
         <div className="marketing-grid">
-          {HERO_FEATURES.map((feature) => (
-            <article key={feature.title} className="marketing-card" aria-label={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
+            {HERO_FEATURES.map((feature) => (
+              <article key={feature.title} className="marketing-card" aria-label={feature.title}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                  <div className="feature-icon" aria-hidden>
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v12m0 0l4-4m-4 4-4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3>{feature.title}</h3>
+                    <p>{feature.description}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
         </div>
       </section>
 
       <section className="marketing-section" aria-labelledby="marketplace-heading">
-        <div className="marketing-card marketplace-visual-card">
+        <div className="marketing-card marketplace-visual-card max-w-7xl mx-auto w-full rounded-3xl shadow-lg p-8">
           <span className="marketing-badge" aria-hidden="true">
             Diferencial exclusivo
           </span>
