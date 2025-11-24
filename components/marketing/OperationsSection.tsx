@@ -31,9 +31,7 @@ type OperationsSectionProps = Pick<MarketingPageProps, 'onNavigate'>;
 
 export function OperationsSection({ onNavigate }: OperationsSectionProps) {
   return (
-    <section className="bg-gradient-to-b from-[#f9fbf7] via-[#f4f7f3] to-[#eef3ee] py-16" aria-labelledby="operacoes-heading">
-      <div className="marketing-container space-y-12">
-        <div className="flex flex-col gap-4">
+
           <span className="marketing-badge w-fit" aria-hidden>
             Segurança, comunidade e bem-estar
           </span>
@@ -43,16 +41,7 @@ export function OperationsSection({ onNavigate }: OperationsSectionProps) {
           <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
             Integre portaria, avisos, reservas e convivência em um painel que organiza a rotina e melhora a experiência de quem mora e trabalha no condomínio.
           </p>
-          <div className="flex flex-wrap gap-3 text-sm font-semibold text-[#2f4b3d]">
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm ring-1 ring-[#d6dbd4]">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#2f4b3d]" aria-hidden />
-              Não é só um sistema de chamados.
-            </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 shadow-sm ring-1 ring-[#d6dbd4]">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#2f4b3d]" aria-hidden />
-              É o coração operacional do condomínio.
-            </span>
-          </div>
+
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
