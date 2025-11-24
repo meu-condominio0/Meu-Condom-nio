@@ -1,50 +1,28 @@
-import { useMemo, useState } from 'react';
-
 import '../../styles/hero.css';
 
-type HeroVariant = 'A' | 'B';
-
 type HeroProps = {
-  variant?: HeroVariant;
+  variant?: 'A' | 'B';
   onPrimaryClick?: () => void;
   onSecondaryClick?: () => void;
 };
 
-const SUMMARY_TABS = ['Mensal', 'Trimestral', 'Anual'] as const;
-
-const SUMMARY_METRICS = [
-  {
-    label: 'Inadimplência',
-    subtitle: 'Mensal',
-    trend: '−35%',
-    direction: 'down' as const,
-    progress: 35,
-    icon: 'alert',
-  },
-  {
-    label: 'Caixa',
-    subtitle: 'Mensal',
-    trend: '+18%',
-    direction: 'up' as const,
-    progress: 72,
-    icon: 'cash',
-  },
+const INDICATORS = [
   {
     label: 'Chamados resolvidos',
-    subtitle: 'Mensal',
-    trend: '+12%',
-    direction: 'up' as const,
-    progress: 88,
-    icon: 'ticket',
+    value: '98%',
+    detail: '+12% vs. último mês',
+  },
+  {
+    label: 'Economia gerada',
+    value: 'R$ 184 mil',
+    detail: 'Compras consolidadas',
+  },
+  {
+    label: 'Satisfação dos moradores',
+    value: 'NPS 9,4',
+    detail: 'Suporte próximo',
   },
 ];
-
-const RESOLUTION_RATE = {
-  label: 'Taxa de resolução',
-  value: '98% dos chamados resolvidos',
-  progress: 98,
-  insight: 'Você está melhor que 86% dos condomínios da base.',
-};
 
 function dispatchCtaEvent(id: 'primary' | 'demo') {
   if (typeof window === 'undefined') return;
@@ -52,104 +30,60 @@ function dispatchCtaEvent(id: 'primary' | 'demo') {
   window.dispatchEvent(new CustomEvent('cta:click', { detail: { id } }));
 }
 
-export default function Hero({ variant: _variant = 'A', onPrimaryClick, onSecondaryClick }: HeroProps) {
-  const [activeTab, setActiveTab] = useState<(typeof SUMMARY_TABS)[number]>('Mensal');
-  const summaryTitle = useMemo(() => `Resumo do condomínio · ${activeTab}`, [activeTab]);
-
+export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
   return (
     <section
-      className="hero-with-bg relative w-full overflow-hidden py-16 text-white lg:min-h-[calc(100vh-96px)] lg:py-24"
+      className="hero-with-bg relative w-full overflow-hidden py-20 text-white lg:min-h-[calc(100vh-96px)] lg:py-24"
       aria-labelledby="hero-heading"
     >
       <div className="hero-overlay" aria-hidden />
 
-      <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.06fr_0.94fr] lg:items-center lg:gap-16 lg:px-8">
-        <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-9 lg:mx-0">
-          <header className="flex flex-col gap-5 text-white drop-shadow-[0_6px_20px_rgba(0,0,0,0.35)]">
-            <span className="text-sm font-semibold uppercase tracking-[0.24em] text-white/80">
-              +450 condomínios • NPS 86 • Suporte 7×12
-            </span>
+      <div className="hero-content relative z-10 mx-auto grid max-w-[74rem] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.02fr_0.98fr] lg:items-center lg:gap-16 lg:px-8">
+        <div className="hero-body hero-copy-panel mx-auto flex w-full max-w-2xl flex-col gap-8 lg:mx-0">
+          <header className="space-y-4 text-white drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
+            <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-white/80 ring-1 ring-white/20">
+              Mais de 140 condomínios • NPS alto • Suporte próximo da rotina
+            </p>
             <div className="space-y-3">
               <h1
                 id="hero-heading"
-                className="hero-headline text-3xl font-bold leading-tight tracking-tight text-white transition-colors duration-200 sm:text-4xl lg:text-5xl"
+                className="hero-headline text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
               >
-                Gestão completa do condomínio em um único lugar.
+                Gestão completa e marketplace em um único painel para o seu condomínio
               </h1>
-              <p className="max-w-3xl text-base font-medium text-white/90">
-                Comunicação, financeiro, portaria e marketplace interno em uma plataforma pensada para síndicos e administradoras modernas.
+              <p className="max-w-3xl text-lg font-medium text-white/90">
+                Centralize comunicação, pagamentos, portaria e compras em uma plataforma pensada para síndicos, administradoras e moradores.
               </p>
             </div>
-
-            <div className="mt-4 grid gap-4 sm:grid-cols-2">
-              <div className="flex items-start gap-3">
-                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 20V10M5 13l7-7 7 7" />
-                </svg>
-                <div>
-                  <strong>Comunicação fluida:</strong>
-                  <div className="text-sm">avisos, assembleias online e feed comunitário em tempo real.</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 12h18M3 6h18M3 18h18" />
-                </svg>
-                <div>
-                  <strong>Financeiro sob controle:</strong>
-                  <div className="text-sm">relatórios, inadimplência e conciliação bancária em um só painel.</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v4M6 7h12M6 21h12a1 1 0 0 0 1-1v-7H5v7a1 1 0 0 0 1 1z" />
-                </svg>
-                <div>
-                  <strong>Segurança e acesso:</strong>
-                  <div className="text-sm">visitantes, veículos, pets e portaria remota com histórico centralizado.</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <svg aria-hidden className="mt-1 h-5 w-5 text-[#a3b18a]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7h18M3 12h12M3 17h18" />
-                </svg>
-                <div>
-                  <strong>Marketplace interno:</strong>
-                  <div className="text-sm">moradores vendem, compram e contratam serviços dentro do próprio condomínio.</div>
-                </div>
-              </div>
+            <div className="flex flex-wrap gap-2 text-sm font-semibold text-white/80">
+              {['Gestão completa', 'Marketplace integrado', 'Comunicação, financeiro e portaria'].map((pill) => (
+                <span
+                  key={pill}
+                  className="rounded-full bg-white/10 px-3 py-2 ring-1 ring-white/20"
+                >
+                  {pill}
+                </span>
+              ))}
             </div>
           </header>
-
-          <div className="block w-full max-w-2xl lg:hidden">
-            <img
-              src="/assets/marketing/hero-mobile.svg"
-              alt="Resumo visual do condomínio em versão mobile"
-              className="w-full max-h-80 rounded-xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-cover shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
-              loading="lazy"
-            />
-          </div>
 
           <div className="hero-cta-group flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="button"
               data-cta="primary"
-              aria-label="Começar agora com avaliação gratuita de 14 dias"
+              aria-label="Agendar demonstração"
               onClick={() => {
                 dispatchCtaEvent('primary');
                 onPrimaryClick?.();
               }}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#344e41] px-10 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#3f5b4c] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#a3b18a] sm:w-auto sm:min-w-[260px] sm:text-lg"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-transparent bg-[#2f4b3d] px-8 py-4 text-base font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#3a5a4a] hover:shadow-xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#a3b18a] sm:w-auto sm:min-w-[230px] sm:text-lg"
             >
-              Começar agora, 14 dias grátis
+              Agendar demonstração
             </button>
             <button
               type="button"
               data-cta="demo"
-              aria-label="Ver como funciona"
+              aria-label="Ver o sistema na prática"
               onClick={() => {
                 dispatchCtaEvent('demo');
                 const el = document.getElementById('como-funciona');
@@ -161,204 +95,88 @@ export default function Hero({ variant: _variant = 'A', onPrimaryClick, onSecond
               <svg aria-hidden="true" className="h-5 w-5 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 3.75c0-1.04 1.16-1.67 2.03-1.1l8.1 5.47c.78.52.78 1.63 0 2.15l-8.1 5.47C6.16 16.32 5 15.7 5 14.66V3.75Z" />
               </svg>
-              <span>Ver como funciona</span>
+              <span>Ver o sistema na prática</span>
             </button>
           </div>
+          <p className="text-sm font-medium text-white/80">Implementação acompanhada para o seu condomínio.</p>
 
-          <MarketplaceHighlight />
+          <TestimonialCard />
         </div>
 
-        <div className="hero-visual-stack relative mx-auto flex w-full max-w-xl flex-col gap-6">
-          <CondoSummaryCard title={summaryTitle} activeTab={activeTab} onTabChange={setActiveTab} />
-
-          <div className="hidden lg:block">
-            <img
-              src="/assets/marketing/hero-desktop.svg"
-              alt="Resumo visual do condomínio com métricas"
-              className="w-full max-h-[520px] rounded-2xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-contain shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
-              loading="lazy"
-            />
-          </div>
-        </div>
+        <HeroVisual />
       </div>
     </section>
   );
 }
 
-type CondoSummaryProps = {
-  title: string;
-  activeTab: (typeof SUMMARY_TABS)[number];
-  onTabChange: (tab: (typeof SUMMARY_TABS)[number]) => void;
-};
-
-function CondoSummaryCard({ title, activeTab, onTabChange }: CondoSummaryProps) {
+function HeroVisual() {
   return (
-    <div className="relative mx-auto flex w-full max-w-xl flex-col gap-5 rounded-2xl border border-[color:rgba(52,78,65,0.16)] bg-[color:rgba(233,233,233,0.92)] p-6 shadow-2xl shadow-[color:rgba(21,41,31,0.18)] backdrop-blur-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-[color:rgba(21,41,31,0.24)]">
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-[color:rgba(163,177,138,0.2)] via-[color:rgba(233,233,233,0.4)] to-[color:rgba(52,78,65,0.1)]"
-        aria-hidden
-      />
-      <div className="relative flex flex-col gap-4">
-        <header className="flex flex-col gap-2">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-[color:var(--mc-secondary)]">Visão consolidada</p>
-              <h2 className="text-xl font-bold text-[color:var(--mc-secondary-dark)]">{title}</h2>
+    <div className="hero-visual-stack relative mx-auto flex w-full max-w-xl flex-col gap-6">
+      <div className="relative overflow-hidden rounded-[28px] border border-[rgba(52,78,65,0.16)] bg-white/90 p-5 shadow-[0_24px_55px_rgba(12,24,18,0.32)] backdrop-blur-sm">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#f0f5f2] via-white to-[#e7efe8]" aria-hidden />
+
+        <div className="relative flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-semibold text-[#1f352a]">
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-500 shadow-[0_0_0_6px_rgba(16,185,129,0.15)]" aria-hidden />
+              Operação ao vivo
             </div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-[color:var(--mc-white-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--mc-secondary)] ring-1 ring-[color:rgba(52,78,65,0.16)] shadow-sm shadow-[color:rgba(21,41,31,0.12)]">
-              <span className="h-2 w-2 rounded-full bg-[color:var(--mc-success)]" aria-hidden />
-              Atualizado
+            <span className="rounded-full bg-[#e6efe8] px-3 py-1 text-xs font-semibold text-[#2f4b3d] ring-1 ring-[#c8d7cc]">
+              Marketplace integrado
             </span>
           </div>
-          <nav className="flex items-center gap-2" aria-label="Selecionar período do resumo do condomínio">
-            {SUMMARY_TABS.map((tab) => {
-              const isActive = tab === activeTab;
-              return (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => onTabChange(tab)}
-                  className={`rounded-full px-3 py-1 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--mc-primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--mc-white)] ${
-                    isActive
-                      ? 'bg-[color:var(--mc-secondary-dark)] text-[color:var(--mc-white)] shadow-sm shadow-[color:rgba(21,41,31,0.24)]'
-                      : 'bg-[color:var(--mc-white)] text-[color:var(--mc-secondary)] ring-1 ring-[color:rgba(52,78,65,0.16)] hover:-translate-y-0.5 hover:shadow-sm hover:shadow-[color:rgba(21,41,31,0.12)]'
-                  }`}
+
+          <div className="relative overflow-hidden rounded-2xl border border-[rgba(52,78,65,0.12)] bg-[#f3f7f4] shadow-inner">
+            <div className="relative aspect-[16/10] w-full overflow-hidden">
+              <img
+                src="/assets/marketing/hero-desktop.png"
+                alt="Visão geral do painel Meu Condomínio"
+                className="h-full w-full object-cover"
+                loading="lazy"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-white/10 to-white/70" aria-hidden />
+            </div>
+            <div className="absolute inset-x-4 bottom-4 grid gap-3 sm:grid-cols-3">
+              {INDICATORS.map((indicator) => (
+                <div
+                  key={indicator.label}
+                  className="rounded-xl bg-white/90 px-4 py-3 text-left shadow-[0_14px_32px_rgba(21,41,31,0.18)] ring-1 ring-[rgba(52,78,65,0.14)]"
                 >
-                  {tab}
-                </button>
-              );
-            })}
-          </nav>
-        </header>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-[#3f5b4c]">{indicator.label}</p>
+                  <p className="text-2xl font-bold text-[#1f352a]">{indicator.value}</p>
+                  <p className="text-xs font-semibold text-[#4f6557]">{indicator.detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          {SUMMARY_METRICS.map((metric) => (
-            <MetricCard key={metric.label} metric={metric} />
-          ))}
+          <div className="flex flex-wrap items-center gap-3 text-sm font-semibold text-[#2f4b3d]">
+            <span className="rounded-full bg-[#e6efe8] px-3 py-2 ring-1 ring-[#c8d7cc]">Pagamentos conciliados</span>
+            <span className="rounded-full bg-[#e6efe8] px-3 py-2 ring-1 ring-[#c8d7cc]">Portaria e comunicação conectadas</span>
+            <span className="rounded-full bg-[#e6efe8] px-3 py-2 ring-1 ring-[#c8d7cc]">Pronto para síndicos e administradoras</span>
+          </div>
         </div>
-
-        <ResolutionCard />
       </div>
     </div>
   );
 }
 
-type MetricCardProps = {
-  metric: (typeof SUMMARY_METRICS)[number];
-};
-
-function MetricCard({ metric }: MetricCardProps) {
-  const isPositive = metric.direction === 'up';
-  const chipClass = isPositive
-    ? 'bg-[color:rgba(97,225,110,0.15)] text-[color:var(--mc-secondary-dark)] ring-1 ring-[color:rgba(97,225,110,0.3)]'
-    : 'bg-[color:rgba(255,137,137,0.18)] text-[color:var(--mc-secondary-dark)] ring-1 ring-[color:rgba(255,137,137,0.35)]';
-
+function TestimonialCard() {
   return (
-    <article className="group relative overflow-hidden rounded-xl border border-[color:rgba(52,78,65,0.16)] bg-[color:rgba(233,233,233,0.96)] p-4 shadow-sm shadow-[color:rgba(21,41,31,0.12)] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[color:rgba(21,41,31,0.2)] focus-within:ring-2 focus-within:ring-[color:var(--mc-primary)]">
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[color:rgba(163,177,138,0.14)] via-[color:rgba(233,233,233,0.25)] to-[color:rgba(52,78,65,0.12)] opacity-0 transition duration-200 group-hover:opacity-100"
-        aria-hidden
-      />
-      <div className="relative flex items-start gap-3">
-        <IconWrapper name={metric.icon} />
-        <div className="flex-1 space-y-1">
-          <p className="text-sm font-semibold text-[color:var(--mc-secondary-dark)]">{metric.label}</p>
-          <p className="text-xs text-[color:var(--mc-secondary-1)]">{metric.subtitle}</p>
-          <p className="text-[0.75rem] text-[color:var(--mc-secondary-1)]">Comparado ao mês anterior</p>
-        </div>
-        <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-sm font-semibold ${chipClass}`}>
-          {metric.trend}
-        </span>
-      </div>
-
-      <div className="mt-3 h-2.5 rounded-full bg-[color:rgba(233,233,233,0.8)]" aria-hidden="true">
-        <div className="h-full rounded-full bg-gradient-to-r from-[color:var(--mc-secondary-light)] to-[color:var(--mc-primary)]" style={{ width: `${metric.progress}%` }} />
-      </div>
-    </article>
-  );
-}
-
-type IconWrapperProps = {
-  name: (typeof SUMMARY_METRICS)[number]['icon'];
-};
-
-function IconWrapper({ name }: IconWrapperProps) {
-  return (
-    <span className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-[color:var(--mc-white-soft)] text-[color:var(--mc-secondary)] shadow-inner shadow-[color:rgba(21,41,31,0.08)] ring-1 ring-[color:rgba(52,78,65,0.14)]">
-      {name === 'alert' && (
-        <svg aria-hidden className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3m0 3h.01M10.29 3.86 2.82 17.14A1.5 1.5 0 0 0 4.12 19h15.76a1.5 1.5 0 0 0 1.3-2.28L13.7 3.86a1.5 1.5 0 0 0-2.58 0Z" />
-        </svg>
-      )}
-      {name === 'cash' && (
-        <svg aria-hidden className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 6.75A1.75 1.75 0 0 1 4.75 5h14.5A1.75 1.75 0 0 1 21 6.75v10.5A1.75 1.75 0 0 1 19.25 19H4.75A1.75 1.75 0 0 1 3 17.25V6.75Z" />
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M16.5 8.75h.01M7.5 8.75h.01m4.49-.7c-1.43 0-2.49.83-2.49 2.2 0 1.43.93 1.95 2.1 2.26.92.25 1.4.58 1.4 1.22 0 .7-.63 1.19-1.58 1.19-.84 0-1.6-.31-2.06-.84l-.39-.46m2.63-5.57v-.8"
-          />
-        </svg>
-      )}
-      {name === 'ticket' && (
-        <svg aria-hidden className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.75h13.5a.5.5 0 0 1 .5.5v3a2.5 2.5 0 1 0 0 5v3a.5.5 0 0 1-.5.5H5.25a.5.5 0 0 1-.5-.5v-3a2.5 2.5 0 1 0 0-5v-3a.5.5 0 0 1 .5-.5Z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12" />
-        </svg>
-      )}
-    </span>
-  );
-}
-
-function ResolutionCard() {
-  return (
-    <div className="relative overflow-hidden rounded-xl border border-[color:rgba(52,78,65,0.16)] bg-gradient-to-br from-[color:var(--mc-secondary-dark)] via-[color:var(--mc-secondary)] to-[color:var(--mc-secondary-light)] p-5 text-[color:var(--mc-white)] shadow-inner shadow-[color:rgba(21,41,31,0.32)]">
-      <div className="flex items-center justify-between gap-3">
-        <div className="space-y-1">
-          <p className="text-sm font-semibold text-[color:var(--mc-white-soft)] opacity-90">{RESOLUTION_RATE.label}</p>
-          <p className="text-2xl font-bold leading-tight">{RESOLUTION_RATE.value}</p>
-        </div>
-        <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-semibold">SLA 7x12</span>
-      </div>
-      <div className="mt-4 h-3 rounded-full bg-[color:rgba(21,41,31,0.4)]" aria-label="Taxa de resolução">
-        <div
-          className="h-full rounded-full bg-gradient-to-r from-[color:var(--mc-primary)] via-[color:var(--mc-white)] to-[color:var(--mc-white-soft)] shadow-sm shadow-[color:rgba(21,41,31,0.25)]"
-          style={{ width: `${RESOLUTION_RATE.progress}%` }}
-        />
-      </div>
-      <p className="mt-3 text-sm text-[color:var(--mc-white)] opacity-90">{RESOLUTION_RATE.insight}</p>
-    </div>
-  );
-}
-
-function MarketplaceHighlight() {
-  return (
-    <div className="relative overflow-hidden rounded-2xl border border-[color:rgba(52,78,65,0.16)] bg-[color:rgba(233,233,233,0.96)] p-4 shadow-sm shadow-[color:rgba(21,41,31,0.12)] ring-1 ring-[color:rgba(52,78,65,0.14)] transition duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-[color:rgba(21,41,31,0.2)]">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[color:var(--mc-secondary-dark)] px-3 py-1 text-xs font-bold uppercase tracking-wide text-[color:var(--mc-white)] shadow-sm shadow-[color:rgba(21,41,31,0.24)]">
-            <span className="h-2 w-2 rounded-full bg-white" aria-hidden />
-            Novo marketplace
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#1c3026] via-[#1f382d] to-[#254434] p-6 text-white shadow-[0_18px_35px_rgba(12,24,18,0.35)] ring-1 ring-white/10">
+      <div className="absolute -left-20 -top-20 h-40 w-40 rounded-full bg-white/10 blur-3xl" aria-hidden />
+      <div className="absolute -right-10 -bottom-10 h-32 w-32 rounded-full bg-[#a3b18a]/20 blur-2xl" aria-hidden />
+      <div className="relative flex flex-col gap-3">
+        <span className="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Depoimento real</span>
+        <p className="text-lg font-semibold leading-relaxed text-white">
+          “Reduzimos o volume de chamados em poucos meses e centralizamos as compras em um único lugar.”
+        </p>
+        <div className="flex items-center gap-3 text-sm font-semibold text-white/80">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-base font-bold">C</div>
+          <div className="flex flex-col leading-tight">
+            <span>Carolina Mota</span>
+            <span className="text-xs font-medium text-white/70">Síndica profissional na Harmonia Gestão</span>
           </div>
-          <div className="space-y-1">
-            <p className="text-sm font-semibold text-[color:var(--mc-secondary-dark)]">Marketplace dentro do condomínio</p>
-            <p className="text-sm text-[color:var(--mc-secondary-1)]">
-              Conecte moradores, prestadores e financeiro sem sair do app.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-1 items-center justify-start gap-2 text-sm font-semibold text-[color:var(--mc-secondary)] sm:justify-end sm:pl-4">
-          {['Serviços rápidos', 'Manutenção recorrente', 'Lojas locais'].map((service) => (
-            <span
-              key={service}
-              className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--mc-white-soft)] px-3 py-2 text-[color:var(--mc-secondary)] shadow-inner shadow-[color:rgba(21,41,31,0.08)] ring-1 ring-[color:rgba(52,78,65,0.14)] transition duration-200 hover:-translate-y-0.5 hover:shadow-md hover:shadow-[color:rgba(21,41,31,0.16)]"
-            >
-              <svg aria-hidden className="h-4 w-4" fill="none" viewBox="0 0 20 20" stroke="currentColor" strokeWidth="1.8">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 10.25 8 13.75 15.5 6.75" />
-              </svg>
-              {service}
-            </span>
-          ))}
         </div>
       </div>
     </div>
