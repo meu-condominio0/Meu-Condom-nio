@@ -1,49 +1,60 @@
 import { useEffect } from 'react';
 import Hero from '@/src/components/Hero';
+import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 
-const HERO_FEATURES = [
+const SOLUTION_CARDS = [
   {
-    title: 'Financeiro turbo',
-    description:
-      'Boletos com registro automático, conciliação em tempo real e projeção de fluxo de caixa para decisões sem sustos.',
+    title: 'Financeiro',
+    description: 'Boletos registrados, conciliação automática, fluxo de caixa em tempo real e inadimplência sob controle.',
+    points: ['Prestação de contas em um clique', 'Dashboard de inadimplência e acordos', 'Integração bancária e PIX copiado automático'],
   },
   {
-    title: 'Comunicação inteligente',
-    description:
-      'Envie comunicados segmentados, automatize avisos e acompanhe a leitura em tempo real com recibos digitais.',
+    title: 'Comunicação',
+    description: 'Envios segmentados, recibos digitais e automações para avisos, assembleias e comunicados urgentes.',
+    points: ['Avisos com confirmação de leitura', 'Assembleias digitais com votação segura', 'Feed comunitário para engajar moradores'],
   },
   {
-    title: 'Operações conectadas',
-    description:
-      'Reservas, ocorrências, assembleias digitais e marketplace funcionando de ponta a ponta em uma só plataforma.',
+    title: 'Operações',
+    description: 'Portaria digital, reservas de espaços, ocorrências e marketplace integrados em um único painel.',
+    points: ['Controle de acessos e visitantes com QR Code', 'Checklists e planos de manutenção', 'Marketplace interno conciliado ao caixa'],
   },
 ];
 
-const MODULES = [
+const MARKETPLACE_CHIPS = [
+  'Moradores vendem produtos e oferecem serviços',
+  'Contratação de prestadores da comunidade',
+  'Financeiro integrado e conciliado automaticamente',
+  'Cupons e combos para fornecedores parceiros',
+];
+
+const OPERATIONS_FEATURES = [
   {
-    title: 'Gestão financeira completa',
-    points: [
-      'Fluxo de caixa unificado',
-      'Prestação de contas com um clique',
-      'Integração bancária automática',
-    ],
+    title: 'Portaria digital e acesso seguro',
+    description: 'Controle visitantes, entregas e prestadores com QR Code, autorização instantânea e histórico centralizado.',
+    image: '/assets/marketing/portariadigital.png',
   },
   {
-    title: 'Experiência premium para moradores',
-    points: [
-      'Aplicativo com marca do condomínio',
-      'Atendimento 24/7 com assistente virtual',
-      'Marketplace interno para serviços e produtos',
-    ],
+    title: 'Comunidade conectada',
+    description: 'Engajamento com eventos, comunicados segmentados e serviços entre vizinhos para fortalecer o convívio.',
+    image: '/assets/marketing/pessoas.png',
   },
   {
-    title: 'Superpoderes para o síndico',
-    points: [
-      'Dashboards com indicadores de inadimplência',
-      'Workflows automatizados para tarefas recorrentes',
-      'Biblioteca de documentos sempre atualizada',
-    ],
+    title: 'Bem-estar e áreas comuns',
+    description: 'Reservas inteligentes de piscina, academia e salão de festas com regras claras e monitoramento.',
+    image: '/assets/marketing/piscina.png',
+  },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      '“Migramos 12 condomínios em menos de uma semana. O MeuCondomínio trouxe transparência para o conselho e reduziu em 63% as visitas presenciais ao escritório.”',
+    author: 'Marina Lopes, Gestora na Vizinhança Administradora',
+  },
+  {
+    quote: '“O marketplace interno virou uma fonte de renda para os moradores. Já foram mais de 800 serviços contratados sem sair do aplicativo.”',
+    author: 'André Cavalcanti, Síndico profissional',
   },
 ];
 
@@ -51,25 +62,12 @@ const METRICS = [
   { value: '92%', label: 'redução no tempo de fechamento mensal' },
   { value: '3x', label: 'mais engajamento dos moradores no app' },
   { value: '48h', label: 'para colocar o condomínio em produção' },
-  { value: '∞', label: 'integrações com bancos e fabricantes de IoT' },
-];
-
-const TESTIMONIALS = [
-  {
-    quote:
-      '“Migramos 12 condomínios em menos de uma semana. O MeuCondomínio trouxe transparência para o conselho e reduziu em 63% as visitas presenciais ao escritório.”',
-    author: 'Marina Lopes — Gestora na Vizinhança Administradora',
-  },
-  {
-    quote:
-      '“O marketplace interno virou uma fonte de renda para os moradores. Já foram mais de 800 serviços contratados sem sair do aplicativo.”',
-    author: 'André Cavalcanti — Síndico profissional',
-  },
+  { value: '12min', label: 'para aprovar acessos com QR Code' },
 ];
 
 export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'MeuCondomínio — Seu condomínio 10x mais eficiente.';
+    document.title = 'MeuCondomínio | Seu condomínio 10x mais eficiente.';
   }, []);
 
   return (
@@ -80,132 +78,348 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
         onSecondaryClick={() => onNavigate('/demo')}
       />
 
-      <section className="marketing-section" aria-labelledby="destaques-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Feito para administradoras modernas
-          </span>
-          <h2 id="destaques-heading" className="marketing-tagline">
-            Tudo o que você precisa para comandar um condomínio de forma impecável.
-          </h2>
-        </div>
-
-        <div className="marketing-grid">
-          {HERO_FEATURES.map((feature) => (
-            <article key={feature.title} className="marketing-card" aria-label={feature.title}>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="marketplace-heading">
-        <div className="marketing-highlight-card marketing-card" style={{ gap: 20 }}>
-          <span className="marketing-badge" aria-hidden="true">
-            Diferencial exclusivo
-          </span>
-          <h2 id="marketplace-heading" className="marketing-tagline">
-            Marketplace do condomínio conectado ao financeiro.
-          </h2>
-          <p className="marketing-subtitle">
-            Moradores vendem produtos, oferecem serviços e contratam especialistas com a segurança da portaria.
-            Todos os repasses e taxas são conciliados automaticamente com o caixa do condomínio.
-          </p>
-          <div className="marketing-pill-list">
-            <span className="marketing-pill">Classificados com aprovação em 1 clique</span>
-            <span className="marketing-pill">Pagamentos via PIX e cartão</span>
-            <span className="marketing-pill">Histórico de reputação e avaliações</span>
-            <span className="marketing-pill">Cupons para fornecedores parceiros</span>
+      <section id="como-funciona" className="bg-[#f4f5f3] py-16">
+        <div className="marketing-container space-y-10">
+          <div className="flex flex-col gap-3 text-center">
+            <span className="marketing-badge self-center" aria-hidden="true">
+              Feito para administradoras modernas
+            </span>
+            <h2 className="marketing-tagline text-3xl font-semibold leading-tight text-[#15291f] sm:text-4xl">
+              Tudo o que você precisa para comandar um condomínio impecável.
+            </h2>
+            <p className="marketing-subtitle max-w-3xl self-center text-lg text-[#344e41]">
+              Financeiro, comunicação, segurança e marketplace em uma mesma experiência para síndicos, conselhos e moradores.
+            </p>
           </div>
-          <div className="marketing-hero-actions" role="group" aria-label="Ações do marketplace">
-            <a
-              href="/marketplace"
-              onClick={(event) => {
-                event.preventDefault();
-                onNavigate('/marketplace');
-              }}
-            >
-              Explorar marketplace
-            </a>
-            <a
-              className="secondary"
-              href="/entrar"
-              onClick={(event) => {
-                event.preventDefault();
-                onLogin();
-              }}
-            >
-              Entrar para anunciar
-            </a>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {SOLUTION_CARDS.map((card) => (
+              <article
+                key={card.title}
+                className="flex h-full flex-col gap-4 rounded-3xl bg-white/90 p-6 shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#d6dbd4]"
+                aria-label={card.title}
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-xl font-semibold text-[#15291f]">{card.title}</h3>
+                    <p className="text-sm leading-relaxed text-[#475e52]">{card.description}</p>
+                  </div>
+                  <div className="rounded-2xl bg-[#e9ede6] px-3 py-2 text-xs font-semibold uppercase tracking-wide text-[#344e41]">
+                    Pronto para uso
+                  </div>
+                </div>
+                <ul className="flex flex-col gap-3 text-sm text-[#344e41]">
+                  {card.points.map((point) => (
+                    <li key={point} className="flex items-start gap-3">
+                      <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
+                      <span className="leading-relaxed">{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="marketing-section" aria-labelledby="modulos-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Plataforma modular
-          </span>
-          <h2 id="modulos-heading" className="marketing-tagline">
-            Escolha os módulos que fazem sentido hoje e ative novos recursos quando precisar.
-          </h2>
-        </div>
+      <section className="py-16">
+        <div className="marketing-container">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#e2e8e4] via-[#dce7e1] to-[#d7ede0] p-10 shadow-[0_20px_40px_rgba(21,41,31,0.12)] ring-1 ring-[#c4d2c9]">
+            <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div className="space-y-6">
+                <span className="marketing-badge" aria-hidden>
+                  Diferencial exclusivo
+                </span>
+                <div className="space-y-3">
+                  <h2 className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+                    Marketplace do condomínio conectado ao financeiro.
+                  </h2>
+                  <p className="marketing-subtitle max-w-3xl text-lg text-[#344e41]">
+                    Moradores vendem e contratam serviços dentro do condomínio e todo o fluxo é conciliado automaticamente com o caixa. O marketplace interno virou uma nova fonte de renda.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {MARKETPLACE_CHIPS.map((chip) => (
+                    <span
+                      key={chip}
+                      className="rounded-full bg-white/80 px-4 py-2 text-sm font-semibold text-[#15291f] shadow-sm ring-1 ring-[#c6d3c8]"
+                    >
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="/marketplace"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onNavigate('/marketplace');
+                    }}
+                    className="inline-flex items-center justify-center rounded-full bg-[#344e41] px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#2a3d33]"
+                    aria-label="Explorar marketplace interno do condomínio"
+                  >
+                    Explorar marketplace
+                  </a>
+                  <a
+                    href="/entrar"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      onLogin();
+                    }}
+                    className="inline-flex items-center justify-center rounded-full bg-white/90 px-5 py-3 text-sm font-semibold text-[#15291f] shadow-md ring-1 ring-[#c6d3c8] transition hover:-translate-y-0.5 hover:bg-white"
+                    aria-label="Entrar para anunciar produtos ou serviços"
+                  >
+                    Entrar para anunciar
+                  </a>
+                </div>
+              </div>
 
-        <div className="marketing-grid-2">
-          {MODULES.map((module) => (
-            <article key={module.title} className="marketing-card" aria-label={module.title}>
-              <h3>{module.title}</h3>
-              <ul className="marketing-list">
-                {module.points.map((point) => (
-                  <li key={point}>
-                    <strong>•</strong>
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="marketing-section" aria-labelledby="metricas-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Resultados comprovados
-          </span>
-          <h2 id="metricas-heading" className="marketing-tagline">
-            Impacto real nos números do condomínio.
-          </h2>
-        </div>
-
-        <div className="marketing-metrics">
-          {METRICS.map((metric) => (
-            <div key={metric.value} className="marketing-metric-card" aria-label={metric.label}>
-              <strong>{metric.value}</strong>
-              <span>{metric.label}</span>
+              <div className="relative flex items-center justify-center">
+                <div className="absolute -top-6 -right-6 h-28 w-28 rounded-full bg-[#c1d7c5]/60 blur-3xl" aria-hidden />
+                <div className="relative flex w-full max-w-lg flex-col gap-4 rounded-3xl bg-white/90 p-5 shadow-2xl ring-1 ring-[#c6d3c8]">
+                  <div className="flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-semibold text-[#15291f]">Receita do marketplace</p>
+                      <p className="text-2xl font-bold text-[#2f4b3d]">R$ 48.200</p>
+                    </div>
+                    <span className="rounded-full bg-[#e7f2ea] px-3 py-1 text-xs font-semibold text-[#2f6a41]">+18% este mês</span>
+                  </div>
+                  <img
+                    src="/assets/marketing/notebookvendas.png"
+                    alt="Notebook exibindo vendas do marketplace do condomínio"
+                    className="w-full rounded-2xl object-cover shadow-lg"
+                    loading="lazy"
+                  />
+                  <div className="grid grid-cols-2 gap-3 text-sm text-[#344e41]">
+                    <div className="rounded-2xl bg-[#f4f7f2] p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-[#2f4b3d]">Pedidos conciliados</p>
+                      <p className="text-xl font-bold text-[#2f4b3d]">326</p>
+                      <p className="text-xs text-[#4c6558]">Financeiro sem esforço</p>
+                    </div>
+                    <div className="rounded-2xl bg-[#f4f7f2] p-3 shadow-sm">
+                      <p className="text-xs font-semibold text-[#2f4b3d]">Prestadores da comunidade</p>
+                      <p className="text-xl font-bold text-[#2f4b3d]">142</p>
+                      <p className="text-xs text-[#4c6558]">Com avaliações seguras</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </section>
 
-      <section className="marketing-section" aria-labelledby="depoimentos-heading">
-        <div className="marketing-section-header">
-          <span className="marketing-badge" aria-hidden="true">
-            Histórias reais
-          </span>
-          <h2 id="depoimentos-heading" className="marketing-tagline">
-            Síndicos e administradoras que transformaram a rotina com o MeuCondomínio.
-          </h2>
-        </div>
+      <section className="bg-[#f9faf8] py-16" aria-labelledby="operacoes-heading">
+        <div className="marketing-container space-y-10">
+          <div className="flex flex-col gap-3">
+            <span className="marketing-badge w-fit" aria-hidden>
+              Segurança, comunidade e bem-estar
+            </span>
+            <h2 id="operacoes-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+              Operações que conectam portaria, convivência e lazer.
+            </h2>
+            <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
+              Portaria digital com QR Code, controle de visitantes, reservas de áreas comuns e um feed para engajar moradores e colaboradores.
+            </p>
+          </div>
 
-        <div className="marketing-columns-balanced">
-          {TESTIMONIALS.map((testimonial) => (
-            <figure key={testimonial.author} className="marketing-card" aria-label={`Depoimento de ${testimonial.author}`}>
-              <blockquote className="marketing-quote">{testimonial.quote}</blockquote>
-              <cite>{testimonial.author}</cite>
-            </figure>
-          ))}
+          <div className="grid gap-6 md:grid-cols-3">
+            {OPERATIONS_FEATURES.map((feature) => (
+              <article
+                key={feature.title}
+                className="flex h-full flex-col overflow-hidden rounded-3xl bg-white shadow-[0_18px_32px_rgba(21,41,31,0.08)] ring-1 ring-[#dce3dc]"
+              >
+                <div className="aspect-[4/3] overflow-hidden">
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-3 p-6">
+                  <h3 className="text-xl font-semibold text-[#15291f]">{feature.title}</h3>
+                  <p className="text-sm leading-relaxed text-[#475e52]">{feature.description}</p>
+                  <div className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-[#e8f0ea] px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#2f4b3d]">
+                    Proteção contínua
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16" aria-labelledby="gestao-tecnologia-heading">
+        <div className="marketing-container grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="space-y-5">
+            <span className="marketing-badge" aria-hidden>
+              Gestão e tecnologia
+            </span>
+            <h2 id="gestao-tecnologia-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+              Gestão profissional com tecnologia de verdade.
+            </h2>
+            <p className="marketing-subtitle text-lg text-[#344e41]">
+              Dashboards, relatórios e previsões financeiras em um painel único. Automação de cobranças, conciliação bancária e integrações para você focar na estratégia.
+            </p>
+            <ul className="grid gap-3 text-sm text-[#344e41] sm:grid-cols-2">
+              <li className="flex items-start gap-3">
+                <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
+                <span>KPIs de inadimplência, caixa e consumo em tempo real.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
+                <span>Previsões automáticas de despesas e provisões.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
+                <span>Integração financeira completa com bancos e IoT.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-1 inline-flex h-2.5 w-2.5 flex-none rounded-full bg-[#344e41]" aria-hidden />
+                <span>Relatórios prontos para conselho e auditoria.</span>
+              </li>
+            </ul>
+          </div>
+          <div className="relative">
+            <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#c7d9cf]/70 blur-3xl" aria-hidden />
+            <img
+              src="/assets/marketing/gestao-tecnologia-condominio.png"
+              alt="Dashboard de gestão do condomínio em notebook"
+              className="relative z-10 w-full rounded-3xl object-cover shadow-[0_22px_44px_rgba(21,41,31,0.15)] ring-1 ring-[#d6dbd4]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f4f5f3] py-16" aria-labelledby="historia-heading">
+        <div className="marketing-container grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="space-y-5">
+            <span className="marketing-badge" aria-hidden>
+              Demonstração guiada
+            </span>
+            <h2 id="historia-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+              Veja o sistema na prática em menos de 3 minutos.
+            </h2>
+            <p className="marketing-subtitle text-lg text-[#344e41]">
+              Mostramos os indicadores que importam para o conselho, o passo a passo da portaria digital e como o marketplace interno gira receita para o condomínio.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="/demo"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate('/demo');
+                }}
+                className="inline-flex items-center justify-center rounded-full bg-[#344e41] px-6 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5 hover:bg-[#2a3d33]"
+                aria-label="Assistir demonstração de 3 minutos"
+              >
+                Assistir demonstração
+              </a>
+              <a
+                href="/comece"
+                onClick={(event) => {
+                  event.preventDefault();
+                  onNavigate('/comece');
+                }}
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#15291f] shadow-md ring-1 ring-[#d6dbd4] transition hover:-translate-y-0.5"
+                aria-label="Começar agora com avaliação gratuita"
+              >
+                Começar agora
+              </a>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl bg-white p-4 shadow-md ring-1 ring-[#dce3dc]">
+                <p className="text-sm font-semibold text-[#2f4b3d]">Inadimplência reduzida</p>
+                <p className="text-2xl font-bold text-[#2f4b3d]">-35% em 90 dias</p>
+                <p className="text-xs text-[#4c6558]">Com cobranças automáticas e acordos digitais.</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-md ring-1 ring-[#dce3dc]">
+                <p className="text-sm font-semibold text-[#2f4b3d]">Chamados resolvidos</p>
+                <p className="text-2xl font-bold text-[#2f4b3d]">98% SLA</p>
+                <p className="text-xs text-[#4c6558]">Equipe e moradores na mesma linha do tempo.</p>
+              </div>
+            </div>
+          </div>
+          <div className="relative grid gap-4 sm:grid-cols-2">
+            <img
+              src="/assets/marketing/notebookinicial.png"
+              alt="Notebook mostrando início da plataforma"
+              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
+              loading="lazy"
+            />
+            <img
+              src="/assets/marketing/demonstração.png"
+              alt="Tela de demonstração do sistema"
+              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
+              loading="lazy"
+            />
+            <img
+              src="/assets/marketing/saibamais.png"
+              alt="Detalhe de métricas do aplicativo"
+              className="w-full rounded-3xl object-cover shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
+              loading="lazy"
+            />
+            <img
+              src="/assets/marketing/vendas.png"
+              alt="Ícone de vendas do marketplace"
+              className="w-full rounded-3xl bg-white object-contain p-6 shadow-[0_18px_36px_rgba(21,41,31,0.12)] ring-1 ring-[#d6dbd4]"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16" aria-labelledby="metricas-heading">
+        <div className="marketing-container space-y-8">
+          <div className="flex flex-col gap-3">
+            <span className="marketing-badge w-fit" aria-hidden>
+              Resultados comprovados
+            </span>
+            <h2 id="metricas-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+              Impacto real nos números do condomínio.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-4">
+            {METRICS.map((metric) => (
+              <div
+                key={metric.value}
+                className="flex h-full flex-col gap-2 rounded-3xl bg-gradient-to-b from-[#0f172a] via-[#1b2a23] to-[#233528] p-6 text-white shadow-[0_20px_40px_rgba(0,0,0,0.25)]"
+                aria-label={metric.label}
+              >
+                <strong className="text-4xl font-extrabold">{metric.value}</strong>
+                <span className="text-sm text-white/80">{metric.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f9faf8] py-16" aria-labelledby="depoimentos-heading">
+        <div className="marketing-container space-y-10">
+          <div className="flex flex-col gap-3">
+            <span className="marketing-badge w-fit" aria-hidden>
+              Histórias reais
+            </span>
+            <h2 id="depoimentos-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
+              Síndicos e administradoras que transformaram a rotina.
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {TESTIMONIALS.map((testimonial) => (
+              <figure
+                key={testimonial.author}
+                className="flex h-full flex-col gap-3 rounded-3xl bg-white p-6 shadow-[0_16px_28px_rgba(21,41,31,0.08)] ring-1 ring-[#d6dbd4]"
+                aria-label={`Depoimento de ${testimonial.author}`}
+              >
+                <blockquote className="text-lg font-semibold text-[#15291f]">{testimonial.quote}</blockquote>
+                <cite className="text-sm font-medium text-[#3f5b4c]">{testimonial.author}</cite>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
     </MarketingLayout>

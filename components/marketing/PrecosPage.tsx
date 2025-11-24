@@ -104,7 +104,7 @@ export function MarketingPrecosPage({ onNavigate, onLogin }: MarketingPageProps)
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'Preços — MeuCondomínio';
+    document.title = 'Preços | MeuCondomínio';
   }, []);
 
   return (
@@ -283,15 +283,21 @@ export function MarketingPrecosPage({ onNavigate, onLogin }: MarketingPageProps)
                       className={`${hoveredColumn === colIndex ? 'is-hovered' : ''} ${isUnavailable ? 'pricing-unavailable' : ''}`}
                       onMouseEnter={() => setHoveredColumn(colIndex)}
                     >
-                      {isUnavailable ? (
-                        <span title="Não incluído neste plano" aria-label="Não incluído neste plano">
-                          ×
-                        </span>
-                      ) : isOptional ? (
-                        recurso.label
-                      ) : (
-                        '✔︎'
-                      )}
+                      <div className="pricing-cell-content">
+                        {isUnavailable ? (
+                          <span title="Não incluído neste plano" aria-label="Não incluído neste plano">×</span>
+                        ) : isOptional ? (
+                          <span className="pricing-optional" title="Opcional">{recurso.label}
+                            <svg aria-hidden width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 14v-4" />
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01" />
+                              <circle cx="12" cy="12" r="9" />
+                            </svg>
+                          </span>
+                        ) : (
+                          <span aria-hidden>✔︎</span>
+                        )}
+                      </div>
                     </td>
                   );
                 })}

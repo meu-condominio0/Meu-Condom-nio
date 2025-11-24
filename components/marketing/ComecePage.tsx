@@ -21,7 +21,7 @@ const ETAPAS = [
 
 export function MarketingComecePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Comece agora — MeuCondomínio';
+    document.title = 'Comece agora | MeuCondomínio';
   }, []);
 
   return (
@@ -149,7 +149,7 @@ export function MarketingComecePage({ onNavigate, onLogin }: MarketingPageProps)
                 <li key={etapa.titulo}>
                   <strong>{index + 1}.</strong>
                   <span>
-                    <strong>{etapa.titulo}</strong> — {etapa.descricao}
+                    <strong>{etapa.titulo}</strong>: {etapa.descricao}
                   </span>
                   <ul className="marketing-list" style={{ marginLeft: 28 }}>
                     {etapa.detalhes.map((detalhe) => (

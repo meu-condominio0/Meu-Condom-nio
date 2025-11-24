@@ -1,22 +1,28 @@
 .hero-with-bg {
   position: relative;
   isolation: isolate;
-  background-image: url("/assets/marketing/fundo.jpg");
+  background-color: var(--mc-green-2);
+  /* full-bleed background: ocupa a largura da viewport */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-inline: 0;
+  /* usar os assets de hero — usamos SVG placeholders quando PNG não existentes */
+  background-image: url('/assets/marketing/predio.png');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
-  background-color: #f8fafc;
+  color: var(--mc-white);
+  /* ocupar primeira dobra considerando header (~96px) */
+  min-height: calc(100vh - 96px);
 }
 
 .hero-with-bg .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(15, 23, 42, 0.85),
-    rgba(15, 23, 42, 0.4),
-    rgba(15, 23, 42, 0.15)
-  );
+  /* gradiente escuro à esquerda para contraste do texto */
+  background: linear-gradient(120deg, rgba(10, 20, 16, 0.94) 0%, rgba(10, 20, 16, 0.8) 40%, rgba(10, 20, 16, 0.58) 65%, rgba(10, 20, 16, 0.35) 100%);
+  backdrop-filter: blur(3px);
   pointer-events: none;
   z-index: 0;
 }
@@ -24,6 +30,7 @@
 .hero-with-bg .hero-content {
   position: relative;
   z-index: 1;
+  max-width: 76rem;
 }
 
 .hero-with-bg .hero-body {
@@ -38,42 +45,141 @@
   min-height: 3.25rem;
 }
 
-@media (max-width: 767px) {
+.hero-with-bg .hero-cta-group button:focus-visible {
+  outline: 2px solid var(--mc-primary);
+  outline-offset: 2px;
+}
+
+.hero-copy-panel {
+  background: linear-gradient(
+    145deg,
+    rgba(var(--mc-green-2-rgb), 0.9),
+    rgba(var(--mc-green-2-rgb), 0.82)
+  );
+  border: 1px solid rgba(var(--mc-white-rgb), 0.08);
+  border-radius: 1.75rem;
+  padding: 1.75rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(var(--mc-green-2-rgb), 0.28);
+  backdrop-filter: blur(6px);
+}
+
+.hero-visual-stack {
+  border-radius: 1.75rem;
+  backdrop-filter: blur(2px);
+  background: radial-gradient(circle at 20% 20%, rgba(var(--mc-white-rgb), 0.1), transparent 30%);
+  padding: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .hero-copy-panel {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    padding: 0;
+  }
+}
+
+/* mobile: usa hero-mobile.png para background e overlay mais forte */
+
+@media (max-width: 1023px) {
   .hero-with-bg {
-    padding: 3.75rem 1.25rem;
-    background-position: center top;
+    /* mobile placeholder */
+    background-image: url('/assets/marketing/vista-aerea-condominio.png');
+    min-height: auto;
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .hero-with-bg .hero-overlay {
+    background: linear-gradient(to bottom, rgba(11,23,18,0.96), rgba(11,23,18,0.9));
+    backdrop-filter: blur(3px);
+  }
+}
+
+@media (max-width: 1023px) {
+  .hero-with-bg {
+    background-image: url('/assets/marketing/vista-aerea-condominio.png');
+    background-size: cover;
+    background-position: center;
   }
 
   .hero-with-bg .hero-overlay {
     background: linear-gradient(
       to bottom,
-      rgba(15, 23, 42, 0.98),
-      rgba(15, 23, 42, 0.82),
-      rgba(15, 23, 42, 0.6)
+      rgba(15, 35, 26, 0.98),
+      rgba(15, 35, 26, 0.96),
+      rgba(21, 41, 31, 0.90)
+    );
+    backdrop-filter: blur(2px);
+  }
+
+  .hero-copy-panel {
+    padding: 1.9rem 1.4rem;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-with-bg {
+    padding: 3rem 1.5rem;
+    background-position: center;
+    min-height: auto;
+  }
+
+  .hero-with-bg .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(15, 35, 26, 0.98),
+      rgba(15, 35, 26, 0.97),
+      rgba(21, 41, 31, 0.9)
     );
   }
 
   .hero-with-bg .hero-content {
-    gap: 2.75rem;
-    padding-inline: 1.25rem;
+    gap: 3rem;
+    padding-inline: 1.5rem;
   }
 
   .hero-with-bg .hero-body {
-    gap: 1.5rem;
+    gap: 1.75rem;
   }
 
   .hero-with-bg .hero-headline {
-    font-size: 1.85rem;
+    font-size: 2rem;
     line-height: 1.2;
     letter-spacing: -0.01em;
   }
 
   .hero-with-bg .hero-cta-group {
-    gap: 0.85rem;
+    gap: 1rem;
   }
 
   .hero-with-bg .hero-cta-group button {
     min-height: 3.4rem;
     width: 100%;
   }
+
+  .hero-copy-panel {
+    margin: 0 auto;
+  }
+}
+
+/* Estilos de glassmorphism para cards de métricas do Hero */
+.hero-visual-stack .hero-metric-card,
+.hero-visual-stack [class*="metric"] {
+  background: rgba(249, 250, 251, 0.92) !important;
+  backdrop-filter: blur(12px) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 20px rgba(21, 41, 31, 0.12) !important;
+}
+
+.hero-visual-stack [class*="metric"] strong,
+.hero-visual-stack [class*="metric"] [class*="value"] {
+  color: var(--mc-green-2) !important;
+}
+
+.hero-visual-stack [class*="metric"] span,
+.hero-visual-stack [class*="metric"] [class*="label"] {
+  color: var(--mc-green-muted) !important;
 }

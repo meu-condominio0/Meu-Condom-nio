@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "./_a11y-tokens.css";
+@import "./tokens.css";
+@import "./typography.css";
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -139,31 +141,6 @@
 
   body {
     @apply bg-[color:var(--bg)] text-foreground antialiased;
-  }
-}
-
-@layer base {
-  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
-    h1 {
-      font-size: var(--text-3xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.25;
-      margin: 0;
-    }
-
-    h2 {
-      font-size: var(--text-2xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.25;
-      margin: 0;
-    }
-
-    h3 {
-      font-size: var(--text-xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.3;
-      margin: 0;
-    }
   }
 }
 

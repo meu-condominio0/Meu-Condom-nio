@@ -37,7 +37,7 @@ const NEWSLETTER_POINTS = [
 
 export function MarketingBlogPage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Blog — MeuCondomínio';
+    document.title = 'Blog | MeuCondomínio';
   }, []);
 
   return (
@@ -81,7 +81,13 @@ export function MarketingBlogPage({ onNavigate, onLogin }: MarketingPageProps) {
             Newsletter
           </span>
           <h2 id="newsletter-heading" className="marketing-tagline">
-            Assine para receber novidades e convites.
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+              <svg aria-hidden width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8.5v7A2.5 2.5 0 0 0 5.5 18h13a2.5 2.5 0 0 0 2.5-2.5v-7" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M21 7.5 12 13 3 7.5" />
+              </svg>
+              Assine para receber novidades e convites.
+            </span>
           </h2>
           <p className="marketing-subtitle">
             Sem spam. Um e-mail por mês com os melhores conteúdos e aprendizados da nossa comunidade.
@@ -121,8 +127,8 @@ export function MarketingBlogPage({ onNavigate, onLogin }: MarketingPageProps) {
                   padding: '12px 14px',
                   borderRadius: 12,
                   border: '1px solid var(--border)',
-                  background: 'rgba(255,255,255,0.05)',
-                  color: '#fff',
+                  background: 'var(--card)',
+                  color: 'var(--text)',
                 }}
               />
             </label>
@@ -133,7 +139,7 @@ export function MarketingBlogPage({ onNavigate, onLogin }: MarketingPageProps) {
                 padding: '12px 18px',
                 borderRadius: 14,
                 border: '1px solid var(--border)',
-                background: 'linear-gradient(180deg, rgba(106, 167, 255, 0.18), rgba(106, 167, 255, 0.06))',
+                background: 'linear-gradient(180deg, #60756B, #344E41)',
                 color: '#fff',
                 fontWeight: 600,
                 cursor: 'pointer',

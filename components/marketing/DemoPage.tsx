@@ -27,7 +27,7 @@ const RECURSOS = [
 
 export function MarketingDemoPage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Demonstração — MeuCondomínio';
+    document.title = 'Demonstração | MeuCondomínio';
   }, []);
 
   return (

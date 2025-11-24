@@ -1,4 +1,5 @@
 import { useEffect, useState, type MouseEvent, type ReactNode } from 'react';
+import { useTheme } from 'next-themes';
 
 export type MarketingPath =
   | '/'
@@ -37,6 +38,21 @@ export function MarketingLayout({
 }: MarketingLayoutProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { setTheme, theme } = useTheme();
+
+  // Força tema claro na landing marketing e restaura o tema anterior ao desmontar
+  useEffect(() => {
+    const prev = theme;
+    // força light enquanto o layout de marketing estiver montado
+    setTheme('light');
+
+    return () => {
+      // restaura o tema anterior (pode ser undefined — next-themes tratará)
+      if (prev) setTheme(prev);
+    };
+    // observamos apenas setTheme e theme no mount
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNavigate = (event: MouseEvent<HTMLAnchorElement>, path: MarketingPath) => {
     event.preventDefault();
@@ -78,19 +94,20 @@ export function MarketingLayout({
     <>
       <style>{`
         :root {
-          --bg: #ffffff;
-          --bg-soft: #f6f7f8;
+          /* Paleta do guia aplicada ao layout de marketing */
+          --bg: #f4f4f3;
+          --bg-soft: #e9e9e9;
           --card: #ffffff;
-          --card-soft: rgba(15, 61, 46, 0.04);
-          --text: #111111;
-          --text-dim: #374151;
-          --text-muted: #6b7280;
-          --brand: #0f3d2e;
-          --brand-2: #20c997;
-          --accent: #20c997;
-          --muted: rgba(15, 61, 46, 0.08);
-          --border: rgba(17, 17, 17, 0.08);
-          --shadow: 0 18px 35px rgba(15, 61, 46, 0.12);
+          --card-soft: rgba(52, 78, 65, 0.06);
+          --text: #15291f;
+          --text-dim: #344e41;
+          --text-muted: rgba(52, 78, 65, 0.72);
+          --brand: #344e41;
+          --brand-2: #15291f;
+          --accent: #344e41;
+          --muted: rgba(52, 78, 65, 0.08);
+          --border: rgba(21, 41, 31, 0.14);
+          --shadow: 0 8px 18px rgba(21, 41, 31, 0.12);
           --radius: 16px;
           --radius-lg: 24px;
         }
@@ -114,8 +131,8 @@ export function MarketingLayout({
         .marketing-wrap {
           min-height: 100dvh;
           background:
-            radial-gradient(1200px 800px at -10% 0%, rgba(32, 201, 151, 0.08), transparent 60%),
-            radial-gradient(900px 600px at 110% 0%, rgba(15, 61, 46, 0.08), transparent 55%),
+            radial-gradient(1200px 800px at -10% 0%, rgba(163, 177, 138, 0.08), transparent 60%),
+            radial-gradient(900px 600px at 110% 0%, rgba(21, 41, 31, 0.08), transparent 55%),
             var(--bg);
           color: var(--text);
           display: flex;
@@ -123,8 +140,9 @@ export function MarketingLayout({
         }
 
         .marketing-container {
-          width: min(1100px, 92%);
+          width: min(1120px, 92%);
           margin: 0 auto;
+          padding: 0 1.75rem;
         }
 
         .marketing-header {
@@ -132,16 +150,17 @@ export function MarketingLayout({
           top: 0;
           z-index: 20;
           backdrop-filter: saturate(160%) blur(14px);
-          background: rgba(255, 255, 255, 0.9);
-          border-bottom: 1px solid transparent;
-          box-shadow: 0 10px 30px rgba(15, 61, 46, 0.06);
+          background: #E9E9E9; /* Header claro com logo em destaque (paleta) */
+          border-bottom: 1px solid rgba(52, 78, 65, 0.08);
+          box-shadow: 0 6px 14px rgba(21, 41, 31, 0.08);
+          padding: 18px 0; /* Mais respiro no topo seguindo o branding */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .marketing-header[data-scrolled='true'] {
-          background: rgba(255, 255, 255, 0.96);
-          border-color: var(--border);
-          box-shadow: 0 18px 45px rgba(15, 61, 46, 0.12);
+          background: #f4f5f3; /* Tom ainda claro quando a página rola */
+          border-color: rgba(52, 78, 65, 0.16);
+          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.14);
         }
 
         :where(.dark) .marketing-header {
@@ -159,40 +178,53 @@ export function MarketingLayout({
           display: flex;
           align-items: center;
           gap: 16px;
-          height: 76px;
+          min-height: 72px;
           position: relative;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-logo {
-          font-size: 20px;
+          display: inline-flex;
+          align-items: center;
+          gap: 14px;
           font-weight: 800;
-          letter-spacing: 0.2px;
-          position: relative;
-          display: inline-block;
-          background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
+          letter-spacing: 0.15px;
+          color: var(--text);
         }
 
-        .marketing-logo::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(120deg, transparent 0%, rgba(32, 201, 151, 0.05) 35%, rgba(32, 201, 151, 0.4) 50%, rgba(32, 201, 151, 0.05) 65%, transparent 100%);
-          transform: translateX(-120%);
-          animation: shine 3.2s linear infinite;
-          mix-blend-mode: screen;
+        .mc-logo-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 16px;
+          border-radius: 14px;
+          background: rgba(52, 78, 65, 0.06);
+          border: 1px solid rgba(52, 78, 65, 0.12);
+          box-shadow: 0 10px 22px rgba(21, 41, 31, 0.08);
+          transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, border-color 0.18s ease;
         }
 
-        @keyframes shine {
-          0% {
-            transform: translateX(-120%);
-          }
-          60%,
-          100% {
-            transform: translateX(120%);
-          }
+        .mc-logo-link:hover {
+          transform: translateY(-1px);
+          background: rgba(52, 78, 65, 0.1);
+          border-color: rgba(52, 78, 65, 0.2);
+          box-shadow: 0 16px 30px rgba(21, 41, 31, 0.12);
+        }
+
+        .mc-logo-image {
+          height: clamp(40px, 5.6vw, 60px); /* mobile ~h-10, desktop ~h-15 para leitura mais nítida */
+          width: auto;
+          display: block;
+        }
+
+        .marketing-logo__text {
+          display: none; /* Texto duplicado removido - logo é suficiente */
+          flex-direction: column;
+          gap: 2px;
+          color: var(--text);
+          font-weight: 800;
+          line-height: 1.1;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-menu {
@@ -211,19 +243,21 @@ export function MarketingLayout({
         .marketing-menu a {
           padding: 9px 13px;
           border-radius: 12px;
-          color: var(--text-dim);
+          color: #15291f; /* Navegação em tom escuro da paleta */
           transition: transform 0.15s, background 0.15s, color 0.15s;
           border: 1px solid transparent;
+          font-size: 15px;
+          font-weight: 500;
         }
 
         .marketing-menu a[data-active="true"] {
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(52, 78, 65, 0.12);
           color: var(--brand);
-          border-color: rgba(32, 201, 151, 0.14);
+          border-color: rgba(52, 78, 65, 0.2);
         }
 
         .marketing-menu a:hover {
-          background: rgba(32, 201, 151, 0.1);
+          background: rgba(52, 78, 65, 0.1);
           color: var(--brand);
           transform: translateY(-1px);
         }
@@ -243,7 +277,7 @@ export function MarketingLayout({
           border-radius: 12px;
           border: 1px solid var(--border);
           background: rgba(255, 255, 255, 0.8);
-          box-shadow: 0 12px 30px rgba(15, 61, 46, 0.1);
+          box-shadow: 0 12px 30px rgba(21, 41, 31, 0.1);
           cursor: pointer;
           transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
           margin-left: auto;
@@ -251,7 +285,7 @@ export function MarketingLayout({
 
         .marketing-menu-toggle:hover {
           transform: translateY(-1px);
-          box-shadow: 0 16px 32px rgba(15, 61, 46, 0.12);
+          box-shadow: 0 16px 32px rgba(21, 41, 31, 0.12);
           background: rgba(255, 255, 255, 0.92);
         }
 
@@ -315,22 +349,23 @@ export function MarketingLayout({
           box-shadow: var(--shadow);
           background: var(--brand);
           color: #ffffff;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
         .marketing-hero-actions a.secondary {
           background: #ffffff;
           color: var(--brand);
           border-color: var(--border);
-          box-shadow: 0 12px 24px rgba(15, 61, 46, 0.12);
+          box-shadow: 0 12px 24px rgba(21, 41, 31, 0.12);
         }
 
         .marketing-hero-actions a:hover {
           transform: translateY(-1px);
-          box-shadow: 0 16px 32px rgba(15, 61, 46, 0.18);
+          box-shadow: 0 16px 32px rgba(21, 41, 31, 0.18);
         }
 
         .marketing-hero-actions a.secondary:hover {
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(163, 177, 138, 0.12);
           color: var(--brand);
         }
 
@@ -403,7 +438,7 @@ export function MarketingLayout({
           align-items: center;
           padding: 6px 10px;
           border-radius: 999px;
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(163, 177, 138, 0.12);
           color: var(--text);
           font-weight: 600;
           border: 1px solid var(--border);
@@ -422,8 +457,8 @@ export function MarketingLayout({
           width: 10px;
           height: 10px;
           border-radius: 999px;
-          background: linear-gradient(135deg, #22c55e, #16a34a);
-          box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.12);
+          background: var(--mc-success);
+          box-shadow: 0 0 0 6px rgba(97, 225, 110, 0.18);
         }
 
         .marketing-status-label {
@@ -443,39 +478,47 @@ export function MarketingLayout({
           gap: 8px;
           box-shadow: var(--shadow);
           transition: transform 0.15s, box-shadow 0.15s, background 0.2s, color 0.2s, border-color 0.2s;
+          font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          font-size: 15px;
         }
 
         .marketing-cta {
-          background: linear-gradient(120deg, var(--brand) 0%, var(--brand-2) 100%);
+          background: #344e41; /* Botão principal com cor de destaque do guia */
           color: #ffffff;
-          border-color: var(--brand-2);
+          border-color: #344e41;
         }
 
         .marketing-cta-secondary {
           background: transparent;
           color: var(--text);
           border-color: var(--border);
-          box-shadow: 0 12px 24px rgba(15, 61, 46, 0.08);
+          box-shadow: 0 12px 24px rgba(21, 41, 31, 0.08);
         }
 
         .marketing-cta:hover,
         .marketing-cta-secondary:hover {
           transform: translateY(-1px);
-          box-shadow: 0 16px 28px rgba(15, 61, 46, 0.16);
+          box-shadow: 0 14px 24px rgba(21, 41, 31, 0.14);
         }
 
         .marketing-cta-secondary:hover {
-          background: rgba(32, 201, 151, 0.08);
+          background: rgba(163, 177, 138, 0.08);
           color: var(--brand);
-          border-color: rgba(32, 201, 151, 0.25);
+          border-color: rgba(163, 177, 138, 0.25);
+        }
+
+        .marketing-cta:hover {
+          background: #15291f; /* Hover do CTA seguindo o guia */
+          border-color: #15291f;
         }
 
         .marketing-main {
           flex: 1;
-          padding: 48px 0 72px;
+          /* Espaçamento reduzido entre header e hero para conexão visual mais forte */
+          padding: 28px 0 64px;
           display: flex;
           flex-direction: column;
-          gap: 72px;
+          gap: 56px;
         }
 
         .marketing-section {
@@ -553,7 +596,7 @@ export function MarketingLayout({
           flex-direction: column;
           gap: 6px;
           text-align: center;
-          box-shadow: 0 10px 20px rgba(15, 61, 46, 0.08);
+          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.08);
         }
 
         .marketing-metric-card strong {
@@ -577,19 +620,19 @@ export function MarketingLayout({
           flex-direction: column;
           gap: 12px;
           transition: transform 0.15s, background 0.2s, border-color 0.2s, box-shadow 0.2s;
-          box-shadow: 0 12px 24px rgba(15, 61, 46, 0.06);
+          box-shadow: 0 12px 24px rgba(21, 41, 31, 0.06);
         }
 
         .marketing-card:hover {
           transform: translateY(-2px);
           background: var(--bg-soft);
-          border-color: rgba(15, 61, 46, 0.14);
-          box-shadow: 0 18px 30px rgba(15, 61, 46, 0.12);
+          border-color: rgba(21, 41, 31, 0.14);
+          box-shadow: 0 18px 30px rgba(21, 41, 31, 0.12);
         }
 
         .marketing-card-featured {
-          background: linear-gradient(150deg, rgba(15, 61, 46, 0.08), rgba(32, 201, 151, 0.2));
-          border-color: rgba(15, 61, 46, 0.18);
+          background: linear-gradient(150deg, rgba(21, 41, 31, 0.08), rgba(163, 177, 138, 0.2));
+          border-color: rgba(21, 41, 31, 0.18);
         }
 
         .pricing-plan-card {
@@ -600,21 +643,37 @@ export function MarketingLayout({
 
         .pricing-plan-card-featured {
           transform: translateY(-4px) scale(1.02);
-          box-shadow: 0 20px 36px rgba(15, 61, 46, 0.16);
+          box-shadow: 0 28px 56px rgba(21, 41, 31, 0.18);
           border-width: 1.5px;
+          border-color: rgba(52,78,65,0.18);
+          transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+        }
+
+        .pricing-plan-card-featured:hover {
+          transform: translateY(-6px) scale(1.035);
+          box-shadow: 0 36px 68px rgba(21,41,31,0.22);
         }
 
         .pricing-badge {
           position: absolute;
           top: 14px;
           right: 14px;
-          background: linear-gradient(120deg, rgba(32, 201, 151, 0.18), rgba(15, 61, 46, 0.12));
+          background: linear-gradient(120deg, rgba(163, 177, 138, 0.18), rgba(21, 41, 31, 0.12));
           color: var(--text);
           border-radius: 999px;
           padding: 6px 12px;
           font-size: 12px;
           font-weight: 700;
-          border: 1px solid rgba(15, 61, 46, 0.18);
+          border: 1px solid rgba(21, 41, 31, 0.18);
+        }
+
+        /* Destaque visual extra para o badge do plano mais escolhido */
+        .pricing-plan-card-featured .pricing-badge {
+          background: linear-gradient(120deg, rgba(163,177,138,0.22), rgba(52,78,65,0.06));
+          color: var(--text);
+          border-color: rgba(52,78,65,0.18);
+          font-size: 13px;
+          padding: 7px 14px;
         }
 
         .pricing-toggle {
@@ -643,7 +702,7 @@ export function MarketingLayout({
         .pricing-toggle-option.active {
           background: var(--card);
           color: var(--text);
-          box-shadow: 0 10px 20px rgba(15, 61, 46, 0.08);
+          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.08);
         }
 
         .pricing-toggle-badge {
@@ -669,6 +728,20 @@ export function MarketingLayout({
           font-size: 20px;
           border: 1px solid var(--border);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .feature-icon {
+          width: 44px;
+          height: 44px;
+          border-radius: 10px;
+          background: var(--bg-soft);
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--brand-2);
+          flex-shrink: 0;
+          margin-right: 12px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
         }
 
         .marketing-card h3 {
@@ -703,7 +776,7 @@ export function MarketingLayout({
           gap: 8px;
           padding: 6px 10px;
           border-radius: 999px;
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(163, 177, 138, 0.12);
           color: var(--brand);
           font-size: 12px;
           border: 1px solid var(--border);
@@ -713,7 +786,7 @@ export function MarketingLayout({
         .marketing-highlight-card {
           position: relative;
           overflow: hidden;
-          background: linear-gradient(140deg, rgba(15, 61, 46, 0.08), rgba(32, 201, 151, 0.16));
+          background: linear-gradient(140deg, rgba(21, 41, 31, 0.08), rgba(163, 177, 138, 0.16));
         }
 
         .marketing-highlight-card::before,
@@ -727,7 +800,7 @@ export function MarketingLayout({
         .marketing-highlight-card::before {
           width: 180px;
           height: 180px;
-          background: rgba(32, 201, 151, 0.28);
+          background: rgba(163, 177, 138, 0.28);
           top: -30px;
           right: -20px;
           animation: float1 6s ease-in-out infinite;
@@ -736,7 +809,7 @@ export function MarketingLayout({
         .marketing-highlight-card::after {
           width: 220px;
           height: 220px;
-          background: rgba(15, 61, 46, 0.18);
+          background: rgba(21, 41, 31, 0.18);
           bottom: -40px;
           left: -20px;
           animation: float2 7s ease-in-out infinite;
@@ -809,7 +882,7 @@ export function MarketingLayout({
           border-collapse: collapse;
           border-radius: var(--radius);
           overflow: hidden;
-          box-shadow: 0 12px 24px rgba(15, 61, 46, 0.06);
+          box-shadow: 0 12px 24px rgba(21, 41, 31, 0.06);
         }
 
         .marketing-table thead {
@@ -826,16 +899,41 @@ export function MarketingLayout({
           transition: background 0.2s ease, color 0.2s ease;
         }
 
+        .marketing-table td .pricing-cell-content,
+        .marketing-table th .pricing-cell-content {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          min-height: 28px;
+        }
+
+        .pricing-unavailable span {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--text-muted);
+          font-weight: 700;
+        }
+
+        .pricing-optional {
+          color: rgba(52,78,65,0.7);
+          font-weight: 700;
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+        }
+
         .marketing-table tbody tr:last-child td {
           border-bottom: none;
         }
 
         .marketing-table tbody tr:nth-child(even) {
-          background: rgba(15, 61, 46, 0.04);
+          background: rgba(21, 41, 31, 0.04);
         }
 
         .marketing-table .is-hovered {
-          background: rgba(32, 201, 151, 0.12);
+          background: rgba(163, 177, 138, 0.12);
           color: var(--text);
         }
 
@@ -845,11 +943,11 @@ export function MarketingLayout({
           background: var(--card);
           z-index: 2;
           font-weight: 700;
-          box-shadow: 10px 0 16px rgba(15, 61, 46, 0.05);
+          box-shadow: 10px 0 16px rgba(21, 41, 31, 0.05);
         }
 
         .marketing-table tbody tr:nth-child(even) .pricing-resource-col {
-          background: rgba(15, 61, 46, 0.04);
+          background: rgba(21, 41, 31, 0.04);
         }
 
         .pricing-unavailable span {
@@ -858,6 +956,10 @@ export function MarketingLayout({
         }
 
         @media (max-width: 768px) {
+          .marketing-logo img {
+            height: 32px; /* Ajuste responsivo da marca no header (h-8) */
+          }
+
           .marketing-table {
             display: block;
             overflow-x: auto;
@@ -938,9 +1040,9 @@ export function MarketingLayout({
             inset: calc(100% + 12px) 0 auto 0;
             padding: 16px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.96);
+            background: color-mix(in srgb, var(--mc-white) 92%, #ffffff 8%);
             border: 1px solid var(--border);
-            box-shadow: 0 22px 50px rgba(15, 61, 46, 0.16);
+            box-shadow: 0 22px 50px rgba(21, 41, 31, 0.16);
             flex-direction: column;
             align-items: flex-start;
             gap: 12px;
@@ -998,14 +1100,20 @@ export function MarketingLayout({
           data-scrolled={isScrolled ? 'true' : undefined}
         >
           <div className="marketing-container marketing-nav">
-            <a
-              href="/"
-              className="marketing-logo"
-              aria-label="MeuCondomínio — voltar ao início"
-              onClick={(event) => handleNavigate(event, '/')}
-            >
-              MeuCondomínio
-            </a>
+            <div className="marketing-logo">
+              <a
+                href="/"
+                className="mc-logo-link"
+                aria-label="Ir para a página inicial MeuCondomínio"
+                onClick={(event) => handleNavigate(event, '/')}
+              >
+                <img
+                  src="/assets/marketing/logo.png"
+                  alt="MeuCondomínio"
+                  className="mc-logo-image"
+                />
+              </a>
+            </div>
 
             <nav
               className="marketing-menu"
