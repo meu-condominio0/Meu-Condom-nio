@@ -121,7 +121,7 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
   const persona = useMemo(() => PERSONAS.find((item) => item.id === activePersona) ?? PERSONAS[0], [activePersona]);
 
   useEffect(() => {
-    document.title = 'Soluções — MeuCondomínio';
+    document.title = 'Soluções | MeuCondomínio';
   }, []);
 
   return (
@@ -135,7 +135,7 @@ export function MarketingSolucoesPage({ onNavigate, onLogin }: MarketingPageProp
             O MeuCondomínio combina software, serviços e inteligência para encantar moradores e reduzir custos operacionais.
           </h1>
           <p className="marketing-lead">
-            Cada módulo foi construído com administradoras e síndicos profissionais para resolver dores reais — do boleto ao
+            Cada módulo foi construído com administradoras e síndicos profissionais para resolver dores reais, do boleto ao
             pós-venda.
           </p>
 

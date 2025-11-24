@@ -92,7 +92,7 @@ const STATUS = [
 
 export function MarketingSuportePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Suporte — MeuCondomínio';
+    document.title = 'Suporte | MeuCondomínio';
   }, []);
 
   return (

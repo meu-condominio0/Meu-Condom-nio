@@ -31,7 +31,7 @@ const VALORES = [
 
 export function MarketingSobrePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Sobre — MeuCondomínio';
+    document.title = 'Sobre | MeuCondomínio';
   }, []);
 
   return (

@@ -4,7 +4,7 @@ import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
 const CATEGORIAS = [
   {
     titulo: 'Serviços especializados',
-    descricao: 'Limpeza, manutenção, personal trainers, aulas particulares e mais — tudo com reputação validada.',
+    descricao: 'Limpeza, manutenção, personal trainers, aulas particulares e mais, tudo com reputação validada.',
   },
   {
     titulo: 'Produtos dos vizinhos',
@@ -39,7 +39,7 @@ const DADOS = [
 
 export function MarketingMarketplacePage({ onNavigate, onLogin }: MarketingPageProps) {
   useEffect(() => {
-    document.title = 'Marketplace — MeuCondomínio';
+    document.title = 'Marketplace | MeuCondomínio';
   }, []);
 
   return (

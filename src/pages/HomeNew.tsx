@@ -103,12 +103,12 @@ const TESTIMONIALS = [
   {
     quote:
       '“Migramos 12 condomínios em menos de uma semana. O MeuCondomínio trouxe transparência para o conselho e reduziu em 63% as visitas presenciais ao escritório.”',
-    author: 'Marina Lopes — Gestora na Vizinhança Administradora',
+    author: 'Marina Lopes, Gestora na Vizinhança Administradora',
   },
   {
     quote:
       '“O marketplace interno virou uma fonte de renda para os moradores. Já foram mais de 800 serviços contratados sem sair do aplicativo.”',
-    author: 'André Cavalcanti — Síndico profissional',
+    author: 'André Cavalcanti, Síndico profissional',
   },
 ];
 
@@ -117,7 +117,7 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
   const [activePath, setActivePath] = useState<MarketingPath>('/solucoes'); // Estado do item ativo do menu
 
   useEffect(() => {
-    document.title = 'MeuCondomínio — Gestão completa para condomínios';
+    document.title = 'MeuCondomínio | Gestão completa para condomínios';
   }, []);
 
   const handleNavigate = (href: MarketingPath) => {
@@ -1318,7 +1318,7 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
                   className="home-hero__cta-primary"
                   onClick={() => onNavigate('/solucoes')}
                 >
-                  Começar agora — 14 dias grátis
+                  Começar agora, 14 dias grátis
                   <ArrowRight size={18} strokeWidth={1.8} />
                 </button>
                 <button

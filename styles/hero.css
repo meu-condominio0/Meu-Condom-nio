@@ -8,9 +8,9 @@
   margin-right: calc(50% - 50vw);
   padding-inline: 0;
   /* usar os assets de hero — usamos SVG placeholders quando PNG não existentes */
-  background-image: url('/assets/marketing/hero-desktop.png');
+  background-image: url('/assets/marketing/predio.png');
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   color: var(--mc-white);
   /* ocupar primeira dobra considerando header (~96px) */
@@ -21,8 +21,8 @@
   position: absolute;
   inset: 0;
   /* gradiente escuro à esquerda para contraste do texto */
-  background: linear-gradient(90deg, rgba(11, 23, 18, 0.9) 0%, rgba(11, 23, 18, 0.7) 42%, rgba(11, 23, 18, 0.45) 58%, transparent 100%);
-  backdrop-filter: blur(2px);
+  background: linear-gradient(120deg, rgba(10, 20, 16, 0.94) 0%, rgba(10, 20, 16, 0.8) 40%, rgba(10, 20, 16, 0.58) 65%, rgba(10, 20, 16, 0.35) 100%);
+  backdrop-filter: blur(3px);
   pointer-events: none;
   z-index: 0;
 }
@@ -85,7 +85,7 @@
 @media (max-width: 1023px) {
   .hero-with-bg {
     /* mobile placeholder */
-    background-image: url('/assets/marketing/hero-mobile.png');
+    background-image: url('/assets/marketing/vista-aerea-condominio.png');
     min-height: auto;
     padding-top: 48px;
     padding-bottom: 48px;
@@ -99,7 +99,7 @@
 
 @media (max-width: 1023px) {
   .hero-with-bg {
-    background-image: url('/assets/marketing/hero-mobile.png');
+    background-image: url('/assets/marketing/vista-aerea-condominio.png');
     background-size: cover;
     background-position: center;
   }
@@ -132,7 +132,7 @@
       to bottom,
       rgba(15, 35, 26, 0.98),
       rgba(15, 35, 26, 0.97),
-      rgba(21, 41, 31, 0.90)
+      rgba(21, 41, 31, 0.9)
     );
   }
 

@@ -104,7 +104,7 @@ export function MarketingPrecosPage({ onNavigate, onLogin }: MarketingPageProps)
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
 
   useEffect(() => {
-    document.title = 'Preços — MeuCondomínio';
+    document.title = 'Preços | MeuCondomínio';
   }, []);
 
   return (
