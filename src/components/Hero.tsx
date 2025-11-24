@@ -98,6 +98,15 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
             </p>
           </header>
 
+          <div className="block w-full max-w-2xl lg:hidden">
+            <img
+              src="/assets/marketing/hero-mobile.png"
+              alt="Resumo visual do condomínio em versão mobile"
+              className="w-full max-h-80 rounded-xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-cover shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
+              loading="lazy"
+            />
+          </div>
+
           <div className="hero-cta-group flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
             <button
               type="button"
@@ -131,7 +140,18 @@ export default function Hero({ variant = 'A', onPrimaryClick, onSecondaryClick }
           <MarketplaceHighlight />
         </div>
 
-        <CondoSummaryCard title={summaryTitle} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div className="relative mx-auto flex w-full max-w-xl flex-col gap-6">
+          <CondoSummaryCard title={summaryTitle} activeTab={activeTab} onTabChange={setActiveTab} />
+
+          <div className="hidden lg:block">
+            <img
+              src="/assets/marketing/hero-desktop.png"
+              alt="Resumo visual do condomínio com métricas"
+              className="w-full max-h-[520px] rounded-2xl border border-[color:rgba(15,23,42,0.08)] bg-[color:rgba(233,233,233,0.92)] object-contain shadow-[0_18px_35px_rgba(21,41,31,0.18)]"
+              loading="lazy"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );
