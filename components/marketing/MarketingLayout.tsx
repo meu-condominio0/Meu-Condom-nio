@@ -78,19 +78,20 @@ export function MarketingLayout({
     <>
       <style>{`
         :root {
-          --bg: var(--mc-white);
-          --bg-soft: var(--mc-white-soft);
+          /* Paleta do guia aplicada ao layout de marketing */
+          --bg: #f4f4f3;
+          --bg-soft: #e9e9e9;
           --card: #ffffff;
-          --card-soft: rgba(119, 138, 87, 0.08);
-          --text: var(--mc-secondary-dark);
-          --text-dim: var(--mc-secondary);
-          --text-muted: var(--mc-secondary-1);
-          --brand: var(--mc-secondary);
-          --brand-2: var(--mc-secondary-dark);
-          --accent: var(--mc-primary);
+          --card-soft: rgba(52, 78, 65, 0.06);
+          --text: #15291f;
+          --text-dim: #344e41;
+          --text-muted: rgba(52, 78, 65, 0.72);
+          --brand: #344e41;
+          --brand-2: #15291f;
+          --accent: #344e41;
           --muted: rgba(52, 78, 65, 0.08);
-          --border: rgba(21, 41, 31, 0.12);
-          --shadow: 0 12px 26px rgba(21, 41, 31, 0.12);
+          --border: rgba(21, 41, 31, 0.14);
+          --shadow: 0 8px 18px rgba(21, 41, 31, 0.12);
           --radius: 16px;
           --radius-lg: 24px;
         }
@@ -132,17 +133,17 @@ export function MarketingLayout({
           top: 0;
           z-index: 20;
           backdrop-filter: saturate(160%) blur(14px);
-          background: color-mix(in srgb, var(--mc-white) 88%, #ffffff 12%);
+          background: #e9e9e9; /* Fundo claro do guia aplicado ao header */
           border-bottom: 1px solid transparent;
-          box-shadow: 0 8px 22px rgba(21, 41, 31, 0.08);
-          padding: 10px 0; /* Paleta clara no topo e respiro no header */
+          box-shadow: 0 6px 14px rgba(21, 41, 31, 0.08);
+          padding: 16px 0; /* Mais respiro no topo seguindo o branding */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
         .marketing-header[data-scrolled='true'] {
-          background: color-mix(in srgb, var(--mc-white-soft) 90%, #ffffff 10%);
+          background: #deddde; /* Tom ainda claro quando a página rola */
           border-color: var(--border);
-          box-shadow: 0 12px 30px rgba(21, 41, 31, 0.12);
+          box-shadow: 0 10px 20px rgba(21, 41, 31, 0.12);
         }
 
         :where(.dark) .marketing-header {
@@ -171,11 +172,11 @@ export function MarketingLayout({
           gap: 12px;
           font-weight: 800;
           letter-spacing: 0.15px;
-          color: var(--mc-secondary-dark);
+          color: var(--text);
         }
 
         .marketing-logo img {
-          height: 30px; /* Logo oficial aplicada no header */
+          height: clamp(26px, 4vw, 32px); /* Logo oficial aplicada no header */
           width: auto;
           display: block;
         }
@@ -184,7 +185,7 @@ export function MarketingLayout({
           display: inline-flex;
           flex-direction: column;
           gap: 2px;
-          color: var(--mc-secondary-dark);
+          color: var(--text);
           font-weight: 800;
           line-height: 1.1;
         }
@@ -205,7 +206,7 @@ export function MarketingLayout({
         .marketing-menu a {
           padding: 9px 13px;
           border-radius: 12px;
-          color: var(--text);
+          color: #15291f; /* Navegação em tom escuro da paleta */
           transition: transform 0.15s, background 0.15s, color 0.15s;
           border: 1px solid transparent;
           font-size: 15px;
@@ -445,9 +446,9 @@ export function MarketingLayout({
         }
 
         .marketing-cta {
-          background: #344E41; /* Botão principal com cor de destaque do guia */
+          background: #344e41; /* Botão principal com cor de destaque do guia */
           color: #ffffff;
-          border-color: #344E41;
+          border-color: #344e41;
         }
 
         .marketing-cta-secondary {
@@ -470,8 +471,8 @@ export function MarketingLayout({
         }
 
         .marketing-cta:hover {
-          background: #15291F;
-          border-color: #15291F;
+          background: #15291f; /* Hover do CTA seguindo o guia */
+          border-color: #15291f;
         }
 
         .marketing-main {
@@ -1012,6 +1013,7 @@ export function MarketingLayout({
               aria-label="MeuCondomínio — voltar ao início"
               onClick={(event) => handleNavigate(event, '/')}
             >
+              {/* Logo aplicada no canto esquerdo conforme o novo branding */}
               <img src="/assets/marketing/logo.png" alt="MeuCondomínio – gestão inteligente de condomínios" />
               <span className="marketing-logo__text">MeuCondomínio</span>
             </a>
