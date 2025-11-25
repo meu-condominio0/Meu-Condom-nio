@@ -1,5 +1,7 @@
 import { BarChart3, ClipboardList, ShieldCheck, ShoppingBag } from 'lucide-react';
 
+import { dashboardKpis, dailyOpsScreenshot, lobbyPhoto, marketplaceMobile } from '@/src/assets/images';
+
 import type { MarketingPageProps } from './MarketingLayout';
 
 const SOLUTIONS = [
@@ -8,15 +10,15 @@ const SOLUTIONS = [
     description:
       'Avisos segmentados, reservas de áreas comuns e registro de demandas em um painel que organiza a rotina do condomínio.',
     icon: ClipboardList,
-    image: '/assets/marketing/hero-desktop.png',
-    imageAlt: 'Notebook exibindo painel de gestão diária do condomínio',
+    image: dailyOpsScreenshot,
+    imageAlt: 'Painel principal do síndico com rotinas do condomínio',
   },
   {
     title: 'Marketplace para moradores',
     description:
       'Moradores compram produtos e serviços em um ambiente exclusivo do condomínio com pagamentos e histórico registrados.',
     icon: ShoppingBag,
-    image: '/assets/marketing/celularvendas.png',
+    image: marketplaceMobile,
     imageAlt: 'Aplicativo de marketplace do condomínio aberto em um celular',
   },
   {
@@ -24,7 +26,7 @@ const SOLUTIONS = [
     description:
       'Controle de acessos, visitantes e entregas com comunicação rápida com a portaria e histórico centralizado.',
     icon: ShieldCheck,
-    image: '/assets/marketing/portariadigital.png',
+    image: lobbyPhoto,
     imageAlt: 'Corredor moderno representando a portaria digital do condomínio',
   },
   {
@@ -32,8 +34,8 @@ const SOLUTIONS = [
     description:
       'Relatórios e visão financeira consolidados para síndicos e administradoras tomarem decisões com confiança.',
     icon: BarChart3,
-    image: '/assets/marketing/gestao-tecnologia-condominio.png',
-    imageAlt: 'Gestor analisando indicadores financeiros do condomínio em um notebook',
+    image: dashboardKpis,
+    imageAlt: 'Dashboard financeiro com indicadores e gráficos do condomínio',
   },
 ];
 
@@ -76,11 +78,11 @@ export function SolutionsSection({ onNavigate }: SolutionsSectionProps) {
               <p className="text-base leading-relaxed text-[#475e52]">{solution.description}</p>
 
               {solution.image && (
-                <div className="mt-2 aspect-[4/3] overflow-hidden rounded-2xl bg-[#f7f9f6]">
+                <div className="mt-4 overflow-hidden rounded-2xl bg-[#f7f9f6]">
                   <img
                     src={solution.image}
                     alt={solution.imageAlt}
-                    className="h-full w-full rounded-2xl object-cover transition duration-200 group-hover:scale-[1.01]"
+                    className="w-full h-64 object-cover transition duration-200 group-hover:scale-[1.01]"
                     loading="lazy"
                   />
                 </div>
