@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+
+import { marketplaceReceivables, professionalManager } from '@/src/assets/images';
 import Hero from '@/src/components/Hero';
 import '@/styles/marketing-home.css';
 import { MarketingLayout, type MarketingPageProps } from './MarketingLayout';
@@ -115,7 +117,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
                   </span>
                 </div>
                 <img
-                  src="/assets/marketing/notebookvendas.png"
+                  src={marketplaceReceivables}
                   alt="Notebook exibindo vendas do marketplace do condomínio"
                   className="mt-5 w-full rounded-2xl object-cover shadow-md aspect-[4/3]"
                   loading="lazy"
@@ -174,7 +176,7 @@ export function MarketingHomePage({ onNavigate, onLogin }: MarketingPageProps) {
           <div className="relative">
             <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-[#c7d9cf]/70 blur-3xl" aria-hidden />
             <img
-              src="/assets/marketing/gestao-tecnologia-condominio.png"
+              src={professionalManager}
               alt="Dashboard de gestão do condomínio em notebook"
               className="relative z-10 w-full rounded-3xl object-cover shadow-[0_22px_44px_rgba(21,41,31,0.15)] ring-1 ring-[#d6dbd4]"
               loading="lazy"

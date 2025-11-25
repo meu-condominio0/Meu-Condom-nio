@@ -1,5 +1,7 @@
 import { PlayCircle } from 'lucide-react';
 
+import { demoPreview } from '@/src/assets/images';
+
 import type { MarketingPageProps } from './MarketingLayout';
 
 const DEMO_RESULTS = [
@@ -62,7 +64,7 @@ export function DemoSection({ onNavigate }: DemoSectionProps) {
           <div className="flex flex-col gap-4">
             <div className="relative overflow-hidden rounded-3xl border border-[#d6dbd4] bg-white shadow-[0_18px_36px_rgba(21,41,31,0.12)]">
               <img
-                src="/assets/marketing/hero-desktop.png"
+                src={demoPreview}
                 alt="Pré-visualização do painel do sistema Meu Condomínio"
                 className="h-full w-full object-cover"
                 loading="lazy"

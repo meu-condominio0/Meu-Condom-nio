@@ -11,6 +11,7 @@ import {
   Star,
   X,
 } from 'lucide-react';
+import { dashboardKpis, marketplaceReceivables } from '@/src/assets/images';
 import ThemeToggle from '../components/home/ThemeToggle';
 import { FinancialMarketplaceSection } from '../components/FinancialMarketplaceSection';
 import type { MarketingPageProps, MarketingPath } from '../../components/marketing/MarketingLayout';
@@ -1487,8 +1488,8 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
 
             <div className="home-revenue__media">
               <img
-                src="/assets/marketing/gestao-tecnologia-condominio.png"
-                alt="Síndico analisando vendas do marketplace no notebook"
+                src={dashboardKpis}
+                alt="Dashboard financeiro com indicadores do condomínio"
                 loading="lazy"
                 decoding="async"
               />
@@ -1496,7 +1497,7 @@ export default function HomeNew({ onLogin, onNavigate }: MarketingPageProps) {
 
             <div className="home-revenue__media">
               <img
-                src="/assets/marketing/vendas.png"
+                src={marketplaceReceivables}
                 alt="Aplicativo do marketplace exibindo compras no celular"
                 loading="lazy"
                 decoding="async"
