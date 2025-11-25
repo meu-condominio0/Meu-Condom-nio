@@ -1,4 +1,4 @@
-import { demoPreview } from '@/src/assets/images';
+import { dashboardKpis } from '@/src/assets/images';
 
 import type { MarketingPageProps } from './MarketingLayout';
 
@@ -21,7 +21,7 @@ export function DemoSection({ onNavigate }: DemoSectionProps) {
   return (
     <section className="bg-[#f4f5f3] py-16" aria-labelledby="demo-heading">
       <div className="marketing-container space-y-10">
-        <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+        <div className="grid items-center gap-10 md:grid-cols-2">
           <div className="space-y-6">
             <span className="marketing-badge" aria-hidden>
               Demonstração guiada
@@ -62,11 +62,11 @@ export function DemoSection({ onNavigate }: DemoSectionProps) {
           </div>
 
           <div className="flex flex-col gap-4">
-            <div className="overflow-hidden rounded-3xl border border-[#d6dbd4] bg-white/85 shadow-xl ring-1 ring-[#d6dbd4]">
+            <div className="overflow-hidden rounded-3xl bg-white/80 shadow-xl">
               <img
-                src={demoPreview}
-                alt="Painel do sistema Meu Condomínio com indicadores e ações"
-                className="h-64 w-full object-cover"
+                src={dashboardKpis}
+                alt="Prévia do painel do MeuCondomínio"
+                className="w-full h-64 md:h-72 object-cover"
                 loading="lazy"
               />
             </div>
