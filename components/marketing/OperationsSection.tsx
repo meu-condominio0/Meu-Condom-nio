@@ -47,45 +47,45 @@ export function OperationsSection({ onNavigate }: OperationsSectionProps) {
   return (
     <section
       id="operations"
-      className="w-full bg-slate-900/90 border-t border-slate-800 py-16 md:py-24"
+      className="w-full border-t border-slate-800 bg-slate-900/90"
     >
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 md:px-6">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:py-20">
         <header className="max-w-3xl space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300/80">
             Operações do dia a dia
           </p>
-          <h2 className="text-2xl md:text-3xl font-semibold text-slate-50">
-            Da portaria ao financeiro, o{" "}
-            <span className="text-emerald-300">Meu Condomínio</span> cuida do
-            fluxo inteiro.
+          <h2 className="text-3xl font-semibold text-slate-50 md:text-4xl">
+            <span className="block max-w-3xl text-balance">
+              Da portaria ao financeiro, o{" "}
+              <span className="text-emerald-300">Meu Condomínio</span> cuida do
+              fluxo inteiro.
+            </span>
           </h2>
-          <p className="text-sm md:text-base text-slate-300/80">
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-200/80 md:text-base">
             Estruturamos o sistema para refletir como um condomínio realmente
             funciona: chamados, comunicação, serviços e números andando juntos,
             sem ruído.
           </p>
         </header>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
           {operations.map((op) => (
             <article
               key={op.title}
-              className="h-full rounded-2xl border border-slate-800/80 bg-slate-900/70 p-5 shadow-lg shadow-black/30 backdrop-blur-sm transition-transform hover:-translate-y-1 hover:border-emerald-400/70"
+              className="flex h-full flex-col rounded-3xl bg-slate-950/60 px-6 py-6 shadow-md transition-transform transition-shadow hover:-translate-y-1 hover:shadow-xl"
             >
-              <h3 className="text-base md:text-lg font-semibold text-slate-50">
-                {op.title}
-              </h3>
-              <p className="mt-2 text-xs md:text-sm text-slate-300/90">
-                {op.description}
-              </p>
-              <ul className="mt-4 space-y-1.5 text-xs text-slate-300/80">
-                {op.bullets.map((item) => (
-                  <li key={item} className="flex gap-2">
-                    <span className="mt-[3px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-emerald-300" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex flex-1 flex-col">
+                <h3 className="text-lg font-semibold text-white">{op.title}</h3>
+                <p className="mt-2 text-sm text-slate-200/80">{op.description}</p>
+                <ul className="mt-4 space-y-1.5">
+                  {op.bullets.map((item) => (
+                    <li key={item} className="flex items-start text-sm text-slate-100">
+                      <span className="mr-2 mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </article>
           ))}
         </div>
