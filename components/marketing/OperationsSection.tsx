@@ -1,86 +1,90 @@
-import type { MarketingPageProps } from './MarketingLayout';
+import React from "react";
 
-const OPERATIONS = [
+type Operation = {
+  title: string;
+  description: string;
+  bullets: string[];
+};
+
+type OperationsSectionProps = {
+  onNavigate?: (path: any) => void;
+};
+
+const operations: Operation[] = [
   {
-    title: 'Portaria digital e acesso seguro',
-    description: 'Controle de visitantes, entregas, registro de ocorrências e comunicação com portaria.',
-    image: '/assets/marketing/portariadigital.png',
-    badge: 'Portaria e segurança',
-    ctaLabel: 'Ver portaria em ação',
-    href: '/portaria',
+    title: "Rotina do síndico sem dor de cabeça",
+    description:
+      "Organize as demandas do condomínio em um só lugar, com visão clara do que está em andamento e do que já foi concluído.",
+    bullets: [
+      "Abertura e acompanhamento de chamados",
+      "Histórico centralizado por unidade",
+      "Prioridade por tipo de ocorrência",
+    ],
   },
   {
-    title: 'Comunidade conectada',
-    description: 'Murais, avisos, enquetes e interação direta com moradores e equipes.',
-    image: '/assets/marketing/pessoas.png',
-    badge: 'Comunicação viva',
-    ctaLabel: 'Ver experiência do morador',
-    href: '/comunidade',
+    title: "Operação financeira sob controle",
+    description:
+      "Acompanhe lançamentos, cobranças e inadimplência com visão amigável para o síndico e profissional para a administradora.",
+    bullets: [
+      "Resumo financeiro por período",
+      "Indicadores de inadimplência",
+      "Exportação para contabilidade",
+    ],
   },
   {
-    title: 'Bem-estar nas áreas comuns',
-    description: 'Reservas de salão, churrasqueira, academia e piscinas com regras claras e automações.',
-    image: '/assets/marketing/piscina.png',
-    badge: 'Áreas comuns e lazer',
-    ctaLabel: 'Ver gestão de reservas',
-    href: '/reservas',
+    title: "Marketplace integrado ao dia a dia",
+    description:
+      "Conecte fornecedores e serviços ao condomínio direto no sistema, evitando WhatsApp perdido e orçamentos soltos.",
+    bullets: [
+      "Serviços recomendados para o condomínio",
+      "Orçamentos organizados por demanda",
+      "Registro das contratações realizadas",
+    ],
   },
 ];
 
-type OperationsSectionProps = Pick<MarketingPageProps, 'onNavigate'>;
-
 export function OperationsSection({ onNavigate }: OperationsSectionProps) {
   return (
-    <section className="bg-[#f9faf8] py-16" aria-labelledby="operacoes-heading">
-      <div className="marketing-container space-y-10">
-        <div className="flex flex-col gap-3">
-          <span className="marketing-badge w-fit" aria-hidden>
-            Segurança, comunidade e bem-estar
-          </span>
-          <h2 id="operacoes-heading" className="marketing-tagline text-3xl font-semibold text-[#15291f] sm:text-4xl">
-            Operações que conectam portaria, convivência e lazer.
-          </h2>
-          <p className="marketing-subtitle max-w-4xl text-lg text-[#344e41]">
-            Integre portaria, avisos, reservas e convivência em um painel que organiza a rotina e melhora a experiência de quem mora e trabalha no condomínio.
+    <section
+      id="operations"
+      className="w-full border-t border-slate-800 bg-slate-900/90"
+    >
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 py-16 md:py-20">
+        <header className="max-w-3xl space-y-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300/80">
+            Operações do dia a dia
           </p>
-        </div>
+          <h2 className="text-3xl font-semibold text-slate-50 md:text-4xl">
+            <span className="block max-w-3xl text-balance">
+              Da portaria ao financeiro, o{" "}
+              <span className="text-emerald-300">Meu Condomínio</span> cuida do
+              fluxo inteiro.
+            </span>
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-slate-200/80 md:text-base">
+            Estruturamos o sistema para refletir como um condomínio realmente
+            funciona: chamados, comunicação, serviços e números andando juntos,
+            sem ruído.
+          </p>
+        </header>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {OPERATIONS.map((feature) => (
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {operations.map((op) => (
             <article
-              key={feature.title}
-              className="group flex h-full flex-col overflow-hidden rounded-3xl border border-[#d6dbd4] bg-white shadow-[0_18px_32px_rgba(21,41,31,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#2f4b3d] hover:shadow-[0_22px_40px_rgba(21,41,31,0.12)]"
+              key={op.title}
+              className="flex h-full flex-col rounded-3xl bg-slate-950/60 px-6 py-6 shadow-md transition-transform transition-shadow hover:-translate-y-1 hover:shadow-xl"
             >
-              {feature.image && (
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#f4f7f3]">
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.01]"
-                    loading="lazy"
-                  />
-                </div>
-              )}
-
-              <div className="flex flex-1 flex-col gap-4 p-6">
-                <div className="inline-flex w-fit items-center gap-2 rounded-full bg-[#e8f0ea] px-3 py-1 text-xs font-semibold uppercase tracking-wide text-[#2f4b3d]">
-                  <span className="inline-block h-2 w-2 rounded-full bg-[#2f4b3d]" aria-hidden />
-                  {feature.badge}
-                </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-[#15291f]">{feature.title}</h3>
-                  <p className="text-sm leading-relaxed text-[#475e52]">{feature.description}</p>
-                </div>
-                {feature.ctaLabel && feature.href && (
-                  <button
-                    type="button"
-                    onClick={() => onNavigate(feature.href)}
-                    className="mt-auto inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#2f4b3d] transition hover:text-[#1f3327] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#a3b18a] focus-visible:ring-offset-white"
-                  >
-                    {feature.ctaLabel}
-                    <span aria-hidden>→</span>
-                  </button>
-                )}
+              <div className="flex flex-1 flex-col">
+                <h3 className="text-lg font-semibold text-white">{op.title}</h3>
+                <p className="mt-2 text-sm text-slate-200/80">{op.description}</p>
+                <ul className="mt-4 space-y-1.5">
+                  {op.bullets.map((item) => (
+                    <li key={item} className="flex items-start text-sm text-slate-100">
+                      <span className="mr-2 mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-emerald-400" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </article>
           ))}
@@ -89,3 +93,5 @@ export function OperationsSection({ onNavigate }: OperationsSectionProps) {
     </section>
   );
 }
+
+export default OperationsSection;
