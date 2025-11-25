@@ -137,7 +137,7 @@ export function MarketingLayout({
           background: #E9E9E9; /* Header claro com logo em destaque (paleta) */
           border-bottom: 1px solid rgba(52, 78, 65, 0.08);
           box-shadow: 0 6px 14px rgba(21, 41, 31, 0.08);
-          padding: 18px 0; /* Mais respiro no topo seguindo o branding */
+          padding: 12px 0; /* Altura leve mantendo o foco no hero */
           transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
         }
 
@@ -150,8 +150,8 @@ export function MarketingLayout({
         .marketing-nav {
           display: flex;
           align-items: center;
-          gap: 16px;
-          min-height: 72px;
+          gap: 18px;
+          min-height: 64px;
           position: relative;
           font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
@@ -203,18 +203,18 @@ export function MarketingLayout({
         .marketing-menu {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 18px;
           margin-left: auto;
         }
 
         .marketing-menu__links {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 20px;
         }
 
         .marketing-menu a {
-          padding: 9px 13px;
+          padding: 9px 14px;
           border-radius: 12px;
           color: #15291f; /* Navegação em tom escuro da paleta */
           transition: transform 0.15s, background 0.15s, color 0.15s;
@@ -237,7 +237,7 @@ export function MarketingLayout({
 
         .marketing-actions {
           display: flex;
-          gap: 10px;
+          gap: 12px;
           align-items: center;
         }
 
@@ -998,6 +998,16 @@ export function MarketingLayout({
           color: var(--brand);
         }
 
+        @media (min-width: 1024px) {
+          .marketing-header {
+            padding: 16px 0;
+          }
+
+          .marketing-nav {
+            min-height: 72px;
+          }
+        }
+
         @media (max-width: 960px) {
           .marketing-nav {
             height: auto;
@@ -1109,11 +1119,11 @@ export function MarketingLayout({
               <div className="marketing-actions">
                 <a
                   href="/comece"
-                  className="marketing-cta"
-                  onClick={handlePrimaryCta}
-                >
-                  Começar agora
-                </a>
+          className="marketing-cta"
+          onClick={handlePrimaryCta}
+        >
+          Agendar demonstração
+        </a>
 
                 <a
                   href="/entrar"

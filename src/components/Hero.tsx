@@ -49,10 +49,10 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
                 id="hero-heading"
                 className="hero-headline text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
               >
-                Gestão completa e marketplace em um único painel para o seu condomínio
+                Software de gestão condominial com marketplace integrado.
               </h1>
               <p className="max-w-3xl text-lg font-medium text-white/90">
-                Centralize comunicação, pagamentos, portaria e compras em uma plataforma pensada para síndicos, administradoras e moradores.
+                Comunicação, financeiro, portaria e compras em um painel único, feito sob medida para síndicos profissionais, administradoras e condomínios modernos.
               </p>
             </div>
             <div className="flex flex-wrap gap-3 text-sm font-semibold text-white/85">
@@ -89,7 +89,6 @@ export default function Hero({ onPrimaryClick, onSecondaryClick }: HeroProps) {
               }}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/60 bg-white/5 px-7 py-3 text-base font-semibold text-white shadow-md transition duration-200 hover:translate-y-[1px] hover:border-white hover:bg-white/10 hover:shadow-lg focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-white/60 sm:w-auto sm:min-w-[220px]"
             >
-              <span aria-hidden className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-sm font-bold">▶</span>
               <span>Ver o sistema na prática</span>
             </button>
           </div>
