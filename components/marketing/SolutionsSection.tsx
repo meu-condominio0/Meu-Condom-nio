@@ -42,38 +42,45 @@ type SolutionsSectionProps = Pick<MarketingPageProps, 'onNavigate'>;
 export function SolutionsSection({ onNavigate }: SolutionsSectionProps) {
   return (
     <section id="como-funciona" className="bg-[#f4f5f3] py-16 sm:py-20 lg:py-24" aria-labelledby="solutions-heading">
-      <div className="marketing-container space-y-12">
+      <div className="mx-auto max-w-6xl px-4">
         <div className="mx-auto max-w-3xl space-y-4 text-center">
           <h2 id="solutions-heading" className="text-3xl font-semibold leading-tight text-[#15291f] sm:text-4xl">
             Soluções completas para o seu condomínio
           </h2>
-          <p className="text-lg leading-relaxed text-[#344e41]">
+          <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600">
             Todas as rotinas do condomínio em um único lugar com marketplace integrado para síndicos, administradoras e moradores.
           </p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
           {SOLUTIONS.map((solution) => (
             <article
               key={solution.title}
-              className="group flex h-full flex-col gap-5 overflow-hidden rounded-3xl border border-[#d6dbd4] bg-white/90 p-6 shadow-[0_18px_32px_rgba(21,41,31,0.08)] transition duration-200 hover:-translate-y-1 hover:border-[#344e41] hover:shadow-[0_22px_40px_rgba(21,41,31,0.12)]"
+              className="group flex h-full flex-col gap-3 rounded-3xl bg-white p-6 shadow-sm transition-transform transition-shadow duration-200 hover:-translate-y-1 hover:shadow-lg"
             >
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#e7efe4] text-[#2f4b3d] shadow-sm ring-1 ring-[#d6dbd4]">
-                  <solution.icon className="h-6 w-6" aria-hidden />
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e7efe4] text-[#2f4b3d] ring-1 ring-[#d6dbd4]">
+                    <solution.icon className="h-6 w-6" aria-hidden />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#15291f]">{solution.title}</h3>
                 </div>
-                <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-[#15291f]">{solution.title}</h3>
-                  <p className="text-base leading-relaxed text-[#475e52]">{solution.description}</p>
-                </div>
+
+                {solution.title === 'Marketplace para moradores' && (
+                  <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+                    Diferencial exclusivo
+                  </span>
+                )}
               </div>
 
+              <p className="text-base leading-relaxed text-[#475e52]">{solution.description}</p>
+
               {solution.image && (
-                <div className="relative overflow-hidden rounded-2xl border border-[#e3e9e2] bg-[#f7f9f6] shadow-inner">
+                <div className="mt-2 aspect-[4/3] overflow-hidden rounded-2xl bg-[#f7f9f6]">
                   <img
                     src={solution.image}
                     alt={solution.imageAlt}
-                    className="h-full w-full object-cover transition duration-200 group-hover:scale-[1.01]"
+                    className="h-full w-full rounded-2xl object-cover transition duration-200 group-hover:scale-[1.01]"
                     loading="lazy"
                   />
                 </div>
@@ -82,7 +89,7 @@ export function SolutionsSection({ onNavigate }: SolutionsSectionProps) {
           ))}
         </div>
 
-        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="mt-16 flex flex-col items-center gap-4 text-center">
           <p className="text-lg font-semibold text-[#15291f]">Quer ver essas soluções funcionando no seu condomínio?</p>
           <button
             type="button"
