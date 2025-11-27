@@ -87,3 +87,4 @@ node_modules.zip
 *.bak
 *.old
 *.orig
+.env.db

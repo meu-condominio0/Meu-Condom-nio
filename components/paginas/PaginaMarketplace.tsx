@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Search, Plus, Star, MapPin, Phone, MessageCircle, Heart, Filter } from 'lucide-react';
+import { Search, Plus, Star, MapPin, Phone, MessageCircle, Heart, Filter, Trash2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
@@ -270,6 +270,31 @@ const handleNovoItem = async () => {
   }
 };
 
+const handleExcluirItem = async (id: string) => {
+  if (!confirm("Tem certeza que deseja excluir este anúncio?")) return;
+
+  try {
+    const response = await fetch(`${API_URL}/${id}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}));
+      alert(error?.detail || "Erro ao excluir anúncio.");
+      return;
+    }
+
+    // Remove do estado imediatamente
+    setItens((prev) => prev.filter((item) => item.id !== id));
+
+  } catch (err) {
+    console.error("Erro ao excluir anúncio:", err);
+    alert("Erro de conexão ao deletar o anúncio.");
+  }
+};
+
+
+
 
   const renderStars = (avaliacao: number) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -535,45 +560,51 @@ const handleNovoItem = async () => {
     className="hover:shadow-md transition-shadow cursor-pointer"
   >
 
-                  <div className="relative">
-                    <ImageWithFallback
-                      src={item.imagens[0]}
-                      alt={item.titulo}
-                      className="w-full h-48 object-cover rounded-t-lg"
-                    />
-                    <div className="absolute top-2 left-2">
-                      <Badge variant={getCategoriaVariant(item.categoria)}>
-                        {getCategoriaNome(item.categoria)}
-                      </Badge>
-                    </div>
-                    <div className="absolute top-2 right-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 bg-white/80 hover:bg-white"
-                      >
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+     <div className="relative">
 
-                  <CardHeader className="pb-2">
-                    <div className="flex items-start justify-between">
-                      <CardTitle className="text-base line-clamp-1">
-                        {item.titulo}
-                      </CardTitle>
-                      {item.preco && (
-                        <div className="text-lg font-bold text-green-600">
-                          {formatarMoeda(item.preco)}
-                          {item.categoria === 'servicos' && (
-                            <span className="text-xs font-normal text-muted-foreground">
-                              /aula
-                            </span>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </CardHeader>
+  {/* IMAGEM DO ANÚNCIO */}
+  <ImageWithFallback
+    src={item.imagens[0]}
+    alt={item.titulo}
+    className="w-full h-48 object-cover rounded-t-lg"
+  />
+
+  {/* CATEGORIA */}
+  <div className="absolute top-2 left-2">
+    <Badge variant={getCategoriaVariant(item.categoria)}>
+      {getCategoriaNome(item.categoria)}
+    </Badge>
+  </div>
+
+  {/* AÇÕES (Favoritar + Deletar) */}
+  <div className="absolute top-2 right-2 flex gap-1">
+
+    {/* Favoritar */}
+    <Button
+      variant="ghost"
+      size="icon"
+      className="h-8 w-8 bg-white/80 hover:bg-white"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <Heart className="h-4 w-4" />
+    </Button>
+
+    {/* Deletar */}
+    <Button
+      variant="ghost"
+      size="icon"
+      className="h-8 w-8 bg-white/80 hover:bg-red-100 text-red-600"
+      onClick={(e) => {
+        e.stopPropagation();
+        handleExcluirItem(item.id);
+      }}
+    >
+      <Trash2 className="h-4 w-4" />
+    </Button>
+
+  </div>
+
+</div>
 
                   <CardContent className="space-y-3">
                     <p className="text-sm text-muted-foreground line-clamp-2">

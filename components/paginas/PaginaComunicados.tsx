@@ -1,195 +1,192 @@
-import { useState } from 'react';
-import { Search, Filter, Clock, User, MessageSquare, ChevronRight } from 'lucide-react';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Badge } from '../ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { ModalFiltrarComunicados } from '../modais/ModalFiltrarComunicados';
-import { ModalVerComunicado } from '../modais/ModalVerComunicado';
+import { useState, useEffect } from "react";
+import { Search, Plus, MessageSquare, Clock, User, ChevronRight, Trash2 } from "lucide-react";
 
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Badge } from "../ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+
+import { ModalFiltrarComunicados } from "../modais/ModalFiltrarComunicados";
+import { ModalVerComunicado } from "../modais/ModalVerComunicado";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Label } from "../ui/label";
+
+// =============================
+// BASE URL IGUAL A USUÁRIOS
+// =============================
+const API_URL = "http://127.0.0.1:8000/api";
+
+// =============================
+// TIPAGEM
+// =============================
 interface Comunicado {
-  id: string;
+  id: number;
   titulo: string;
-  conteudo: string;
-  autor: string;
-  data: string;
-  categoria: 'todos' | 'avisos' | 'manutencao' | 'eventos' | 'regras';
-  prioridade: 'baixa' | 'media' | 'alta';
-  lido?: boolean;
+  mensagem: string;
+  criado_em: string;
 }
 
-const comunicadosMock: Comunicado[] = [
-  {
-    id: '1',
-    titulo: 'Manutenção na piscina',
-    conteudo: 'Piscina estará interditada na próxima semana para manutenção preventiva do sistema de filtragem.',
-    autor: 'Administração',
-    data: 'Ontem',
-    categoria: 'manutencao',
-    prioridade: 'alta',
-    lido: false
-  },
-  {
-    id: '2',
-    titulo: 'Feira orgânica',
-    conteudo: 'Participe da feira que haverá neste sábado na área de lazer do condomínio.',
-    autor: 'Síndico',
-    data: '1 d',
-    categoria: 'eventos',
-    prioridade: 'media',
-    lido: false
-  },
-  {
-    id: '3',
-    titulo: 'Uso da churrasqueira',
-    conteudo: 'Lembramos as regras de utilização da churrasqueira: reserva prévia obrigatória e limpeza após o uso.',
-    autor: 'Administração',
-    data: '3 d',
-    categoria: 'regras',
-    prioridade: 'media',
-    lido: false
-  },
-  {
-    id: '4',
-    titulo: 'Uso da área comum pets',
-    conteudo: 'Recolha sempre as fezes dos animais e mantenha-os sempre na coleira nas áreas comuns.',
-    autor: 'Administração',
-    data: '3 d',
-    categoria: 'regras',
-    prioridade: 'baixa',
-    lido: false
-  },
-  {
-    id: '5',
-    titulo: 'Pintura fachada',
-    conteudo: 'Dia 15/07 iniciaremos os serviços de pintura da fachada do prédio.',
-    autor: 'Síndico',
-    data: '4 d',
-    categoria: 'manutencao',
-    prioridade: 'alta',
-    lido: false
-  },
-  {
-    id: '6',
-    titulo: 'Coleta de lixo eletrônico',
-    conteudo: 'No próximo sábado haverá a coleta lixo eletrônico no térreo.',
-    autor: 'Administração',
-    data: '7 d',
-    categoria: 'eventos',
-    prioridade: 'media',
-    lido: false
+// =============================
+// FUNÇÕES API
+// =============================
+const fetchComunicados = async (): Promise<Comunicado[]> => {
+  const response = await fetch(`${API_URL}/comunicados`);
+  if (!response.ok) {
+    throw new Error("Erro ao carregar comunicados");
   }
-];
+  return await response.json();
+};
 
-interface FiltrosComunicados {
-  prioridade: string[];
-  lidos: 'todos' | 'lidos' | 'naoLidos';
-  periodo: 'todos' | 'hoje' | 'semana' | 'mes';
-}
-
-export function PaginaComunicados() {
-  // Estados existentes
-  const [termoBusca, setTermoBusca] = useState('');
-  const [categoriaAtiva, setCategoriaAtiva] = useState('todos');
-  const [comunicados, setComunicados] = useState<Comunicado[]>(comunicadosMock);
-  
-  // Novos estados para filtros
-  const [mostrarModalFiltro, setMostrarModalFiltro] = useState(false);
-  const [filtros, setFiltros] = useState<FiltrosComunicados>({
-    prioridade: [],
-    lidos: 'todos',
-    periodo: 'todos'
+const criarComunicado = async (payload: any): Promise<Comunicado> => {
+  const response = await fetch(`${API_URL}/comunicados`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
+
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.detail || "Erro ao criar comunicado");
+  }
+
+  return await response.json();
+};
+
+const excluirComunicado = async (id: number) => {
+  const response = await fetch(`${API_URL}/comunicados/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Erro ao excluir comunicado");
+  }
+};
+
+
+// =================================================
+//   COMPONENTE PRINCIPAL
+// =================================================
+export function PaginaComunicados() {
+  const [comunicados, setComunicados] = useState<Comunicado[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [modalCriar, setModalCriar] = useState(false);
+
+  const [titulo, setTitulo] = useState("");
+  const [mensagem, setMensagem] = useState("");
+
   const [comunicadoSelecionado, setComunicadoSelecionado] = useState<Comunicado | null>(null);
 
-  const comunicadosFiltrados = comunicados.filter((comunicado) => {
-    const correspondeTermo = comunicado.titulo.toLowerCase().includes(termoBusca.toLowerCase()) ||
-                           comunicado.conteudo.toLowerCase().includes(termoBusca.toLowerCase());
-    const correspondeCategoria = categoriaAtiva === 'todos' || comunicado.categoria === categoriaAtiva;
-    
-    // Aplicar filtros adicionais
-    const correspondePrioridade = filtros.prioridade.length === 0 || 
-                                filtros.prioridade.includes(comunicado.prioridade);
-    
-    const correspondeLido = filtros.lidos === 'todos' ||
-                          (filtros.lidos === 'lidos' && comunicado.lido) ||
-                          (filtros.lidos === 'naoLidos' && !comunicado.lido);
-
-    return correspondeTermo && correspondeCategoria && correspondePrioridade && correspondeLido;
-  });
-
-  const handleAplicarFiltros = (novosFiltros: any) => {
-    setFiltros(novosFiltros);
-    setMostrarModalFiltro(false);
+  // =============================
+  // CARREGAR COMUNICADOS
+  // =============================
+  const carregar = async () => {
+    try {
+      setLoading(true);
+      const dados = await fetchComunicados();
+      setComunicados(dados);
+    } catch (err) {
+      console.error("Erro ao carregar comunicados:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleConfirmarLeitura = (id: string) => {
-    setComunicados(prev => prev.map(c => c.id === id ? { ...c, lido: true } : c));
+  useEffect(() => {
+    carregar();
+  }, []);
+
+  // =============================
+  // ENVIAR NOVO COMUNICADO
+  // =============================
+  const handleCriar = async () => {
+    if (!titulo || !mensagem) {
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    try {
+      await criarComunicado({ titulo, mensagem });
+      setModalCriar(false);
+      setTitulo("");
+      setMensagem("");
+      carregar();
+    } catch (err: any) {
+      alert(err.message);
+    }
   };
 
-  const getPrioridadeBadge = (prioridade: string) => {
-    const badges = {
-      baixa: { variant: 'outline' as const, label: 'Baixa' },
-      media: { variant: 'secondary' as const, label: 'Média' },
-      alta: { variant: 'destructive' as const, label: 'Alta' }
-    };
-    return badges[prioridade as keyof typeof badges];
-  };
+  // ================================================
+  // CATEGORIAS (frontend apenas)
+  // ================================================
+  const [categoriaAtiva, setCategoriaAtiva] = useState("todos");
 
-  const getCategoriaNome = (categoria: string) => {
-    const nomes = {
-      todos: 'Todos',
-      avisos: 'Avisos',
-      manutencao: 'Manutenção',
-      eventos: 'Eventos',
-      regras: 'Regras'
-    };
-    return nomes[categoria as keyof typeof nomes];
-  };
+  const comunicadosFiltrados = comunicados.filter(() => true);
+
+  if (loading) {
+    return <p className="p-6 text-center">Carregando comunicados...</p>;
+  }
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1>Comunicados</h1>
-        <p className="text-muted-foreground">
-          Fique informado sobre tudo que acontece no condomínio
-        </p>
-      </div>
 
-      {/* Barra de busca */}
-      <div className="flex flex-col sm:flex-row gap-6">
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            placeholder="Buscar comunicados..."
-            value={termoBusca}
-            onChange={(e) => setTermoBusca(e.target.value)}
-            className="pl-12 h-12 text-base"
-          />
+      {/* Cabeçalho */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-semibold">Comunicados</h1>
+          <p className="text-muted-foreground">Acompanhe os avisos do condomínio</p>
         </div>
-        <Button 
-          variant="outline" 
-          className="gap-2 h-12 px-6"
-          onClick={() => setMostrarModalFiltro(true)}
-        >
-          <Filter className="h-5 w-5" />
-          Filtrar
-        </Button>
+
+        <Dialog open={modalCriar} onOpenChange={setModalCriar}>
+          <DialogTrigger asChild>
+            <Button className="bg-green-600 hover:bg-green-700 text-white gap-2">
+              <Plus className="h-4 w-4" />
+              Criar Comunicado
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Novo Comunicado</DialogTitle>
+            </DialogHeader>
+
+            <div className="space-y-4 py-2">
+              <div className="space-y-2">
+                <Label>Título</Label>
+                <Input
+                  placeholder="Ex: Manutenção na piscina"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Mensagem</Label>
+                <textarea
+                  className="border rounded-md w-full p-3 h-32 resize-none"
+                  placeholder="Digite a mensagem do comunicado..."
+                  value={mensagem}
+                  onChange={(e) => setMensagem(e.target.value)}
+                />
+              </div>
+
+              <Button className="w-full" onClick={handleCriar}>
+                Enviar Comunicado
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
 
-      {/* Modal de Filtros */}
-      {mostrarModalFiltro && (
-        <ModalFiltrarComunicados
-          filtrosAtuais={filtros}
-          onAplicar={handleAplicarFiltros}
-          onFechar={() => setMostrarModalFiltro(false)}
-        />
-      )}
+      {/* Campo de busca */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Input placeholder="Buscar comunicados..." className="pl-10 h-11" />
+      </div>
 
-      {/* Abas de categorias */}
+      {/* Abas */}
       <Tabs value={categoriaAtiva} onValueChange={setCategoriaAtiva}>
-        <TabsList className="grid w-full grid-cols-5 h-12">
+        <TabsList className="grid grid-cols-5 w-full">
           <TabsTrigger value="todos">Todos</TabsTrigger>
           <TabsTrigger value="avisos">Avisos</TabsTrigger>
           <TabsTrigger value="manutencao">Manutenção</TabsTrigger>
@@ -197,107 +194,97 @@ export function PaginaComunicados() {
           <TabsTrigger value="regras">Regras</TabsTrigger>
         </TabsList>
 
-        <TabsContent value={categoriaAtiva} className="space-y-6 mt-8">
-          {comunicadosFiltrados.length === 0 ? (
-            <Card>
-              <CardContent className="text-center py-12">
-                <div className="space-y-4">
-                  <div className="w-16 h-16 mx-auto bg-accent/50 rounded-full flex items-center justify-center">
-                    <MessageSquare className="h-8 w-8 text-muted-foreground" />
-                  </div>
-                  <div>
-                    <h4>Nenhum comunicado encontrado</h4>
-                    <p className="text-muted-foreground">
-                      Não há comunicados para os filtros selecionados.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            comunicadosFiltrados.map((comunicado) => (
-              <Card key={comunicado.id} className="hover:shadow-lg transition-all duration-200 hover:scale-[1.01]">
-                <CardHeader className="pb-4">
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <CardTitle className="mb-3 leading-tight">
-                        {comunicado.titulo}
-                      </CardTitle>
-                      <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <div className="p-1 rounded-full bg-primary/10">
-                            <User className="h-3 w-3 text-primary" />
-                          </div>
-                          <small>Por: {comunicado.autor}</small>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="p-1 rounded-full bg-primary/10">
-                            <Clock className="h-3 w-3 text-primary" />
-                          </div>
-                          <small>Há: {comunicado.data}</small>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <Badge {...getPrioridadeBadge(comunicado.prioridade)} className="px-3 py-1 whitespace-nowrap">
-                        {getPrioridadeBadge(comunicado.prioridade).label}
-                      </Badge>
-                      {comunicado.lido ? (
-                        <Badge variant="secondary" className="px-3 py-1 whitespace-nowrap">Lido</Badge>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleConfirmarLeitura(comunicado.id)}
-                          className="whitespace-nowrap"
-                        >
-                          Confirmar leitura
-                        </Button>
-                      )}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="gap-2 text-muted-foreground hover:text-foreground"
-                        onClick={() => setComunicadoSelecionado(comunicado)}
-                      >
-                        Ver mais
-                        <ChevronRight className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="space-y-4">
-                    <p className="text-base leading-relaxed text-foreground">
-                      {comunicado.conteudo}
-                    </p>
-                    
-                    {/* Categoria badge */}
-                    <div className="flex items-center gap-2 pt-2 border-t border-border">
-                      <span className="text-sm text-muted-foreground">Categoria:</span>
-                      <Badge variant="outline" className="px-2 py-1">
-                        {getCategoriaNome(comunicado.categoria)}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))
-          )}
-        </TabsContent>
+       <TabsContent value={categoriaAtiva} className="space-y-6 mt-6">
+  {comunicadosFiltrados.length === 0 ? (
+    <Card>
+      <CardContent className="text-center py-16">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-16 h-16 bg-accent/40 rounded-full flex items-center justify-center">
+            <MessageSquare className="h-8 w-8 text-muted-foreground" />
+          </div>
+          <h4 className="font-medium">Nenhum comunicado</h4>
+          <p className="text-muted-foreground">Não há comunicados cadastrados.</p>
+        </div>
+      </CardContent>
+    </Card>
+  ) : (
+    comunicadosFiltrados.map((c) => (
+      <Card key={c.id} className="hover:shadow-md transition-all">
+        
+        {/* HEADER DO CARD */}
+        <CardHeader className="pb-3 flex flex-row justify-between items-start">
+          
+          {/* TÍTULO (abre o modal ao clicar) */}
+          <div
+            className="flex-1 cursor-pointer"
+            onClick={() => setComunicadoSelecionado(c)}
+          >
+            <CardTitle>{c.titulo}</CardTitle>
+          </div>
+
+          {/* BOTÃO DE EXCLUIR */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-red-600 hover:text-red-700 hover:bg-red-100"
+            onClick={async (e) => {
+              e.stopPropagation(); // NÃO abrir modal
+              if (confirm("Tem certeza que deseja excluir este comunicado?")) {
+                try {
+                  await excluirComunicado(c.id);
+                  carregar(); // recarrega lista
+                } catch (err) {
+                  alert("Erro ao excluir comunicado");
+                }
+              }
+            }}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+
+        </CardHeader>
+
+        {/* CONTEÚDO DO CARD */}
+        <CardContent
+          className="cursor-pointer"
+          onClick={() => setComunicadoSelecionado(c)}
+        >
+          <p className="text-muted-foreground truncate">{c.mensagem}</p>
+
+          <div className="flex items-center gap-3 mt-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <User className="h-3 w-3" /> Administração
+            </div>
+
+            <div className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              {new Date(c.criado_em).toLocaleString("pt-BR")}
+            </div>
+
+            <ChevronRight className="h-4 w-4 ml-auto" />
+          </div>
+        </CardContent>
+
+      </Card>
+    ))
+  )}
+</TabsContent>
+
       </Tabs>
 
-      {/* Adicionar modal de visualização */}
       {comunicadoSelecionado && (
         <ModalVerComunicado
-          comunicado={comunicadoSelecionado}
-          onClose={() => setComunicadoSelecionado(null)}
-          onConfirmarLeitura={() => {
-            handleConfirmarLeitura(comunicadoSelecionado.id);
-            setComunicadoSelecionado(prev => prev ? { ...prev, lido: true } : null);
+          comunicado={{
+            titulo: comunicadoSelecionado.titulo,
+            conteudo: comunicadoSelecionado.mensagem,
+            autor: "Administração",
+            data: new Date(comunicadoSelecionado.criado_em).toLocaleString("pt-BR"),
+            categoria: "todos",
+            prioridade: "media",
           }}
-          getPrioridadeBadge={getPrioridadeBadge}
-          getCategoriaNome={getCategoriaNome}
+          onClose={() => setComunicadoSelecionado(null)}
+          getCategoriaNome={() => "Comunicado"}
+          getPrioridadeBadge={() => ({ variant: "secondary", label: "Normal" })}
         />
       )}
     </div>

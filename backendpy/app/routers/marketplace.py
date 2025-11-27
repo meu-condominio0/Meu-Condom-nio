@@ -80,3 +80,19 @@ def listar(db: Session = Depends(get_db)):
     for a in anuncios:
         a.imagens = a.imagens_lista  # <<< transforma string → list
     return anuncios
+
+@router.delete("/{id}")
+def deletar_anuncio(id: int, db: Session = Depends(get_db)):
+    anuncio = crud_marketplace.deletar_anuncio(db, id)
+
+    if not anuncio:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Anúncio {id} não encontrado."
+        )
+
+    return {
+        "message": "Anúncio deletado com sucesso.",
+        "id": id
+    }
+

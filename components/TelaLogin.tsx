@@ -5,7 +5,6 @@ import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
 import { Alert, AlertDescription } from './ui/alert';
-import { Separator } from './ui/separator';
 import { ToggleTema } from './ToggleTema';
 import { usarContextoApp } from '../contexts/AppContext';
 import { cn } from './ui/utils';
@@ -31,55 +30,44 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
 
     try {
       const sucesso = await fazerLogin(email, senha);
-      if (!sucesso) {
-        setErro('Email ou senha incorretos. Tente novamente.');
-      }
+      if (!sucesso) setErro('Email ou senha incorretos. Tente novamente.');
     } catch (error: any) {
       const mensagemErro = error?.response?.data?.detail;
-      if (mensagemErro) {
-        setErro(mensagemErro);
-      } else {
-        setErro('Erro ao conectar ao servidor.');
-      }
+      setErro(mensagemErro || 'Erro ao conectar ao servidor.');
     } finally {
       setEstaCarregando(false);
     }
   };
 
-  const preencherCredenciais = (tipo: 'morador' | 'sindico') => {
-    if (tipo === 'morador') {
-      setEmail('morador@email.com');
-      setSenha('123456');
-    } else {
-      setEmail('sindico@email.com');
-      setSenha('123456');
-    }
-
-    requestAnimationFrame(() => {
-      if (senhaRef.current) {
-        senhaRef.current.focus();
-        senhaRef.current.select();
-      } else {
-        submitRef.current?.focus();
-      }
-    });
-  };
-
   return (
-    <div
-      className={cn(
-        'relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10 transition-colors duration-300 sm:py-12',
-        temaDark
-          ? 'bg-gradient-to-br from-emerald-950 via-slate-950 to-slate-900 text-slate-100'
-          : 'bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-100 text-slate-900',
+  <section
+  className={cn(
+    'relative h-screen w-full overflow-hidden flex items-center justify-center px-4 py-10 sm:py-20 transition-colors duration-500',
+    temaDark
+      ? 'hero-with-bg text-white'
+      : 'bg-gradient-to-br from-slate-50 via-emerald-50 to-slate-100 text-slate-900'
+  )}
+>
+
+      {/* Fundo estilo HERO */}
+      {temaDark && (
+        <>
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-[#0D2D25] via-[#0A2420] to-[#0F362D]"
+            aria-hidden
+          />
+          <div className="absolute inset-0 bg-[url('/assets/marketing/pattern.svg')] opacity-[0.08] mix-blend-soft-light" />
+          <div className="hero-overlay absolute inset-0 bg-black/20 backdrop-blur-[1px]" aria-hidden />
+        </>
       )}
-    >
+
+      {/* Botão Voltar */}
       {onVoltarInicio && (
-        <div className="absolute top-4 left-4">
+        <div className="absolute top-6 left-6 z-20">
           <Button
             variant="ghost"
             size="sm"
-            className="gap-2 text-muted-foreground hover:text-foreground"
+            className="gap-2 text-white/70 hover:text-white"
             onClick={onVoltarInicio}
           >
             <ArrowLeft className="h-4 w-4" />
@@ -87,129 +75,95 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
           </Button>
         </div>
       )}
-      {/* Toggle tema no canto superior direito */}
-      <div className="absolute top-4 right-4">
+
+      {/* Toggle Tema */}
+      <div className="absolute top-6 right-6 z-20">
         <ToggleTema />
       </div>
 
-      <div className="w-full max-w-md space-y-6">
-        {/* Logo e título */}
-        <div className="space-y-5 text-center">
+      {/* CONTEÚDO DO LOGIN */}
+      <div className="relative z-10 w-full max-w-md space-y-8">
+        {/* Logo */}
+        <div className="text-center space-y-4 drop-shadow-[0_10px_30px_rgba(0,0,0,0.35)]">
           <div className="flex items-center justify-center">
-            <div className="flex h-[72px] w-[72px] items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600 shadow-lg shadow-emerald-900/40 ring-4 ring-emerald-500/15">
-              <Building2 className="h-10 w-10 text-slate-950" aria-hidden />
+            <div className="flex h-[76px] w-[76px] items-center justify-center rounded-2xl 
+               bg-gradient-to-br from-emerald-500 to-emerald-600 
+               shadow-[0_20px_40px_rgba(0,0,0,0.45)]
+               ring-4 ring-emerald-500/20">
+              <Building2 className="h-11 w-11 text-slate-950" />
             </div>
           </div>
-          <div className="space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">MeuCondomínio</h1>
-            <p
-              className={cn(
-                'text-sm font-medium',
-                temaDark ? 'text-emerald-100/90' : 'text-emerald-700',
-              )}
-            >
-              Portal do Condomínio
-            </p>
-          </div>
+
+          <h1 className="text-4xl font-bold tracking-tight">MeuCondomínio</h1>
+          <p className="text-sm font-medium text-white/80">Portal do Condomínio</p>
         </div>
 
-        {/* Card de login */}
+        {/* CARD DE LOGIN */}
         <Card
           className={cn(
-            'w-full max-w-md rounded-2xl border px-6 py-7 sm:px-8 sm:py-8 lg:px-10 lg:py-10 shadow-[0_18px_45px_rgba(0,0,0,0.55)] backdrop-blur transition-colors duration-300',
+            'rounded-3xl px-8 py-10 border backdrop-blur-xl shadow-[0_26px_60px_rgba(0,0,0,0.45)]',
             temaDark
-              ? 'bg-slate-950/70 border-slate-800/70 text-slate-100'
-              : 'bg-white border-slate-200 text-slate-900 shadow-[0_18px_45px_rgba(0,0,0,0.15)]',
+              ? 'bg-white/5 border-white/10 text-white'
+              : 'bg-white border-slate-200 shadow-xl'
           )}
         >
-          <CardHeader className="space-y-2 px-0 pb-4 pt-0 text-center">
+          <CardHeader className="space-y-2 text-center">
             <CardTitle className="text-2xl font-semibold">Bem-vindo de volta</CardTitle>
-            <CardDescription
-              className={cn('text-sm', temaDark ? 'text-slate-300' : 'text-slate-600')}
-            >
-              Faça login para acessar sua conta
+            <CardDescription className="text-sm text-white/70">
+              Acesse sua conta para continuar
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-6 px-0">
+          <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Campo de email */}
+              {/* EMAIL */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="email"
-                  className={cn('text-sm font-medium', temaDark ? 'text-slate-100' : 'text-slate-800')}
-                >
-                  E-mail
-                </Label>
+                <Label htmlFor="email" className="font-medium">E-mail</Label>
                 <div className="relative">
-                  <Mail
-                    className={cn(
-                      'absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2',
-                      temaDark ? 'text-slate-400' : 'text-slate-500',
-                    )}
-                    aria-hidden
-                  />
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
                   <Input
                     id="email"
                     type="email"
-                    autoComplete="email"
                     placeholder="seu@email.com"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className={cn(
-                      'h-12 rounded-xl border px-4 pl-11 text-base transition focus:border-emerald-400 focus:ring-emerald-500 focus:ring-1',
+                      'h-12 rounded-xl pl-11 text-base',
                       temaDark
-                        ? 'bg-slate-900/60 border-slate-700/70 text-slate-100 placeholder:text-slate-400'
-                        : 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-500',
+                        ? 'bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-emerald-400'
+                        : 'bg-slate-50 border-slate-300 text-slate-900'
                     )}
                     required
                   />
-              </div>
+                </div>
               </div>
 
-              {/* Campo de senha */}
+              {/* SENHA */}
               <div className="space-y-2">
-                <Label
-                  htmlFor="senha"
-                  className={cn('text-sm font-medium', temaDark ? 'text-slate-100' : 'text-slate-800')}
-                >
-                  Senha
-                </Label>
+                <Label htmlFor="senha" className="font-medium">Senha</Label>
                 <div className="relative">
-                  <Lock
-                    className={cn(
-                      'absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2',
-                      temaDark ? 'text-slate-400' : 'text-slate-500',
-                    )}
-                    aria-hidden
-                  />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
                   <Input
                     id="senha"
                     ref={senhaRef}
                     type={mostrarSenha ? 'text' : 'password'}
-                    autoComplete="current-password"
                     placeholder="Sua senha"
                     value={senha}
                     onChange={(e) => setSenha(e.target.value)}
                     className={cn(
-                      'h-12 rounded-xl border px-4 pl-11 pr-12 text-base transition focus:border-emerald-400 focus:ring-emerald-500 focus:ring-1',
+                      'h-12 rounded-xl pl-11 pr-12 text-base',
                       temaDark
-                        ? 'bg-slate-900/60 border-slate-700/70 text-slate-100 placeholder:text-slate-400'
-                        : 'bg-slate-50 border-slate-300 text-slate-900 placeholder:text-slate-500',
+                        ? 'bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-emerald-400'
+                        : 'bg-slate-50 border-slate-300 text-slate-900'
                     )}
                     required
                   />
+
                   <Button
                     type="button"
                     variant="ghost"
-                    className={cn(
-                      'tap-target absolute right-1 top-1 h-[calc(100%-0.5rem)] rounded-lg px-3 transition',
-                      temaDark
-                        ? 'text-slate-400 hover:bg-transparent hover:text-slate-100'
-                        : 'text-slate-500 hover:bg-transparent hover:text-slate-700',
-                    )}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
                     onClick={() => setMostrarSenha(!mostrarSenha)}
-                    aria-label={mostrarSenha ? 'Ocultar senha' : 'Mostrar senha'}
                   >
                     {mostrarSenha ? (
                       <EyeOff className="h-4 w-4" />
@@ -220,98 +174,50 @@ export function TelaLogin({ onVoltarInicio }: TelaLoginProps) {
                 </div>
               </div>
 
-              {/* Mensagem de erro */}
+              {/* ERRO */}
               {erro && (
-                <Alert className="border-destructive/50 text-destructive" role="alert" aria-live="polite">
+                <Alert className="border-red-500/40 text-red-400 bg-red-500/10 backdrop-blur">
                   <AlertDescription>{erro}</AlertDescription>
                 </Alert>
               )}
 
-              {/* Botão de login */}
+              {/* ENTRAR */}
               <Button
                 type="submit"
                 ref={submitRef}
-                className="w-full rounded-lg bg-emerald-500 py-3 text-base font-semibold text-slate-950 transition hover:bg-emerald-400 active:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-60"
-                disabled={estaCarregando || !email || !senha}
+                className="
+                  w-full rounded-full bg-emerald-500 px-4 py-3 text-base font-semibold text-white 
+                  shadow-lg transition hover:bg-emerald-600 hover:translate-y-[1px]
+                "
+                disabled={estaCarregando}
               >
                 {estaCarregando ? (
                   <div className="flex items-center gap-2">
-                    <div
-                      className={cn(
-                        'h-4 w-4 animate-spin rounded-full border-b-2',
-                        temaDark ? 'border-slate-100' : 'border-slate-900',
-                      )}
-                    ></div>
+                    <div className="h-4 w-4 animate-spin rounded-full border-b-2 border-white" />
                     Entrando...
                   </div>
                 ) : (
                   'Entrar'
                 )}
               </Button>
+
+              {/* Esqueci minha senha */}
+              <button
+                type="button"
+                className="block w-full text-center text-sm mt-1 font-medium text-emerald-300 hover:text-emerald-200 underline underline-offset-4"
+                onClick={() => alert('🔐 Tela de recuperação em desenvolvimento')}
+              >
+                Esqueci minha senha
+              </button>
             </form>
-
-            <div className="space-y-4">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <Separator />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase tracking-[0.08em]">
-                  <span className={cn('px-3', temaDark ? 'bg-slate-950/70 text-slate-300' : 'bg-white text-slate-600')}>
-                    Ou teste com
-                  </span>
-                </div>
-              </div>
-
-              {/* Botões de demonstração */}
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => preencherCredenciais('morador')}
-                  className={cn(
-                    'tap-target h-11 rounded-lg border text-sm font-medium transition',
-                    temaDark
-                      ? 'bg-slate-900/70 border-slate-700/70 text-slate-100 hover:bg-slate-800'
-                      : 'bg-slate-50 border-slate-300 text-slate-900 hover:bg-slate-100',
-                  )}
-                  disabled={estaCarregando}
-                >
-                  Demo Morador
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => preencherCredenciais('sindico')}
-                  className={cn(
-                    'tap-target h-11 rounded-lg border text-sm font-medium transition',
-                    temaDark
-                      ? 'bg-slate-900/70 border-slate-700/70 text-slate-100 hover:bg-slate-800'
-                      : 'bg-slate-50 border-slate-300 text-slate-900 hover:bg-slate-100',
-                  )}
-                  disabled={estaCarregando}
-                >
-                  Demo Síndico
-                </Button>
-              </div>
-
-              {/* Credenciais de teste */}
-              <div className="mt-4 space-y-1 rounded-xl border border-emerald-700/60 bg-emerald-900/70 px-4 py-3 text-xs text-emerald-50/90">
-                <p className="font-semibold">Credenciais de teste:</p>
-                <div className="space-y-1">
-                  <p>• Morador: morador@email.com / 123456</p>
-                  <p>• Síndico: sindico@email.com / 123456</p>
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
-        {/* Footer */}
-        <div className="text-center text-xs text-slate-500">
-          <p>© 2025 MeuCondomínio. Sistema de gerenciamento condominial.</p>
-        </div>
+        {/* Rodapé */}
+        <p className="text-center text-xs text-white/60">
+          © 2025 MeuCondomínio. Sistema de gerenciamento condominial.
+        </p>
       </div>
-    </div>
+    </section>
   );
 }
